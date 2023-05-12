@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - FxTemporaire
+  - BridgeTile
+  - Floor
+  - Brick
+  - Enemy
+  - Brick Stack Object
   layers:
   - Default
   - TransparentFX
