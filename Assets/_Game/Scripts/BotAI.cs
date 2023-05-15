@@ -58,7 +58,7 @@ public class BotAI : Character
         }
         else
         {
-            Debug.Log("full stack brick");
+            //Debug.Log("full stack brick");
             ChangeAnim("Idle");
         }
 

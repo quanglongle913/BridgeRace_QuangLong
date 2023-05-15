@@ -17,7 +17,12 @@ public class CharacterManager : MonoBehaviour
             //Debug.Log(other.gameObject.name);
             AddBrick(other.gameObject);
         }
-       
+        if (other.gameObject.tag == "Enemy")
+        {
+            Debug.Log(other.gameObject.name);
+            //(other.gameObject);
+        }
+
     }
     private void OnTriggerStay(Collider other)
     {

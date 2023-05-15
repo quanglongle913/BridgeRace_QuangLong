@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrickPooling : DrawMap
+public class BrickPoolingMap : DrawMap
 {
     [Tooltip("Reference to Object Pool")]
     [SerializeField] private ObjectPool Brick;
