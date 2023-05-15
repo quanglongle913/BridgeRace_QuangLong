@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [HideInInspector] [SerializeField] new Renderer renderer;
+    [SerializeField] ColorData colorData;
+    [SerializeField] protected ColorType colorType;
+    private int stageLevel=0;
+    public ColorType ColorType => colorType;
 
-    // Update is called once per frame
-    void Update()
+    public int StageLevel { get => stageLevel; set => stageLevel = value; }
+
+    public void ChangeColor(ColorType colorType)
     {
-        
+        renderer = GetComponent<MeshRenderer>();
+        this.colorType = colorType;
+        renderer.material = colorData.GetMat(colorType);
     }
 }

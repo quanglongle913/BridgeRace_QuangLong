@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private int stageLevel = 0;
+    [SerializeField] private GameObject brickParent; // BrickParent in Stage
+    public int StageLevel { get => stageLevel; set => stageLevel = value; }
+    public GameObject BrickParent { get => brickParent; set => brickParent = value; }
 }

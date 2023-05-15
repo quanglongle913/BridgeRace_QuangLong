@@ -17,6 +17,7 @@ public class ObjectPool : MonoBehaviour
 
     private void Start()
     {
+
         SetupPool();
     }
 
