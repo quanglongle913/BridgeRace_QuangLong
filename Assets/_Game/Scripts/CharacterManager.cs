@@ -10,26 +10,31 @@ public class CharacterManager : MonoBehaviour
     public UnityAction<GameObject> ClearBrick;
     public UnityAction<GameObject> Stage;
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     { //check va cham Character voi viên gạch
-        if (other.gameObject.tag == "Brick")
+
+        if (other.gameObject.GetComponent<Brick>())
         {
             //Debug.Log(other.gameObject.name);
             AddBrick(other.gameObject);
         }
-        if (other.gameObject.tag == "Enemy")
-        {
-            Debug.Log(other.gameObject.name);
-            //(other.gameObject);
-        }
-
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Floor")
+        if (other.gameObject.GetComponent<BotAI>())
         {
             //Debug.Log(other.gameObject.name);
+            //(other.gameObject);
+        }
+        if (other.gameObject.GetComponent<Stage>())
+        {
+            //Character vào sàn thêm viên gạch có màu tương ứng với character 
+            //Debug.Log("Stage Collider");
             Stage(other.gameObject);
+        }
+    }
+    public void OnTriggerExit(Collider other)
+    { 
+        if (other.gameObject.GetComponent<Stage>())
+        {
+            //Character ra khỏi sàn -> Xóa hết viên gạch có màu tương ứng với character
         }
     }
 }

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ColorData
   m_EditorClassIdentifier: 
   mats:
+  - {fileID: 2100000, guid: 6656cd200119b48f2b6a7a729f7f1a00, type: 2}
   - {fileID: 2100000, guid: 6db85fc1002af7e44bf4ab4b4b085a16, type: 2}
   - {fileID: 2100000, guid: 26dde8d170bfa354bbcbd9335444d55f, type: 2}
   - {fileID: 2100000, guid: dfeaeb4277f8231449f41fc71bf91003, type: 2}
   - {fileID: 2100000, guid: 3f59a16f2ed86834abfbd74d687e952d, type: 2}
-  - {fileID: 2100000, guid: 6656cd200119b48f2b6a7a729f7f1a00, type: 2}

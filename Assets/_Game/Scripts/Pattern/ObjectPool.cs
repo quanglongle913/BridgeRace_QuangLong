@@ -15,6 +15,10 @@ public class ObjectPool : MonoBehaviour
     // store the pooled objects in stack
     private Stack<PooledObject> stack;
 
+    // Pool Masters objects
+    [SerializeField] private GameObject PoolMasters;
+
+
     private void Start()
     {
 
@@ -39,6 +43,8 @@ public class ObjectPool : MonoBehaviour
         {
             instance = Instantiate(objectToPool);
             instance.Pool = this;
+            //Set Pool Masters 
+            instance.gameObject.transform.SetParent(PoolMasters.gameObject.transform);
             instance.gameObject.SetActive(false);
             stack.Push(instance);
         }
@@ -69,7 +75,8 @@ public class ObjectPool : MonoBehaviour
 
     public void ReturnToPool(PooledObject pooledObject)
     {
-        stack.Push(pooledObject);
+        pooledObject.gameObject.transform.SetParent(PoolMasters.gameObject.transform);
         pooledObject.gameObject.SetActive(false);
+        stack.Push(pooledObject);
     }
 }

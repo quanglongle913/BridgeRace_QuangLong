@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrawMap : MonoBehaviour
+public class DrawMap : PoolingSpawner
 {
     [Tooltip("Pool Parent Object")]
     [SerializeField] protected GameObject PoolParent;
@@ -11,6 +11,7 @@ public class DrawMap : MonoBehaviour
 
     [SerializeField] private float Size_x;
     [SerializeField] private float Size_z;
+    [SerializeField] protected float offset;
 
     void OnDrawGizmos()
     {
@@ -23,7 +24,7 @@ public class DrawMap : MonoBehaviour
                 //row =12 column =10 ///TEST LOGIC
                 //i=0 =>z=5 i=1=>z=4 => Z=5-i
                 //j=0 x=-6,j=1 x=-5,j=2 x=-4,j=3 x=-3, x=5 j=10
-                Vector3 birckPosition = new Vector3((j - (Row / 2)), 0.05f, ((Column / 2) - i));
+                Vector3 birckPosition = new Vector3((j - (Row / 2)) + offset *j, 0.05f, ((Column / 2) - i)- offset*i);
                 drawRectangle(birckPosition);
             }
         }
