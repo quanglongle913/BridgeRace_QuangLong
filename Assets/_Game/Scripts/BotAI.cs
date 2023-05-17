@@ -12,13 +12,6 @@ public class BotAI : Character
     private IState currentState;
 
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
-    private void Awake()
-    {
-        agent = GetComponent<NavMeshAgent>();
-        //agent.updateRotation = false;
-        ListBrickObject = new List<GameObject>();
-    }
-
     public override void OnInit()
     {
         base.OnInit();
@@ -45,7 +38,7 @@ public class BotAI : Character
     }
     public bool isEnoughBrick()
     {
-        return BrickCount >= index;
+        return BrickCount >= maxBrickInCharacter;
     }
     public void Moving()
     {
@@ -56,7 +49,7 @@ public class BotAI : Character
     }
     public Vector3 getTarget()
     {
-        List<GameObject> newListBrickObject = sortListBuyDistance(ListBrickObject);
+        List<GameObject> newListBrickObject = sortListBuyDistance(ListBrickInStageCharacterColor);
         Vector3 BrickTarget = TargetPoint;
         for (int i = 0; i < getListBrickObjectCount(newListBrickObject); i++)
         {

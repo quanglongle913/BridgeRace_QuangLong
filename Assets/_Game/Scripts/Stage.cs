@@ -10,6 +10,7 @@ public class Stage : MonoBehaviour
     [SerializeField] private int row;
     [SerializeField] private int column;
     [SerializeField] private float offset;
+    private List<GameObject> listBrickInStage;
     private List<Vector3> listPoolBrickPos;
 
     public int StageLevel { get => stageLevel; set => stageLevel = value; }
@@ -19,9 +20,12 @@ public class Stage : MonoBehaviour
     public int Column { get => column; set => column = value; }
     public float Offset { get => offset; set => offset = value; }
     public List<Vector3> ListPoolBrickPos { get => listPoolBrickPos; set => listPoolBrickPos = value; }
+    public List<GameObject> ListBrickInStage { get => listBrickInStage; set => listBrickInStage = value; }
+
     private void Awake()
     {
         ListPoolBrickPos = new List<Vector3>();
+        listBrickInStage = new List<GameObject>();
         ListPoolBrickPos = CreatePoolBrickPosMap(Row, Column, Offset);
     }
     private List<Vector3> CreatePoolBrickPosMap(int row, int column, float offset)

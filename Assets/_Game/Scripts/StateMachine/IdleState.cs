@@ -11,7 +11,7 @@ public class IdleState : IState
         botAI.StopMoving();
         timer = 0;
         randomTime = Random.Range(0f,0.5f);
-        //Debug.Log("Idle");
+        //Debug.Log("IdleState");
     }
 
     public void OnExecute(BotAI botAI)

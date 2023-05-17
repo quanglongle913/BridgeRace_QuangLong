@@ -9,15 +9,10 @@ public class Player : Character
     [SerializeField] private FixedJoystick _fixedJoystick;
     [SerializeField] private float moveSpeed = 0.5f;
     [SerializeField] private CharacterController controller;
-    private void Awake()
-    {
-        ListBrickObject = new List<GameObject>();
-    }
+
     public override void OnInit()
     {
         base.OnInit();
-
-        _rigidbody = _rigidbody.GetComponent<Rigidbody>();
     }
     public void Update()
     {

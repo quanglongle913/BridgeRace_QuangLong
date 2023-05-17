@@ -20,17 +20,31 @@ public class Character : PoolingSpawner
     [SerializeField] private GameObject BrickStackParent;
     [SerializeField] private ObjectPool Brick;
     //Index là số gạch Nhân Vật có thể mang tối đa
-    [SerializeField] protected int index;
+    [SerializeField] protected int maxBrickInCharacter;
 
     private GameObject brickParent;
-    protected List<GameObject> ListBrickObject;
+    //danh sách gạch cùng màu với nhân vật ở trên sân
+    protected List<GameObject> ListBrickInStageCharacterColor;
+    //danh sách gạch đc tạo sẵn ở lưng nhân vật
+    protected List<GameObject> ListBrickInCharacter;
 
     private string currentAnimName;
     public float meleeRange = 0.1f;
     private int brickCount;
     private int stageLevel = 0;
     private Vector3 targetPoint;
-    private bool isCreatePoolBrickPosMap=false;
+
+    public ColorType ColorType => colorType;
+
+    protected int BrickCount { get => brickCount; set => brickCount = value; }
+    public Vector3 TargetPoint { get => targetPoint; set => targetPoint = value; }
+
+
+    private void Awake()
+    {
+        ListBrickInStageCharacterColor = new List<GameObject>();
+        ListBrickInCharacter = new List<GameObject>();
+    }
     private void Start()
     {
         OnInit();
@@ -40,7 +54,7 @@ public class Character : PoolingSpawner
         ChangeColor(skinnedMeshRenderer, colorType);
 
         //Create Pooling Object in BrickStackParent of Player
-        StartCoroutine(OnCreateBrickStackPoolingObj(0.2f));
+        StartCoroutine(OnCreateBrickStackPoolingObj(0.2f, maxBrickInCharacter, Brick, colorType, BrickStackParent));
         brickCount = 0;
         if (characterManager != null)
         {
@@ -117,33 +131,36 @@ public class Character : PoolingSpawner
     {
         transform.rotation = Quaternion.LookRotation(direction);
     }
-    protected IEnumerator OnCreateBrickStackPoolingObj(float time)
+    protected IEnumerator OnCreateBrickStackPoolingObj(float time, int _maxBrick, ObjectPool a_brick,ColorType a_colortype , GameObject a_root)
     {
         yield return new WaitForSeconds(time);
-        Spawner(index, Brick, BrickStackParent,colorType);
+        for (int i = 0; i < _maxBrick; i++)
+        {
+            //Spawn Brick
+            PooledObject brickObject = Spawner(a_brick, a_root, a_colortype);
+            brickObject.transform.localPosition = new Vector3(0, i, 0);
+            brickObject.transform.localScale = new Vector3(1, 0.96f, 1);
+            brickObject.gameObject.SetActive(false);
+            //Add to List
+            ListBrickInCharacter.Add(brickObject.gameObject);
+        }
     }
     
 
     protected void ActiveBrickForSeconds(float time, GameObject gameObject)
     {
-        if (BrickCount < index)
+        //DONE Không được dùng Parent.transform.GetChild(i)
+        if (BrickCount < maxBrickInCharacter)
         {
             StartCoroutine(ActiveBrickCoroutine(time, gameObject));
             BrickCount++;
-            //Kiểm tra lại pool gạch trên nhân vật
-            if (BrickStackParent.gameObject.transform.childCount == 0)
+
+            //Hiển thị gạch trên lưng nhân vật tương ứng
+            for (int i = 0; i < BrickCount; i++)
             {
-                Debug.Log("Error create Birck Pooling in Character:" + transform.gameObject.name);
-                return;
-            }
-            else
-            {
-                for (int i = 0; i < BrickCount; i++)
+                if (!ListBrickInCharacter[i].activeSelf)
                 {
-                    if (!BrickStackParent.gameObject.transform.GetChild(i).gameObject.activeSelf)
-                    {
-                        BrickStackParent.gameObject.transform.GetChild(i).gameObject.SetActive(true);
-                    }
+                    ListBrickInCharacter[i].SetActive(true);
                 }
             }
         }
@@ -166,8 +183,9 @@ public class Character : PoolingSpawner
 
     private void AddBrick(GameObject birckObj)
     {
+        Brick _birck = birckObj.GetComponent<Brick>();
         //kiem tra lai ten cua Brick co tag ="Brick" (Brick tren san)
-        if (birckObj.GetComponent<Brick>().ColorType == colorType && birckObj.GetComponent<Brick>().StageLevel==stageLevel)
+        if (_birck.ColorType == colorType && _birck.StageLevel==stageLevel)
         {
             //Debug.Log(birckObj.gameObject.GetComponent<Brick>().ColorType);
             ActiveBrickForSeconds(cooldownWindow, birckObj);
@@ -182,51 +200,36 @@ public class Character : PoolingSpawner
     {
 
     }
-    private void Stage(GameObject stage)
+    private void Stage(Stage stage)
     {
-        stageLevel = stage.gameObject.GetComponent<Stage>().StageLevel;
-        brickParent = stage.gameObject.GetComponent<Stage>().BrickParent;
-        int Row = stage.gameObject.GetComponent<Stage>().Row;
-        int Column = stage.gameObject.GetComponent<Stage>().Column;
-        float offset = stage.gameObject.GetComponent<Stage>().Offset;
-        ObjectPool Brick = stage.gameObject.GetComponent<Stage>().Brick;
-        List<Vector3> ListPoolBrickPos = stage.gameObject.GetComponent<Stage>().ListPoolBrickPos;
+        stageLevel = stage.StageLevel;
+        brickParent = stage.BrickParent;
+        int Row = stage.Row;
+        int Column = stage.Column;
+        float offset = stage.Offset;
+        ObjectPool Brick = stage.Brick;
+        List<Vector3> ListPoolBrickPos = stage.ListPoolBrickPos;
         StartCoroutine(InitSpawnObjectWithColor(0.5f, colorType, stageLevel, Row * Column, Brick, brickParent, ListPoolBrickPos));
-        StartCoroutine(OnInitCoroutine(0.5f, brickParent));
+        //StartCoroutine(OnInitCoroutine(0.5f, brickParent));
     }
     //Tạo gạch trên sân tương ứng với màu của Character
     protected IEnumerator InitSpawnObjectWithColor(float time, ColorType colorType, int stageLevel, int poolSize, ObjectPool Brick, GameObject PoolParent,List<Vector3> ListPoolBrickPos)
     {
         yield return new WaitForSeconds(time);
-        //Debug.Log("InitSpawnObjectWithColor");
-        SpawnObjectWithColor(colorType, stageLevel, poolSize, Brick, PoolParent, ListPoolBrickPos);
-    }
-    // Tạo danh sách Gạch với màu tương ứng Cho Nhân Vật ở trên sân
-    protected IEnumerator OnInitCoroutine(float time, GameObject Parent)
-    {
-
-        yield return new WaitForSeconds(time);
-        //Debug.Log("OnInitCoroutine");
-        Debug.Log("" + Parent.transform.childCount);
-        for (int i = 0; i < Parent.transform.childCount; i++)
+        int num_Count = getListVector3Count(ListPoolBrickPos);
+        if (num_Count > 0)
         {
-            if (Parent.transform.GetChild(i).gameObject.GetComponent<Brick>().ColorType == colorType)
+            for (int j = 0; j < poolSize / 4; j++)
             {
-                if (ListBrickObject != null)
-                {
-                    ListBrickObject.Add(Parent.transform.GetChild(i).gameObject);
-                }
+                //Tạo và Thêm đối tượng vào danh sách Gạch với màu tương ứng Cho Nhân Vật ở trên sân
+                ListBrickInStageCharacterColor.Add(SpawnObjectWithColor(colorType, stageLevel, Brick, PoolParent, ListPoolBrickPos).gameObject);
             }
         }
     }
-    public ColorType ColorType => colorType;
-
-    protected int BrickCount { get => brickCount; set => brickCount = value; }
-    public Vector3 TargetPoint { get => targetPoint; set => targetPoint = value; }
-
     public void ChangeColor(GameObject a_obj, ColorType colorType)
     {
         this.colorType = colorType;
         a_obj.GetComponent<SkinnedMeshRenderer>().material = colorData.GetMat(colorType);
     }
+
 }

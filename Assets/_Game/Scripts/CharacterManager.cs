@@ -8,7 +8,7 @@ public class CharacterManager : MonoBehaviour
     public UnityAction<GameObject> AddBrick;
     public UnityAction<GameObject> RemoveBrick;
     public UnityAction<GameObject> ClearBrick;
-    public UnityAction<GameObject> Stage;
+    public UnityAction<Stage> Stage;
 
     public void OnTriggerEnter(Collider other)
     { //check va cham Character voi viên gạch
@@ -27,14 +27,15 @@ public class CharacterManager : MonoBehaviour
         {
             //Character vào sàn thêm viên gạch có màu tương ứng với character 
             //Debug.Log("Stage Collider");
-            Stage(other.gameObject);
+            Stage stageObject = other.gameObject.GetComponent<Stage>();
+            Stage(stageObject);
         }
     }
-    public void OnTriggerExit(Collider other)
+    /*public void OnTriggerExit(Collider other)
     { 
         if (other.gameObject.GetComponent<Stage>())
         {
             //Character ra khỏi sàn -> Xóa hết viên gạch có màu tương ứng với character
         }
-    }
+    }*/
 }

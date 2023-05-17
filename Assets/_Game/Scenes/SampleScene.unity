@@ -156,6 +156,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 90626741}
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: maxBrickInCharacter
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: skinnedMeshRenderer
       value: 
       objectReference: {fileID: 90626741}
@@ -787,13 +791,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2.47
-  m_Radius: 0.36
+  m_Height: 0
+  m_Radius: 0
   m_SlopeLimit: 45
   m_StepOffset: 0
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.21, z: 0}
+  m_Center: {x: 0, y: 1.17, z: 0}
 --- !u!1 &668622426
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,6 +1469,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1596283338}
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: maxBrickInCharacter
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: skinnedMeshRenderer
       value: 
       objectReference: {fileID: 1596283338}
@@ -1615,6 +1623,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 809190992}
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: maxBrickInCharacter
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: skinnedMeshRenderer
       value: 
       objectReference: {fileID: 809190992}
@@ -1762,7 +1774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230634, guid: f3a1b06ab4f9fda4daf4d3710c0d7017, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230634, guid: f3a1b06ab4f9fda4daf4d3710c0d7017, type: 3}
       propertyPath: m_IsTrigger
@@ -1844,6 +1856,10 @@ PrefabInstance:
       propertyPath: _fixedJoystick
       value: 
       objectReference: {fileID: 975046419}
+    - target: {fileID: 225508649581230639, guid: f3a1b06ab4f9fda4daf4d3710c0d7017, type: 3}
+      propertyPath: maxBrickInCharacter
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 225508649581230639, guid: f3a1b06ab4f9fda4daf4d3710c0d7017, type: 3}
       propertyPath: skinnedMeshRenderer
       value: 

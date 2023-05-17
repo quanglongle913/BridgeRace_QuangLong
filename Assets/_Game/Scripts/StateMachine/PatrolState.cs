@@ -23,7 +23,6 @@ public class PatrolState : IState
             }
             if (botAI.isDestination())
             {
-                //Debug.Log("IdleState");
                 botAI.ChangeState(new IdleState());
             }
         }
