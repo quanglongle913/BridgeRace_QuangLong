@@ -204,12 +204,8 @@ public class Character : PoolingSpawner
     {
         stageLevel = stage.StageLevel;
         brickParent = stage.BrickParent;
-        int Row = stage.Row;
-        int Column = stage.Column;
-        float offset = stage.Offset;
-        ObjectPool Brick = stage.Brick;
-        List<Vector3> ListPoolBrickPos = stage.ListPoolBrickPos;
-        StartCoroutine(InitSpawnObjectWithColor(0.5f, colorType, stageLevel, Row * Column, Brick, brickParent, ListPoolBrickPos));
+        int _poolSize = stage.Row * stage.Column;
+        StartCoroutine(InitSpawnObjectWithColor(0.5f, colorType, stageLevel, _poolSize, stage.Brick, brickParent, stage.ListPoolBrickPos));
         //StartCoroutine(OnInitCoroutine(0.5f, brickParent));
     }
     //Tạo gạch trên sân tương ứng với màu của Character

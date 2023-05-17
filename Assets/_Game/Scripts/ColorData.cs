@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ColorData", menuName = "ScriptableObjects/ColorData", order = 1)]
 public class ColorData : ScriptableObject
 {
-    [SerializeField] Material[] mats;
+    [SerializeField] private Material[] mats;
 
     public Material GetMat(ColorType colorType)
     {

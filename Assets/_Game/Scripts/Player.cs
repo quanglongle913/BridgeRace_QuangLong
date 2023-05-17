@@ -8,7 +8,6 @@ public class Player : Character
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private FixedJoystick _fixedJoystick;
     [SerializeField] private float moveSpeed = 0.5f;
-    [SerializeField] private CharacterController controller;
 
     public override void OnInit()
     {
@@ -28,19 +27,11 @@ public class Player : Character
         }
 
     }
-
     private void Move()
     {
-        Vector3 move = new Vector3(_fixedJoystick.Horizontal, 0, _fixedJoystick.Vertical);
-        controller.Move(move * Time.deltaTime * moveSpeed);
-
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
         Vector3 _Direction = new Vector3(_fixedJoystick.Horizontal * moveSpeed, _rigidbody.velocity.y, _fixedJoystick.Vertical * moveSpeed);
-        //_rigidbody.velocity = Direction;
+        _rigidbody.velocity = _Direction;
         RotateTowards(this.gameObject, _Direction);
     }
-
+   
 }
