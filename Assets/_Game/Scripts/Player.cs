@@ -7,8 +7,8 @@ public class Player : Character
 
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private FixedJoystick _fixedJoystick;
-    [SerializeField] private float moveSpeed;
-
+    [SerializeField] private float moveSpeed = 0.5f;
+    [SerializeField] private CharacterController controller;
     private void Awake()
     {
         ListBrickObject = new List<GameObject>();
@@ -21,10 +21,10 @@ public class Player : Character
     }
     public void Update()
     {
-        _rigidbody.velocity = new Vector3(_fixedJoystick.Horizontal * moveSpeed, _rigidbody.velocity.y, _fixedJoystick.Vertical * moveSpeed);
+       
         if (_fixedJoystick.Horizontal != 0 || _fixedJoystick.Vertical != 0)
-        { 
-            RotateTowards(this.gameObject, _rigidbody.velocity);
+        {
+            Move();
             ChangeAnim("Run");
         }
         else if (_fixedJoystick.Horizontal == 0 || _fixedJoystick.Vertical == 0)
@@ -33,4 +33,19 @@ public class Player : Character
         }
 
     }
+
+    private void Move()
+    {
+        Vector3 move = new Vector3(_fixedJoystick.Horizontal, 0, _fixedJoystick.Vertical);
+        controller.Move(move * Time.deltaTime * moveSpeed);
+
+        if (move != Vector3.zero)
+        {
+            gameObject.transform.forward = move;
+        }
+        Vector3 _Direction = new Vector3(_fixedJoystick.Horizontal * moveSpeed, _rigidbody.velocity.y, _fixedJoystick.Vertical * moveSpeed);
+        //_rigidbody.velocity = Direction;
+        RotateTowards(this.gameObject, _Direction);
+    }
+
 }

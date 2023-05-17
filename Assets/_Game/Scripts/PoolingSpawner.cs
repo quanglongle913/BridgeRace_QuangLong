@@ -5,47 +5,37 @@ using UnityEngine;
 public class PoolingSpawner : MonoBehaviour
 {
     //Spawner Floor Brick
-    public void Spawner(int index,int stageLevel, ObjectPool Brick, GameObject PoolParent, Vector3 _vector3)
+    public void Spawner(ColorType colorType, int stageLevel, ObjectPool a_obj, GameObject a_root, Vector3 a_vector3)
     {
         //Debug.Log(ListPoolBrick.Count +" : Index"+ index);
-        GameObject brickObject = Brick.GetPooledObject().gameObject;
-        brickObject.GetComponent<Brick>().ChangeColor((ColorType)index);
-        //StageLevel is Floor level
-        brickObject.GetComponent<Brick>().StageLevel = stageLevel;
-        brickObject.transform.SetParent(PoolParent.transform);
-        brickObject.transform.position = _vector3;
-    }
-    public void Spawner(ColorType colorType, int stageLevel, ObjectPool Brick, GameObject PoolParent, Vector3 _vector3)
-    {
-        //Debug.Log(ListPoolBrick.Count +" : Index"+ index);
-        GameObject brickObject = Brick.GetPooledObject().gameObject;
+        GameObject brickObject = a_obj.GetPooledObject().gameObject;
         brickObject.GetComponent<Brick>().ChangeColor(colorType);
         //StageLevel is Floor level
         brickObject.GetComponent<Brick>().StageLevel = stageLevel;
-        brickObject.transform.SetParent(PoolParent.transform);
-        brickObject.transform.position = _vector3;
+        brickObject.transform.SetParent(a_root.transform);
+        brickObject.transform.position = a_vector3;
     }
     //Spawner Character Brick
-    public void Spawner(int index, ObjectPool Brick, GameObject BrickStackParent, ColorType colorType)
+    public void Spawner(int index, ObjectPool a_obj, GameObject a_root, ColorType colorType)
     {
         for (int i = 0; i < index; i++)
         {
-            GameObject brickObject = Brick.GetPooledObject().gameObject;
+            GameObject brickObject = a_obj.GetPooledObject().gameObject;
             brickObject.GetComponent<BrickCharacter>().ChangeColor(colorType);
-            brickObject.transform.SetParent(BrickStackParent.transform);
+            brickObject.transform.SetParent(a_root.transform);
             brickObject.SetActive(true);
         }
-        SetPoolBrickPosCharacter(BrickStackParent);
+        SetPoolBrickPosCharacter(a_root);
     }
-    private void SetPoolBrickPosCharacter(GameObject BrickStackParent)
+    private void SetPoolBrickPosCharacter(GameObject a_root)
     {
-        if (BrickStackParent.gameObject.transform.childCount > 0)
+        if (a_root.gameObject.transform.childCount > 0)
         {
-            for (int i = 0; i < BrickStackParent.gameObject.transform.childCount; i++)
+            for (int i = 0; i < a_root.gameObject.transform.childCount; i++)
             {
-                BrickStackParent.gameObject.transform.GetChild(i).gameObject.transform.localPosition = new Vector3(0, i, 0);
-                BrickStackParent.gameObject.transform.GetChild(i).gameObject.transform.localScale = new Vector3(1, 0.96f, 1);
-                BrickStackParent.gameObject.transform.GetChild(i).gameObject.SetActive(false);
+                a_root.gameObject.transform.GetChild(i).gameObject.transform.localPosition = new Vector3(0, i, 0);
+                a_root.gameObject.transform.GetChild(i).gameObject.transform.localScale = new Vector3(1, 0.96f, 1);
+                a_root.gameObject.transform.GetChild(i).gameObject.SetActive(false);
             }
 
         }
@@ -53,33 +43,42 @@ public class PoolingSpawner : MonoBehaviour
             return;
     }
     
-    protected void SpawnObjectWithColor(ColorType colorType,int stageLevel, int poolSize, ObjectPool Brick, GameObject PoolParent, List<Vector3> listPoolBrickPos)
+    protected void SpawnObjectWithColor(ColorType colorType,int stageLevel, int poolSize, ObjectPool a_obj, GameObject a_root, List<Vector3> a_listVector3)
     {
-        for (int j = 0; j < poolSize / 4; j++) // j= 0->3 if count =4
+
+        //Debug.Log("Index: " + j);
+        if (getListPoolBrickPosCount(a_listVector3) > 0)
         {
-            //Debug.Log("Index: " + j);
-            int randomIndex = Random.Range(0, getListPoolBrickPosCount(listPoolBrickPos));
-            //tăng 1 đơn vị tương ứng với màu 1 = Yellow vì 0 là None
-            Spawner(colorType, stageLevel, Brick, PoolParent, getBrickPos(randomIndex, listPoolBrickPos));
-            listPoolBrickPos.Remove(getBrickPos(randomIndex, listPoolBrickPos));
-            
-        }
-        //chia 4 du thi ...tạo gạch màu xám
-        /*if (getListPoolBrickPosCount(ListPoolBrickPos) <= 3)
-        {
-            for (int i = 0; i < getListPoolBrickPosCount(ListPoolBrickPos); i++)
+            for (int j = 0; j < poolSize / 4; j++) // j= 0->3 if count =4
             {
-                Spawner(0, stageLevel, Brick, PoolParent, getBrickPos(i, ListPoolBrickPos));
-                ListPoolBrickPos.Remove(getBrickPos(i, ListPoolBrickPos));
+                int randomIndex = Random.Range(0, getListPoolBrickPosCount(a_listVector3));
+                Debug.Log("randomIndex: " + randomIndex);
+                Debug.Log("getListPoolBrickPosCount: " + getListPoolBrickPosCount(a_listVector3));
+                Vector3 a_vector3 = getBrickPos(randomIndex, a_listVector3);
+                //tăng 1 đơn vị tương ứng với màu 1 = Yellow vì 0 là None
+                Spawner(colorType, stageLevel, a_obj, a_root, a_vector3);
+                a_listVector3.Remove(a_vector3);
             }
-        }*/
+            //chia 4 du thi ...tạo gạch màu xám
+            /*int num = poolSize % 4;
+            if (num != 0 && getListPoolBrickPosCount(a_listVector3) <= 3)
+            {
+                for (int i = 0; i < getListPoolBrickPosCount(a_listVector3); i++)
+                {
+                    Spawner(0, stageLevel, a_obj, a_root, getBrickPos(i, a_listVector3));
+                    a_listVector3.Remove(getBrickPos(i, a_listVector3));
+                }
+            }*/
+        }
+
     }
-    private Vector3 getBrickPos(int index, List<Vector3> listPoolBrickPos)
+    private Vector3 getBrickPos(int index, List<Vector3> a_listVector3)
     {
-        return listPoolBrickPos[index];
+        //Debug.Log(index);
+        return a_listVector3[index];
     }
-    private int getListPoolBrickPosCount(List<Vector3> listPoolBrickPos)
+    private int getListPoolBrickPosCount(List<Vector3> a_listVector3)
     {
-        return listPoolBrickPos.Count;
+        return a_listVector3.Count;
     }
 }

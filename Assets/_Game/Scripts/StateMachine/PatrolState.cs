@@ -7,6 +7,7 @@ public class PatrolState : IState
     public void OnEnter(BotAI botAI)
     {
         //Debug.Log("PatrolState");
+        botAI.IsBrickTarget = false;
     }
 
     public void OnExecute(BotAI botAI)
@@ -14,19 +15,17 @@ public class PatrolState : IState
         //Debug.Log("PatrolState OnExecute: "+ botAI.isEnoughBrick());
         if (!botAI.isEnoughBrick())
         {
-            if (botAI.isTarget())
+            if (!botAI.IsBrickTarget)
             {
+                botAI.TargetPoint = botAI.getTarget();
+                //Debug.Log("Moving");
                 botAI.Moving();
             }
-            if (botAI.isDestination() && !botAI.isTarget())
+            if (botAI.isDestination())
             {
+                //Debug.Log("IdleState");
                 botAI.ChangeState(new IdleState());
             }
-            else 
-            {
-                botAI.ChangeState(new IdleState());
-            }
-           
         }
         else if (botAI.isEnoughBrick())
         {

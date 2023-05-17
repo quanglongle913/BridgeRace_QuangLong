@@ -8,12 +8,10 @@ public class BotAI : Character
 {
     [SerializeField] private NavMeshAgent agent;
 
-    private GameObject brickTarget;
-    private bool isBrickTarget = true;
+    private bool isBrickTarget = false;
     private IState currentState;
 
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
-
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -51,26 +49,27 @@ public class BotAI : Character
     }
     public void Moving()
     {
-        if (brickTarget != null) 
+        if (TargetPoint != null) 
         {
-            StartCoroutine(MoveCoroutine("Run", 0.2f, brickTarget));
+            StartCoroutine(MoveCoroutine("Run", 0.2f, TargetPoint));
         }
     }
-    public bool isTarget()
+    public Vector3 getTarget()
     {
         List<GameObject> newListBrickObject = sortListBuyDistance(ListBrickObject);
+        Vector3 BrickTarget = TargetPoint;
         for (int i = 0; i < getListBrickObjectCount(newListBrickObject); i++)
         {
-            if (isBrickTarget)
+            if (!isBrickTarget)
             {
                 if (isActiveObj(newListBrickObject[i]))
                 {
-                    isBrickTarget = false;
-                    brickTarget = getBrickObjectFromList(i, newListBrickObject);
+                    isBrickTarget = true;
+                    BrickTarget = getBrickObjectFromList(i, newListBrickObject).transform.position;
                 }
             }
         }
-        return !isBrickTarget;
+        return BrickTarget;
     }
     private GameObject getBrickObjectFromList(int index, List<GameObject> listBrickObject)
     {
@@ -88,6 +87,10 @@ public class BotAI : Character
     {
         return IsDes();
     }
+    public void setTarget(GameObject _target)
+    {
+        TargetPoint = _target.transform.position;
+    }
     public void StopMoving()
     {
         isBrickTarget = true;
@@ -97,12 +100,13 @@ public class BotAI : Character
     { 
 
     }
-    IEnumerator MoveCoroutine(string animName, float time, GameObject ObjTarget)
+    IEnumerator MoveCoroutine(string animName, float time, Vector3 a_Target)
     {
         yield return new WaitForSeconds(time);
 
         ChangeAnim(animName);
-        MoveTowards(agent, ObjTarget.transform);
+        MoveTowards(agent, a_Target);
+        
         //RotateTowards(this.gameObject, ObjTarget.transform);
     }
     void OnDrawGizmos()
@@ -111,7 +115,7 @@ public class BotAI : Character
         Gizmos.color = Color.black;
         if (!isBrickTarget)
         {
-            Gizmos.DrawLine(brickTarget.transform.position, transform.position);
+            Gizmos.DrawLine(TargetPoint, transform.position);
         }
 
     }

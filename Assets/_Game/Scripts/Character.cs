@@ -29,7 +29,7 @@ public class Character : PoolingSpawner
     public float meleeRange = 0.1f;
     private int brickCount;
     private int stageLevel = 0;
-    private Vector3 TargetPoint;
+    private Vector3 targetPoint;
     private bool isCreatePoolBrickPosMap=false;
     private void Start()
     {
@@ -80,10 +80,9 @@ public class Character : PoolingSpawner
         float distance = Vector3.Distance(transform.position, TargetPoint);
         return distance < meleeRange;
     }
-    protected void MoveTowards(NavMeshAgent agent, Transform target)
+    protected void MoveTowards(NavMeshAgent agent, Vector3 target)
     {
-        agent.SetDestination(target.position);
-        this.TargetPoint = target.position;
+        agent.SetDestination(target);
     }
     protected List<GameObject> sortListBuyDistance(List<GameObject> listObj)
     {
@@ -223,6 +222,7 @@ public class Character : PoolingSpawner
     public ColorType ColorType => colorType;
 
     protected int BrickCount { get => brickCount; set => brickCount = value; }
+    public Vector3 TargetPoint { get => targetPoint; set => targetPoint = value; }
 
     public void ChangeColor(GameObject a_obj, ColorType colorType)
     {
