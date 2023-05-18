@@ -6,29 +6,36 @@ public class Player : Character
 {
 
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private FixedJoystick _fixedJoystick;
-    [SerializeField] private float moveSpeed = 0.5f;
+    [SerializeField] private FloatingJoystick _floatingJoystick;
 
+    [SerializeField] private float moveSpeed = 0.5f;
+    private float horizontal;
+    private float vertical;
     public override void OnInit()
     {
         base.OnInit();
-    }
+        
+
+}
     public void Update()
     {
-       
-        if (_fixedJoystick.Horizontal != 0 || _fixedJoystick.Vertical != 0)
+        horizontal = _floatingJoystick.Horizontal;
+        vertical = _floatingJoystick.Vertical;
+        //Debug.Log("horizontal:" + horizontal+ "------vertical:" + vertical);
+
+        if (Mathf.Abs(horizontal) >= 0.03 || Mathf.Abs(vertical) >= 0.03)
         {
-            Move();
+            Move(horizontal, vertical);
         }
-        else if (_fixedJoystick.Horizontal == 0 || _fixedJoystick.Vertical == 0)
+        else if (horizontal == 0 || vertical == 0)
         {
+
             ChangeAnim("Idle");
         }
-
     }
-    private void Move()
+    private void Move(float _horizontal,float _vertical)
     {
-        Vector3 _Direction = new Vector3(_fixedJoystick.Horizontal * moveSpeed, _rigidbody.velocity.y, _fixedJoystick.Vertical * moveSpeed);
+        Vector3 _Direction = new Vector3(_horizontal * moveSpeed, _rigidbody.velocity.y, _vertical * moveSpeed);
         RotateTowards(this.gameObject, _Direction);
         if (!isWall())
         {
@@ -43,7 +50,7 @@ public class Player : Character
         // Does the ray intersect any objects excluding the player layer
         if (isWall)
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
             //Debug.Log("Did Hit");
         }
         else 

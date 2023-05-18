@@ -159,11 +159,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1923895749549888037, guid: 92e31dfcb2f8c47aabea280ab8adf507, type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1923895749549888039, guid: 92e31dfcb2f8c47aabea280ab8adf507, type: 3}
       propertyPath: m_Name
-      value: Floor 2
+      value: Floor 2 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1923895749549888040, guid: 92e31dfcb2f8c47aabea280ab8adf507, type: 3}
       propertyPath: m_IsKinematic
