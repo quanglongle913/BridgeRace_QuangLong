@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterAction : MonoBehaviour
 {
     public UnityAction<GameObject> AddBrick;
     public UnityAction<GameObject> RemoveBrick;

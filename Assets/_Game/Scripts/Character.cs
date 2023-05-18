@@ -8,7 +8,7 @@ public class Character : PoolingSpawner
     [SerializeField] GameObject skinnedMeshRenderer;
     [SerializeField] ColorData colorData;
     [SerializeField] protected ColorType colorType;
-    [SerializeField] private CharacterManager characterManager;
+    [SerializeField] private CharacterAction characterAction;
     [SerializeField] private Animator anim;
     
 
@@ -56,10 +56,10 @@ public class Character : PoolingSpawner
         //Create Pooling Object in BrickStackParent of Player
         StartCoroutine(OnCreateBrickStackPoolingObj(0.2f, maxBrickInCharacter, Brick, colorType, BrickStackParent));
         brickCount = 0;
-        if (characterManager != null)
+        if (characterAction != null)
         {
-            characterManager.AddBrick += AddBrick;
-            characterManager.Stage += Stage;
+            characterAction.AddBrick += AddBrick;
+            characterAction.Stage += Stage;
         }
         
     }
@@ -67,10 +67,10 @@ public class Character : PoolingSpawner
     //ham huy
     public virtual void OnDespawn()
     {
-        if (characterManager != null)
+        if (characterAction != null)
         {
-            characterManager.AddBrick -= AddBrick;
-            characterManager.Stage -= Stage;
+            characterAction.AddBrick -= AddBrick;
+            characterAction.Stage -= Stage;
         }
     }
 
