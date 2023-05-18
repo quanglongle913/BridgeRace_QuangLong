@@ -5,13 +5,17 @@ using UnityEngine;
 public class DrawMap : PoolingSpawner
 {
     [Tooltip("Pool Parent Object")]
-    [SerializeField] protected GameObject PoolParent;
-    [SerializeField] protected int Row;
-    [SerializeField] protected int Column;
+    [SerializeField] protected GameObject brickParent; // BrickParent in Stage
+    [SerializeField] protected int row;
+    [SerializeField] protected int column;
 
     [SerializeField] private float Size_x;
     [SerializeField] private float Size_z;
     [SerializeField] protected float offset;
+    public GameObject BrickParent { get => brickParent; set => brickParent = value; }
+    public int Row { get => row; set => row = value; }
+    public int Column { get => column; set => column = value; }
+    public float Offset { get => offset; set => offset = value; }
 
     void OnDrawGizmos()
     {
@@ -24,7 +28,7 @@ public class DrawMap : PoolingSpawner
                 //row =12 column =10 ///TEST LOGIC
                 //i=0 =>z=5 i=1=>z=4 => Z=5-i
                 //j=0 x=-6,j=1 x=-5,j=2 x=-4,j=3 x=-3, x=5 j=10
-                Vector3 birckPosition = new Vector3((j - (Row / 2)) + offset *j, 0.05f, ((Column / 2) - i)- offset*i);
+                Vector3 birckPosition = new Vector3((j - (Row / 2)) + offset *j + brickParent.transform.position.x, 0.05f+ brickParent.transform.position.y, ((Column / 2) - i)- offset*i+ brickParent.transform.position.z);
                 drawRectangle(birckPosition);
             }
         }

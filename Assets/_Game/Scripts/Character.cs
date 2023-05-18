@@ -202,6 +202,7 @@ public class Character : PoolingSpawner
     }
     private void Stage(Stage stage)
     {
+        Debug.Log("Stage Enter");
         stageLevel = stage.StageLevel;
         brickParent = stage.BrickParent;
         int _poolSize = stage.Row * stage.Column;

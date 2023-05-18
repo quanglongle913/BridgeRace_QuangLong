@@ -2,23 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stage : MonoBehaviour
+public class Stage : DrawMap
 {
     [SerializeField] private int stageLevel = 0;
-    [SerializeField] private GameObject brickParent; // BrickParent in Stage
+
     [SerializeField] private ObjectPool brick;
-    [SerializeField] private int row;
-    [SerializeField] private int column;
-    [SerializeField] private float offset;
     private List<GameObject> listBrickInStage;
     private List<Vector3> listPoolBrickPos;
 
     public int StageLevel { get => stageLevel; set => stageLevel = value; }
-    public GameObject BrickParent { get => brickParent; set => brickParent = value; }
+  
     public ObjectPool Brick { get => brick; set => brick = value; }
-    public int Row { get => row; set => row = value; }
-    public int Column { get => column; set => column = value; }
-    public float Offset { get => offset; set => offset = value; }
+
     public List<Vector3> ListPoolBrickPos { get => listPoolBrickPos; set => listPoolBrickPos = value; }
     public List<GameObject> ListBrickInStage { get => listBrickInStage; set => listBrickInStage = value; }
 
@@ -26,9 +21,9 @@ public class Stage : MonoBehaviour
     {
         ListPoolBrickPos = new List<Vector3>();
         listBrickInStage = new List<GameObject>();
-        ListPoolBrickPos = CreatePoolBrickPosMap(Row, Column, Offset);
+        ListPoolBrickPos = CreatePoolBrickPosMap(Row, Column, Offset, brickParent);
     }
-    private List<Vector3> CreatePoolBrickPosMap(int row, int column, float offset)
+    private List<Vector3> CreatePoolBrickPosMap(int row, int column, float offset, GameObject a_root)
     {
         List<Vector3> listPoolBrickPos = new List<Vector3>();
         for (int i = 0; i < row; i++)
@@ -39,7 +34,7 @@ public class Stage : MonoBehaviour
                 //row =12 column =10 ///TEST LOGIC
                 //i=0 =>z=5 i=1=>z=4 => Z=5-i
                 //j=0 x=-6,j=1 x=-5,j=2 x=-4,j=3 x=-3, x=5 j=10
-                Vector3 birckPosition = new Vector3((j - (row / 2)) + offset * j, 0.05f, ((column / 2) - i) - offset * i);
+                Vector3 birckPosition = new Vector3((j - (Row / 2)) + offset * j + a_root.transform.position.x, 0.05f + a_root.transform.position.y, ((Column / 2) - i) - offset * i + a_root.transform.position.z);
                 listPoolBrickPos.Add(birckPosition);
             }
         }
