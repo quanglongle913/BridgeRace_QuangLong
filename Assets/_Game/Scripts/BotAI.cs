@@ -12,6 +12,10 @@ public class BotAI : Character
     private IState currentState;
 
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
+    public override void Awake()
+    {
+        base.Awake();
+    }
     public override void OnInit()
     {
         base.OnInit();

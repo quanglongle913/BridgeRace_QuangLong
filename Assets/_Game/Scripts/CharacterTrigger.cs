@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CharacterAction : MonoBehaviour
+public class CharacterTrigger : MonoBehaviour
 {
     public UnityAction<GameObject> AddBrick;
     public UnityAction<GameObject> RemoveBrick;
@@ -31,11 +31,4 @@ public class CharacterAction : MonoBehaviour
             Stage(stageObject);
         }
     }
-    /*public void OnTriggerExit(Collider other)
-    { 
-        if (other.gameObject.GetComponent<Stage>())
-        {
-            //Character ra khỏi sàn -> Xóa hết viên gạch có màu tương ứng với character
-        }
-    }*/
 }

@@ -5,22 +5,22 @@ using UnityEngine.AI;
 
 public class Character : PoolingSpawner
 {
-    [SerializeField] GameObject skinnedMeshRenderer;
-    [SerializeField] ColorData colorData;
-    [SerializeField] protected ColorType colorType;
-    [SerializeField] private CharacterAction characterAction;
-    [SerializeField] private Animator anim;
-    
 
-    //[SerializeField] protected GameObject brickTargetObj;
+    [SerializeField] private CharacterTrigger characterTrigger;
+    [SerializeField] private Animator anim;
+    [SerializeField] protected LayerMask groundLayer;
     [SerializeField] private float rotationSpeed = 1000f;
     [SerializeField] protected float cooldownWindow = 5.0f;
 
-    [Tooltip("Pool Stack Parent  Object")]
+    [Header("Pool Stack Parent  Object: ")]
     [SerializeField] private GameObject BrickStackParent;
     [SerializeField] private ObjectPool Brick;
     //Index là số gạch Nhân Vật có thể mang tối đa
     [SerializeField] protected int maxBrickInCharacter;
+    [Header("Player Color: ")]
+    [SerializeField] GameObject skinnedMeshRenderer;
+    [SerializeField] ColorData colorData;
+    [SerializeField] protected ColorType colorType;
 
     private GameObject brickParent;
     //danh sách gạch cùng màu với nhân vật ở trên sân
@@ -28,19 +28,22 @@ public class Character : PoolingSpawner
     //danh sách gạch đc tạo sẵn ở lưng nhân vật
     protected List<GameObject> ListBrickInCharacter;
 
+
     private string currentAnimName;
     public float meleeRange = 0.1f;
     private int brickCount;
     private int stageLevel = 0;
     private Vector3 targetPoint;
+ 
+
 
     public ColorType ColorType => colorType;
 
     protected int BrickCount { get => brickCount; set => brickCount = value; }
     public Vector3 TargetPoint { get => targetPoint; set => targetPoint = value; }
+ 
 
-
-    private void Awake()
+    public virtual void Awake()
     {
         ListBrickInStageCharacterColor = new List<GameObject>();
         ListBrickInCharacter = new List<GameObject>();
@@ -56,10 +59,10 @@ public class Character : PoolingSpawner
         //Create Pooling Object in BrickStackParent of Player
         StartCoroutine(OnCreateBrickStackPoolingObj(0.2f, maxBrickInCharacter, Brick, colorType, BrickStackParent));
         brickCount = 0;
-        if (characterAction != null)
+        if (characterTrigger != null)
         {
-            characterAction.AddBrick += AddBrick;
-            characterAction.Stage += Stage;
+            characterTrigger.AddBrick += AddBrick;
+            characterTrigger.Stage += Stage;
         }
         
     }
@@ -67,10 +70,10 @@ public class Character : PoolingSpawner
     //ham huy
     public virtual void OnDespawn()
     {
-        if (characterAction != null)
+        if (characterTrigger != null)
         {
-            characterAction.AddBrick -= AddBrick;
-            characterAction.Stage -= Stage;
+            characterTrigger.AddBrick -= AddBrick;
+            characterTrigger.Stage -= Stage;
         }
     }
 
@@ -202,12 +205,14 @@ public class Character : PoolingSpawner
     }
     private void Stage(Stage stage)
     {
-        Debug.Log("Stage Enter");
-        stageLevel = stage.StageLevel;
-        brickParent = stage.BrickParent;
-        int _poolSize = stage.Row * stage.Column;
-        StartCoroutine(InitSpawnObjectWithColor(0.5f, colorType, stageLevel, _poolSize, stage.Brick, brickParent, stage.ListPoolBrickPos));
-        //StartCoroutine(OnInitCoroutine(0.5f, brickParent));
+        if (stageLevel != stage.StageLevel)
+        {
+            //Debug.Log("Stage Enter");
+            stageLevel = stage.StageLevel;
+            brickParent = stage.BrickParent;
+            int _poolSize = stage.Row * stage.Column;
+            StartCoroutine(InitSpawnObjectWithColor(0.5f, colorType, stageLevel, _poolSize, stage.Brick, brickParent, stage.ListPoolBrickPos));
+        }
     }
     //Tạo gạch trên sân tương ứng với màu của Character
     protected IEnumerator InitSpawnObjectWithColor(float time, ColorType colorType, int stageLevel, int poolSize, ObjectPool Brick, GameObject PoolParent,List<Vector3> ListPoolBrickPos)
@@ -223,6 +228,7 @@ public class Character : PoolingSpawner
             }
         }
     }
+    
     public void ChangeColor(GameObject a_obj, ColorType colorType)
     {
         this.colorType = colorType;
