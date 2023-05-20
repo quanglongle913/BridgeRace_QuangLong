@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: -5447947401560537610}
   - component: {fileID: -9137656887949122122}
   - component: {fileID: -1900205450878208944}
+  - component: {fileID: 7358220584774572311}
   m_Layer: 0
   m_Name: BotAI
   m_TagString: Untagged
@@ -145,16 +146,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b8a9aac69734bc386b9934797ae155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterTrigger: {fileID: 0}
+  anim: {fileID: 225508650339355773}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  rotationSpeed: 1000
+  cooldownWindow: 5
+  brickStackParent: {fileID: 0}
+  brick: {fileID: 0}
+  maxBrickInCharacter: 0
   skinnedMeshRenderer: {fileID: 922109022219618058}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
-  characterManager: {fileID: 225508649581230632}
-  anim: {fileID: 225508650339355773}
-  rotationSpeed: 1000
-  cooldownWindow: 5
-  BrickStackParent: {fileID: 225508650886352778}
-  Brick: {fileID: 0}
-  index: 20
+  listBrickInStageCharacterColor: []
+  listBrickInCharacter: []
   meleeRange: 0.1
   agent: {fileID: -5447947401560537610}
 --- !u!23 &-1900205450878208944
@@ -199,6 +205,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7358220584774572311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225508649581230637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11161f95f784aac4d9a58363d3e3a0c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stage: {fileID: 0}
+  character: {fileID: -9137656887949122122}
 --- !u!1 &225508650021322399
 GameObject:
   m_ObjectHideFlags: 0

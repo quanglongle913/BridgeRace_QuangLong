@@ -123,6 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782a6442bb1d4b345a9b14560ec2b503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 0}
+  meshRenderer: {fileID: 5745065085798297816}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
-  colorType: 4
+  colorType: 0

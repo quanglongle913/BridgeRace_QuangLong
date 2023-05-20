@@ -42,7 +42,7 @@ public class BotAI : Character
     }
     public bool isEnoughBrick()
     {
-        return BrickCount >= maxBrickInCharacter;
+        return BrickCount >= MaxBrickInCharacter;
     }
     public void Moving()
     {
@@ -53,7 +53,7 @@ public class BotAI : Character
     }
     public Vector3 getTarget()
     {
-        List<GameObject> newListBrickObject = sortListBuyDistance(ListBrickInStageCharacterColor);
+        List<GameObject> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor);
         Vector3 BrickTarget = TargetPoint;
         for (int i = 0; i < getListBrickObjectCount(newListBrickObject); i++)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BrickCharacter: MonoBehaviour
 {
-    [HideInInspector] [SerializeField] new Renderer renderer;
+    [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] ColorData colorData;
     [SerializeField] protected ColorType colorType;
     private int stageLevel=0;
@@ -14,8 +14,8 @@ public class BrickCharacter: MonoBehaviour
 
     public void ChangeColor(ColorType colorType)
     {
-        renderer = GetComponent<MeshRenderer>();
+        meshRenderer = GetComponent<MeshRenderer>();
         this.colorType = colorType;
-        renderer.material = colorData.GetMat(colorType);
+        meshRenderer.material = colorData.GetMat(colorType);
     }
 }

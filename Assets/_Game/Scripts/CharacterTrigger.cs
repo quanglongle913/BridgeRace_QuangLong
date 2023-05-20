@@ -23,12 +23,5 @@ public class CharacterTrigger : MonoBehaviour
             //Debug.Log(other.gameObject.name);
             //(other.gameObject);
         }
-        if (other.gameObject.GetComponent<Stage>())
-        {
-            //Character vào sàn thêm viên gạch có màu tương ứng với character 
-            //Debug.Log("Stage Collider");
-            Stage stageObject = other.gameObject.GetComponent<Stage>();
-            Stage(stageObject);
-        }
     }
 }

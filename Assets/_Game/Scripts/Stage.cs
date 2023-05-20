@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Stage : DrawMap
 {
@@ -9,6 +10,7 @@ public class Stage : DrawMap
     [SerializeField] private ObjectPool brick;
     private List<GameObject> listBrickInStage;
     private List<Vector3> listPoolBrickPos;
+    public UnityAction<Stage, Character> CreateBrick;
 
     public int StageLevel { get => stageLevel; set => stageLevel = value; }
   
@@ -39,5 +41,16 @@ public class Stage : DrawMap
             }
         }
         return listPoolBrickPos;
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<CharacterTrigger>())
+        {
+            //Character vào sàn thêm viên gạch có màu tương ứng với character 
+            //Debug.Log("Stage Collider");
+            Stage stageObject = this.gameObject.GetComponent<Stage>();
+            Character characterObject = other.GetComponent<Character>();
+            CreateBrick(stageObject, characterObject);
+        }
     }
 }

@@ -26,6 +26,7 @@ public class Player : Character
     public override void OnInit()
     {
         base.OnInit();
+      
     }
     public void FixedUpdate()
     {
@@ -55,10 +56,9 @@ public class Player : Character
         RotateTowards(this.gameObject, _Direction);
         if (!isWall())
         {
-           
             _Target.y = rigidbody.position.y;
-            //rigidbody.velocity = _Direction;
-            transform.position = _Target;
+            rigidbody.velocity = _Direction;
+            //transform.position = _Target;
             ChangeAnim("Run");
         }
     }

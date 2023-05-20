@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrawMap : PoolingSpawner
+public class DrawMap : SpawnerBrick
 {
     [Tooltip("Pool Parent Object")]
     [SerializeField] protected GameObject brickParent; // BrickParent in Stage
