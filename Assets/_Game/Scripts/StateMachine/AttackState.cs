@@ -6,11 +6,20 @@ public class AttackState : IState
 {
     public void OnEnter(BotAI botAI)
     {
-
+       
     }
 
     public void OnExecute(BotAI botAI)
     {
+        if (botAI.BrickCount>0)
+        {
+            //TODO Move TP
+            botAI.Attack();
+        }
+        else 
+        {
+            botAI.ChangeState(new IdleState());
+        }
 
     }
 

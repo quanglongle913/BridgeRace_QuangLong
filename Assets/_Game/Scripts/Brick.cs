@@ -15,6 +15,7 @@ public class Brick : MonoBehaviour
     public void ChangeColor(ColorType colorType)
     {
         this.colorType = colorType;
+       
         meshRenderer.material = colorData.GetMat(colorType);
     }
 }

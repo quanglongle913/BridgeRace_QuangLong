@@ -4,34 +4,36 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class Character : MonoBehaviour
+public class Character : PooledObject
 {
 
-    [SerializeField] private CharacterTrigger characterTrigger;
+
     [SerializeField] private Animator anim;
     [SerializeField] protected LayerMask groundLayer;
     [SerializeField] private float rotationSpeed = 1000f;
-    [SerializeField] protected float cooldownWindow = 5.0f;
+    [SerializeField] private float cooldownWindow = 5.0f;
 
     [Header("Pool Stack Parent  Object: ")]
     [SerializeField] private GameObject brickStackParent;
     [SerializeField] private ObjectPool brick;
-    //Index là số gạch Nhân Vật có thể mang tối đa
+    //số gạch Nhân Vật có thể mang tối đa
     [SerializeField] private int maxBrickInCharacter;
     [Header("Player Color: ")]
     [SerializeField] GameObject skinnedMeshRenderer;
-    [SerializeField] ColorData colorData;
+    [SerializeField] private ColorData colorData;
     [SerializeField] protected ColorType colorType;
 
-    private GameObject brickParent;
+
     //danh sách gạch cùng màu với nhân vật ở trên sân
-    public List<GameObject> listBrickInStageCharacterColor;
+    protected List<GameObject> listBrickInStageCharacterColor;
     //danh sách gạch đc tạo sẵn ở lưng nhân vật
     public List<GameObject> listBrickInCharacter;
     public UnityAction<Character> CreateBrick;
 
+    private SpawnerBrickStage _SpawnerBrickStage;
+    protected Stage _stage;
     private string currentAnimName;
-    public float meleeRange = 0.1f;
+    public float meleeRange = 0.01f;
     private int brickCount;
 
     private int stageLevel = 0;
@@ -45,6 +47,8 @@ public class Character : MonoBehaviour
     public int BrickCount { get => brickCount; set => brickCount = value; }
     public Vector3 TargetPoint { get => targetPoint; set => targetPoint = value; }
     public int StageLevel { get => stageLevel; set => stageLevel = value; }
+    public ColorData ColorData { get => colorData; set => colorData = value; }
+    public float CooldownWindow { get => cooldownWindow; set => cooldownWindow = value; }
 
     public virtual void Awake()
     {
@@ -61,24 +65,17 @@ public class Character : MonoBehaviour
 
         //Create Pooling Object in BrickStackParent of Player
         CreateBrick(this.gameObject.GetComponent<Character>());
-        //StartCoroutine(OnCreateBrickStackPoolingObj(0.2f, maxBrickInCharacter, Brick, colorType, BrickStackParent));
-        brickCount = 0;
-        if (characterTrigger != null)
-        {
-            characterTrigger.AddBrick += AddBrick;
-            //characterTrigger.Stage += Stage;
-        }
-        
+        brickCount = 0;   
     }
 
     //ham huy
     public virtual void OnDespawn()
     {
-        if (characterTrigger != null)
+        /*if (brickController != null)
         {
-            characterTrigger.AddBrick -= AddBrick;
-            //characterTrigger.Stage -= Stage;
-        }
+            brickController.AddBrick -= AddBrick;
+            //characterControl.Stage -= Stage;
+        }*/
     }
 
     protected void ChangeAnim(string animName)
@@ -90,11 +87,6 @@ public class Character : MonoBehaviour
             currentAnimName = animName;
             anim.SetTrigger(currentAnimName);
         }
-    }
-    protected bool IsInMeleeRangeOf(Transform target)
-    {
-        float distance = Vector3.Distance(transform.position, target.position);
-        return distance < meleeRange;
     }
     protected bool IsDes()
     {
@@ -138,69 +130,80 @@ public class Character : MonoBehaviour
     {
         transform.rotation = Quaternion.LookRotation(direction);
     }
-    
-    
-
-    protected void ActiveBrickForSeconds(float time, GameObject gameObject)
-    {
-        //DONE Không được dùng Parent.transform.GetChild(i)
-        if (BrickCount < maxBrickInCharacter)
-        {
-            StartCoroutine(ActiveBrickCoroutine(time, gameObject));
-            BrickCount++;
-
-            //Hiển thị gạch trên lưng nhân vật tương ứng
-            for (int i = 0; i < BrickCount; i++)
-            {
-                if (!listBrickInCharacter[i].activeSelf)
-                {
-                    listBrickInCharacter[i].SetActive(true);
-                }
-            }
-        }
-        else
-        {
-            //Debug.Log("FULL Stack Brick in:" + transform.gameObject.name);
-        }
-    }
+   
     // khi nhân vật ăn gạch thì Ẩn và hiện gạch sau 1 khoảng TIME 
-    protected IEnumerator ActiveBrickCoroutine(float time, GameObject gameObject)
+    protected IEnumerator ActiveBrickCoroutine(float time, GameObject _brick)
     {
-
-        //gameObject.GetComponent<PooledObject>().Release();
-        gameObject.SetActive(false);
+        _brick.gameObject.SetActive(false);
         yield return new WaitForSeconds(time);
         //Hiện gạch sau time S
-        int randomIndex = Random.Range(1, 5);
-        gameObject.GetComponent<Brick>().ChangeColor((int)colorData.);
-        gameObject.SetActive(true);
+        //Debug.Log(""+ _SpawnerBrickStage.ListColor.Count);
+        //random màu trong danh sách màu ở Stage
+        int randomIndex = Random.Range(0, _SpawnerBrickStage.ListColor.Count);
+        ColorType _colorType = (ColorType)_SpawnerBrickStage.ListColor[randomIndex];
+
+        _brick.gameObject.GetComponent<Brick>().ChangeColor(_colorType);
+        _brick.gameObject.SetActive(true);
     }
-
-
     private void AddBrick(GameObject birckObj)
     {
-        Brick _birck = birckObj.GetComponent<Brick>();
+        Brick _brick = birckObj.GetComponent<Brick>();
         //kiem tra lai ten cua Brick co tag ="Brick" (Brick tren san)
-        if (_birck.ColorType == colorType && _birck.StageLevel==stageLevel)
+        if (_brick.ColorType == colorType && _brick.StageLevel==stageLevel)
         {
             //Debug.Log(birckObj.gameObject.GetComponent<Brick>().ColorType);
-            ActiveBrickForSeconds(cooldownWindow, birckObj);
+            if (BrickCount < maxBrickInCharacter)
+            {
+                StartCoroutine(ActiveBrickCoroutine(cooldownWindow, birckObj));
+                BrickCount++;
+
+                //Hiển thị gạch trên lưng nhân vật tương ứng
+                for (int i = 0; i < BrickCount; i++)
+                {
+                    if (!listBrickInCharacter[i].activeSelf)
+                    {
+                        listBrickInCharacter[i].SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                //Debug.Log("FULL Stack Brick in:" + transform.gameObject.name);
+            }
         }
     }
 
-    private void RemoveBrick()
+    public void RemoveBrick()
     {
-
+        BrickCount--;
+        listBrickInCharacter[BrickCount].SetActive(false);
     }
     private void ClearBrick()
     {
-
     }
-    
+    private void Stage(Stage stageObject)
+    {
+        //stageObject.GetComponent<SpawnerBrickStage>().ListColor;
+        StageLevel = stageObject.StageLevel;
+    }
     public void ChangeColor(GameObject a_obj, ColorType colorType)
     {
         this.colorType = colorType;
         a_obj.GetComponent<SkinnedMeshRenderer>().material = colorData.GetMat(colorType);
     }
-
+    public void OnTriggerEnter(Collider other)
+    {   
+        if (other.gameObject.GetComponent<Brick>())
+        {
+           
+            AddBrick(other.gameObject);
+        }
+        if (other.gameObject.GetComponent<Stage>())
+        {
+            //Debug.Log(other.gameObject.name);
+            _stage = other.gameObject.GetComponent<Stage>();
+            _SpawnerBrickStage = other.gameObject.GetComponent<SpawnerBrickStage>();
+            Stage(other.gameObject.GetComponent<Stage>());
+        }
+    }
 }

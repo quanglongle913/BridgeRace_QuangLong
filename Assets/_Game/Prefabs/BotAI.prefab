@@ -42,11 +42,10 @@ GameObject:
   - component: {fileID: 225508649581230638}
   - component: {fileID: 225508649581230634}
   - component: {fileID: 225508649581230633}
-  - component: {fileID: 225508649581230632}
   - component: {fileID: -5447947401560537610}
   - component: {fileID: -9137656887949122122}
   - component: {fileID: -1900205450878208944}
-  - component: {fileID: 7358220584774572311}
+  - component: {fileID: 4665869784569294664}
   m_Layer: 0
   m_Name: BotAI
   m_TagString: Untagged
@@ -100,18 +99,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &225508649581230632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 225508649581230637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84abec931a9630142901be8e8be37301, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &-5447947401560537610
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -146,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b8a9aac69734bc386b9934797ae155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterTrigger: {fileID: 0}
+  brickController: {fileID: 0}
   anim: {fileID: 225508650339355773}
   groundLayer:
     serializedVersion: 2
@@ -205,7 +192,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7358220584774572311
+--- !u!114 &4665869784569294664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,10 +201,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 225508649581230637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11161f95f784aac4d9a58363d3e3a0c1, type: 3}
+  m_Script: {fileID: 11500000, guid: a9e602e0a73a3f64cb3cf05ed8b58dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: {fileID: 0}
   character: {fileID: -9137656887949122122}
 --- !u!1 &225508650021322399
 GameObject:
@@ -230,7 +216,7 @@ GameObject:
   - component: {fileID: 225508650021322392}
   - component: {fileID: 225508650021322394}
   - component: {fileID: 225508650021322393}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Brick
   m_TagString: Brick
   m_Icon: {fileID: 0}

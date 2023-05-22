@@ -16,14 +16,15 @@ public class IdleState : IState
 
     public void OnExecute(BotAI botAI)
     {
-        
-        timer += Time.deltaTime;
-        if (timer > randomTime)
+        if (!botAI.isEnoughBrick()) 
         {
-            //Debug.Log("Idle OnExcute");
-            botAI.ChangeState(new PatrolState());
+            timer += Time.deltaTime;
+            if (timer > randomTime)
+            {
+                //Debug.Log("Idle OnExcute");
+                botAI.ChangeState(new PatrolState());
+            }
         }
-        
     }
 
     public void OnExit(BotAI botAI)

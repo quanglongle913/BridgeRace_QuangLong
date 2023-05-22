@@ -44,12 +44,13 @@ public class Stage : DrawMap
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<CharacterTrigger>())
+        if (other.gameObject.GetComponent<Character>())
         {
             //Character vào sàn thêm viên gạch có màu tương ứng với character 
             //Debug.Log("Stage Collider");
             Stage stageObject = this.gameObject.GetComponent<Stage>();
             Character characterObject = other.GetComponent<Character>();
+            //characterObject.StageLevel = this.StageLevel;
             CreateBrick(stageObject, characterObject);
         }
     }

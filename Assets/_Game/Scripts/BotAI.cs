@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class BotAI : Character
 {
     [SerializeField] private NavMeshAgent agent;
-
+    [SerializeField] private GameObject EndTarget;
     private bool isBrickTarget = false;
     private IState currentState;
 
@@ -53,6 +53,15 @@ public class BotAI : Character
     }
     public Vector3 getTarget()
     {
+        //List<GameObject> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor)
+        listBrickInStageCharacterColor.Clear();
+        for (int i=0;  i<_stage.ListBrickInStage.Count;i++)
+        {
+            if (colorType == _stage.ListBrickInStage[i].GetComponent<Brick>().ColorType)
+            {
+                listBrickInStageCharacterColor.Add(_stage.ListBrickInStage[i]);
+            }
+        }
         List<GameObject> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor);
         Vector3 BrickTarget = TargetPoint;
         for (int i = 0; i < getListBrickObjectCount(newListBrickObject); i++)
@@ -94,8 +103,8 @@ public class BotAI : Character
         ChangeAnim("Idle");
     }
     public void Attack() 
-    { 
-
+    {
+        MoveTowards(agent, EndTarget.transform.position);
     }
     IEnumerator MoveCoroutine(string animName, float time, Vector3 a_Target)
     {
@@ -103,8 +112,6 @@ public class BotAI : Character
 
         ChangeAnim(animName);
         MoveTowards(agent, a_Target);
-        
-        //RotateTowards(this.gameObject, ObjTarget.transform);
     }
     void OnDrawGizmos()
     {

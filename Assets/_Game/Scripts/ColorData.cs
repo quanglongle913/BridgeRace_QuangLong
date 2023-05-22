@@ -8,6 +8,8 @@ public class ColorData : ScriptableObject
 {
     [SerializeField] private Material[] mats;
 
+    public Material[] Mats { get => mats; set => mats = value; }
+
     public Material GetMat(ColorType colorType)
     {
         return mats[(int)colorType];

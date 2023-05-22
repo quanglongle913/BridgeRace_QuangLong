@@ -28,7 +28,9 @@ public class PatrolState : IState
         }
         else if (botAI.isEnoughBrick())
         {
-            botAI.ChangeState(new IdleState());
+            //
+            Debug.Log("isEnoughBrick");
+            botAI.ChangeState(new AttackState());
         }
         
     }
