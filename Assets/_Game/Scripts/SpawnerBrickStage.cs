@@ -47,8 +47,25 @@ public class SpawnerBrickStage : PooledObject
             //Debug.Log("Stage Enter");
             _character.StageLevel = stage.StageLevel;
             int _poolSize = (stage.Row * stage.Column) / (_character.ColorData.Mats.Length - 1);
-            StartCoroutine(InitSpawnObjectWithColor(0.5f, _character.ColorType, stage.StageLevel, _poolSize, stage.Brick, stage.BrickParent, stage.ListPoolBrickPos, _stage.ListBrickInStage));
+
+            if (!isCheckColorInStage(_stage.ListBrickInStage, _character.ColorType))
+            {
+                StartCoroutine(InitSpawnObjectWithColor(0.5f, _character.ColorType, stage.StageLevel, _poolSize, stage.Brick, stage.BrickParent, stage.ListPoolBrickPos, _stage.ListBrickInStage));
+            }
+            //StartCoroutine(InitSpawnObjectWithColor(0.5f, _character.ColorType, stage.StageLevel, _poolSize, stage.Brick, stage.BrickParent, stage.ListPoolBrickPos, _stage.ListBrickInStage));
         }
+    }
+    //kiểm tra gạch đã tạo trên sân chưa
+    private bool isCheckColorInStage(List<GameObject> a_ListObject, ColorType a_ColorType)
+    {
+        for (int i = 0; i < a_ListObject.Count; i++)
+        {
+            if (a_ListObject[i].GetComponent<Brick>().ColorType == a_ColorType)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     //Tạo gạch trên sân tương ứng với màu của Character
     protected IEnumerator InitSpawnObjectWithColor(float time, ColorType colorType, int stageLevel, int poolSize, ObjectPool a_brick_obj, GameObject a_root, List<Vector3> a_listVector3, List<GameObject> ListBrickInStage)
