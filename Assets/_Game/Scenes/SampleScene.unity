@@ -343,6 +343,10 @@ PrefabInstance:
       propertyPath: skinnedMeshRenderer
       value: 
       objectReference: {fileID: 90626741}
+    - target: {fileID: 225508649581230633, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_Name
       value: BotAI
@@ -1451,6 +1455,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: EndTarget
+      value: 
+      objectReference: {fileID: 400232097}
+    - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: colorType
       value: 4
       objectReference: {fileID: 0}
@@ -1490,13 +1498,17 @@ PrefabInstance:
       propertyPath: skinnedMeshRenderer
       value: 
       objectReference: {fileID: 1596283338}
+    - target: {fileID: 225508649581230633, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_Name
       value: BotAI (2)
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_TagString
@@ -1750,6 +1762,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: EndTarget
+      value: 
+      objectReference: {fileID: 400232097}
+    - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: colorType
       value: 3
       objectReference: {fileID: 0}
@@ -1789,13 +1805,17 @@ PrefabInstance:
       propertyPath: skinnedMeshRenderer
       value: 
       objectReference: {fileID: 809190992}
+    - target: {fileID: 225508649581230633, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_Name
       value: BotAI (1)
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_TagString
