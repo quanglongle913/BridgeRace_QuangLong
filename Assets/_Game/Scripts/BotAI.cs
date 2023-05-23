@@ -11,7 +11,7 @@ public class BotAI : Character
     private bool isBrickTarget = false;
     private IState currentState;
     public Vector3 stairTP;
-
+    public bool isWin = false;
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
     public override void Awake()
     {
@@ -106,18 +106,27 @@ public class BotAI : Character
     }
     public void Attack()
     {
-        /*if (stairTP != EndTarget.transform.position)
+        MoveTowards(agent, stairTP);
+    }
+    public void Win()
+    {
+        if (IsDes(EndTarget))
         {
-            Debug.Log("!NULL");
-            MoveTowards(agent, stairTP);
+            //Debug.Log("Dance");
+            ChangeAnim("Dance");
+            ClearBrick();
         }
-        else*/
-            MoveTowards(agent, stairTP);
+        else 
+        {
+            ChangeAnim("Run");
+            //Debug.Log("Run");
+            MoveTowards(agent, EndTarget.transform.position);
+        }
+       
     }
     IEnumerator MoveCoroutine(string animName, float time, Vector3 a_Target)
     {
         yield return new WaitForSeconds(time);
-
         ChangeAnim(animName);
         MoveTowards(agent, a_Target);
     }

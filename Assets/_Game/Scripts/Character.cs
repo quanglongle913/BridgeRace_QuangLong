@@ -83,6 +83,11 @@ public class Character : PooledObject
         float distance = Vector3.Distance(transform.position, TargetPoint);
         return distance < meleeRange;
     }
+    protected bool IsDes(GameObject gameObject)
+    {
+        float distance = Vector3.Distance(transform.position, gameObject.transform.position);
+        return distance < 2.0f;
+    }
     protected void MoveTowards(NavMeshAgent agent, Vector3 target)
     {
         agent.SetDestination(target);
@@ -159,13 +164,13 @@ public class Character : PooledObject
         BrickCount--;
         listBrickInCharacter[BrickCount].SetActive(false);
     }
-    private void ClearBrick()
+    public void ClearBrick()
     {
-    }
-    private void Stage(Stage stageObject)
-    {
-        //stageObject.GetComponent<SpawnerBrickStage>().ListColor;
-        StageLevel = stageObject.StageLevel;
+        for (int i=0;i<BrickCount;i++)
+        {
+            BrickCount--;
+            listBrickInCharacter[BrickCount].SetActive(false);
+        }
     }
     public void ChangeColor(GameObject a_obj, ColorType colorType)
     {
@@ -184,7 +189,11 @@ public class Character : PooledObject
             //Debug.Log(other.gameObject.name);
             _stage = other.gameObject.GetComponent<Stage>();
             _SpawnerBrickStage = other.gameObject.GetComponent<SpawnerBrickStage>();
-            Stage(other.gameObject.GetComponent<Stage>());
+            StageLevel = _stage.StageLevel;
+            if (StageLevel == 2&& gameObject.GetComponent<BotAI>())
+            {
+                MaxBrickInCharacter = 20;
+            }
         }
     }
 }

@@ -55,7 +55,7 @@ public class Player : Character
         Vector3 _Direction = new Vector3(_horizontal * moveSpeed * Time.fixedDeltaTime, _rigidbody.velocity.y, _vertical * moveSpeed * Time.fixedDeltaTime);
         TargetPoint = new Vector3(_rigidbody.position.x + _Direction.x, _rigidbody.position.y, _rigidbody.position.z + _Direction.z);
         RotateTowards(this.gameObject, _Direction);
-        if (!isWall(Constant.RAYCAST_HIT_RANGE_WALL, LayerMask.GetMask(Constant.LAYER_WALL_FLOOR)) && !isWall(Constant.RAYCAST_HIT_RANGE_WALL,LayerMask.GetMask(Constant.LAYER_WALL_STAIR_BRICK)))
+        if (!isWall(LayerMask.GetMask(Constant.LAYER_WALL_FLOOR)) && !isWall(LayerMask.GetMask(Constant.LAYER_WALL_STAIR_BRICK)))
         {
             float _hitRange = 0.2f;
             //Đi lên cầu thang 
@@ -81,11 +81,11 @@ public class Player : Character
             ChangeAnim("Run");
         }
     }
-    private bool isWall(float _hitRange,LayerMask _layerMask)
+    private bool isWall(LayerMask _layerMask)
     {
         RaycastHit hit;
         bool isWall = false;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, _hitRange, _layerMask))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Constant.RAYCAST_HIT_RANGE_WALL, _layerMask))
         {
             isWall = true;
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);

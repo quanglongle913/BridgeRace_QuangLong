@@ -28,13 +28,11 @@ public class PatrolState : IState
         }
         else if (botAI.isEnoughBrick())
         {
-            //
-            Debug.Log("isEnoughBrick");
+            //Debug.Log("isEnoughBrick");
             botAI.ChangeState(new AttackState());
         }
-        
+       
     }
-
     public void OnExit(BotAI botAI)
     {
 

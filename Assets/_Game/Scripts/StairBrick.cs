@@ -32,11 +32,16 @@ public class StairBrick : MonoBehaviour
                     {
                         botAI.stairTP = botAI.EndTarget.transform.position;
                     }
+                    else if (index == 26)
+                    {
+                        botAI.isWin = true;
+                        botAI.stairTP = botAI.EndTarget.transform.position;
+                    }
                     else
                     {
                         botAI.stairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
                     }
-                    
+
                 }
             }
             else if (botAI.ColorType != brick.ColorType)
@@ -46,12 +51,25 @@ public class StairBrick : MonoBehaviour
                     botAI.RemoveBrick();
                     brick.ChangeColor(botAI.ColorType);
                     mesh.enabled = true;
+                    if (index == 12)
+                    {
+                        botAI.stairTP = botAI.EndTarget.transform.position;
+                    }
+                    else if (index == 26)
+                    {
+                        botAI.isWin = true;
+                        botAI.stairTP = botAI.EndTarget.transform.position;
+                    }
+                    else
+                    {
+                        botAI.stairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
+                    }
                 }
             }
+            
         }
         if (other.gameObject.TryGetComponent<Player>(out var player))
         {
-
             if (!mesh.enabled)
             {
                 if (player.BrickCount > 0)

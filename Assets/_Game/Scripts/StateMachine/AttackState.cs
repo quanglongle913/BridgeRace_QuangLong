@@ -11,16 +11,21 @@ public class AttackState : IState
 
     public void OnExecute(BotAI botAI)
     {
-        if (botAI.BrickCount>0)
+        //Debug.Log("AttackState");
+        if (botAI.isWin)
+        {
+            //Debug.Log("WIN");
+            botAI.Win();
+        }
+        else if (botAI.BrickCount>0)
         {
             //TODO Move TP
             botAI.Attack();
         }
-        else 
+        else
         {
             botAI.ChangeState(new IdleState());
         }
-
     }
 
     public void OnExit(BotAI botAI)

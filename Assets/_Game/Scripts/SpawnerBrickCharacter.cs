@@ -33,7 +33,7 @@ public class SpawnerBrickCharacter : PooledObject
     protected IEnumerator OnCreateBrickStackPoolingObj(float time, Character _character)
     {
         yield return new WaitForSeconds(time);
-        for (int i = 0; i < _character.MaxBrickInCharacter; i++)
+        for (int i = 0; i < 50; i++)
         {
             PooledObject brickObject = Spawner(_character.Brick, _character.BrickStackParent);
             brickObject.GetComponent<BrickCharacter>().ChangeColor(_character.ColorType);

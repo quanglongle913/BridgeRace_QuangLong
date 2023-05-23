@@ -1492,7 +1492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: maxBrickInCharacter
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: skinnedMeshRenderer
@@ -1508,7 +1508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_TagString
@@ -1815,7 +1815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_TagString
@@ -2673,7 +2673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7128319900309239136, guid: d3fed214b4f549b45afc794d375589e2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 54
+      value: 53.8
       objectReference: {fileID: 0}
     - target: {fileID: 7128319900309239136, guid: d3fed214b4f549b45afc794d375589e2, type: 3}
       propertyPath: m_LocalRotation.w
