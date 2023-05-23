@@ -51,7 +51,7 @@ public class Stage : DrawMap
             Stage stageObject = this.gameObject.GetComponent<Stage>();
             Character characterObject = other.GetComponent<Character>();
             //characterObject.StageLevel = this.StageLevel;
-            if (this.gameObject.GetComponent<SpawnerBrickStage>())
+            if (this.gameObject.GetComponent<SpawnerBrickStage>()!=null)
             {
                 CreateBrick(stageObject, characterObject);
             } 

@@ -68,16 +68,6 @@ public class Character : PooledObject
         brickCount = 0;   
     }
 
-    //ham huy
-    public virtual void OnDespawn()
-    {
-        /*if (brickController != null)
-        {
-            brickController.AddBrick -= AddBrick;
-            //characterControl.Stage -= Stage;
-        }*/
-    }
-
     protected void ChangeAnim(string animName)
     {
 
@@ -115,20 +105,11 @@ public class Character : PooledObject
         }
         return listObj;
     }        
-    
-    //BotAI
-    protected void RotateTowards(GameObject gameObject, Transform target)
-    {
-        Vector3 direction = (target.position - transform.position).normalized;
-        //Quaternion lookRotation = Quaternion.LookRotation(direction);
-        Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
-        gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-
-    }
-    //Player
     protected void RotateTowards(GameObject gameObject, Vector3 direction)
     {
-        transform.rotation = Quaternion.LookRotation(direction);
+       // transform.rotation = Quaternion.LookRotation(direction);
+        Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
+        gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
    
     // khi nhân vật ăn gạch thì Ẩn và hiện gạch sau 1 khoảng TIME 

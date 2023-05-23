@@ -4,54 +4,85 @@ using UnityEngine;
 
 public class StairBrick : MonoBehaviour
 {
-    float stepOffet = 0.5f;
+
     [SerializeField] private GameObject wall;
+    [SerializeField] private int index;
+    MeshRenderer mesh;
+    Brick brick;
+    float stepOffset = 0.33f;
+    private void Start()
+    {
+        mesh = this.gameObject.GetComponent<MeshRenderer>();
+        brick = this.gameObject.GetComponent<Brick>();
+        index = Mathf.RoundToInt(transform.position.y / stepOffset);
+    }
+
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Player>())
+        if (other.gameObject.TryGetComponent<BotAI>(out var botAI))
         {
-            Character _character = other.gameObject.GetComponent<Character>();
-            Brick BrickObject = this.gameObject.GetComponent<Brick>();
-            //UNDONE
-            if (_character.BrickCount > 0 && _character.ColorType != BrickObject.ColorType)
+            if (!mesh.enabled)
             {
-                if (_character.ColorType != BrickObject.ColorType)
+                if (botAI.BrickCount > 0)
                 {
-                    _character.RemoveBrick();
-                    BrickObject.ChangeColor(_character.ColorType);
-                    MeshRenderer mesh = this.gameObject.GetComponent<MeshRenderer>();
+                    botAI.RemoveBrick();
+                    brick.ChangeColor(botAI.ColorType);
                     mesh.enabled = true;
-                }
-                Vector3 TargetPoint = new Vector3(this.transform.position.x, this.transform.position.y + stepOffet, this.transform.position.z-0.1f);
-                Player _player = other.gameObject.GetComponent<Player>();
-                if (_player != null)
-                {
-                    _player.moveTarget(TargetPoint.y);
+                    if (index == 12)
+                    {
+                        botAI.stairTP = botAI.EndTarget.transform.position;
+                    }
+                    else
+                    {
+                        botAI.stairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
+                    }
+                    
                 }
             }
-            else if (_character.ColorType == BrickObject.ColorType)
+            else if (botAI.ColorType != brick.ColorType)
             {
-                Vector3 TargetPoint = new Vector3(this.transform.position.x, this.transform.position.y + stepOffet, this.transform.position.z - 0.1f);
-                Player _player = other.gameObject.GetComponent<Player>();
-                if (_player != null)
+                if (botAI.BrickCount > 0)
                 {
-                    _player.moveTarget(TargetPoint.y);
+                    botAI.RemoveBrick();
+                    brick.ChangeColor(botAI.ColorType);
+                    mesh.enabled = true;
                 }
             }
         }
-        if (other.gameObject.GetComponent<BotAI>())
+        if (other.gameObject.TryGetComponent<Player>(out var player))
         {
-            Character _character = other.gameObject.GetComponent<Character>();
-            Brick BrickObject = this.gameObject.GetComponent<Brick>();
-            //UNDONE
-            if (_character.BrickCount > 0 && _character.ColorType != BrickObject.ColorType)
-            {
-                //wall.gameObject.SetActive(false);
-                _character.RemoveBrick();
-                BrickObject.ChangeColor(_character.ColorType);
-                MeshRenderer mesh = this.gameObject.GetComponent<MeshRenderer>();
-                mesh.enabled = true;
 
+            if (!mesh.enabled)
+            {
+                if (player.BrickCount > 0)
+                {
+                    player.RemoveBrick();
+                    brick.ChangeColor(player.ColorType);
+                    mesh.enabled = true;
+                    wall.SetActive(false);
+                }
+                else
+                {
+                    wall.SetActive(true);
+                }
+            }
+            else if (player.ColorType != brick.ColorType)
+            {
+                if (player.BrickCount > 0)
+                {
+                    player.RemoveBrick();
+                    brick.ChangeColor(player.ColorType);
+                    mesh.enabled = true;
+                    wall.SetActive(false);
+                }
+                else
+                {
+                    wall.SetActive(true);
+                }
+            }
+            else
+            {
+                wall.SetActive(false);
             }
         }
     }

@@ -7,14 +7,16 @@ using UnityEngine.AI;
 public class BotAI : Character
 {
     [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private GameObject EndTarget;
+    [SerializeField] public GameObject EndTarget;
     private bool isBrickTarget = false;
     private IState currentState;
+    public Vector3 stairTP;
 
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
     public override void Awake()
     {
         base.Awake();
+        stairTP = EndTarget.transform.position;
     }
     public override void OnInit()
     {
@@ -102,9 +104,15 @@ public class BotAI : Character
         isBrickTarget = true;
         ChangeAnim("Idle");
     }
-    public void Attack() 
+    public void Attack()
     {
-        MoveTowards(agent, EndTarget.transform.position);
+        /*if (stairTP != EndTarget.transform.position)
+        {
+            Debug.Log("!NULL");
+            MoveTowards(agent, stairTP);
+        }
+        else*/
+            MoveTowards(agent, stairTP);
     }
     IEnumerator MoveCoroutine(string animName, float time, Vector3 a_Target)
     {

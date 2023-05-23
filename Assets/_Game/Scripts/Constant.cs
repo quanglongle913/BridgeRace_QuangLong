@@ -17,5 +17,5 @@ public class Constant
     public const string COLOR_RED = "Red";
     public const string COLOR_PURPLE = "Purple";
 
-    public const float RAYCAST_HIT_RANGE_WALL = 0.5f;
+    public const float RAYCAST_HIT_RANGE_WALL = 0.3f;
 }
