@@ -7,11 +7,11 @@ using UnityEngine.AI;
 public class BotAI : Character
 {
     [SerializeField] private NavMeshAgent agent;
-    [SerializeField] public GameObject EndTarget;
+
     private bool isBrickTarget = false;
     private IState currentState;
     public Vector3 stairTP;
-    public bool isWin = false;
+
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
     public override void Awake()
     {
@@ -114,13 +114,16 @@ public class BotAI : Character
         {
             //Debug.Log("Dance");
             ChangeAnim("Dance");
+            Quaternion target = Quaternion.Euler(0, 180, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 10);
             ClearBrick();
         }
         else 
         {
             ChangeAnim("Run");
             //Debug.Log("Run");
-            MoveTowards(agent, EndTarget.transform.position);
+            Vector3 newPos = new Vector3(EndTarget.transform.position.x, EndTarget.transform.position.y + 0.4f, EndTarget.transform.position.z);
+            MoveTowards(agent, newPos);
         }
        
     }

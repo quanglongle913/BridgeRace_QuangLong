@@ -12,6 +12,7 @@ public class Character : PooledObject
     [SerializeField] protected LayerMask groundLayer;
     [SerializeField] private float rotationSpeed = 1000f;
     [SerializeField] private float cooldownWindow = 5.0f;
+    [SerializeField] public GameObject EndTarget;
 
     [Header("Pool Stack Parent  Object: ")]
     [SerializeField] private GameObject brickStackParent;
@@ -42,7 +43,9 @@ public class Character : PooledObject
     public ColorType ColorType => colorType;
     public ObjectPool Brick => brick;
     public GameObject BrickStackParent => brickStackParent;
+    private bool isWin = false;
 
+    public bool IsWin { get => isWin; set => isWin = value; }
     public int MaxBrickInCharacter { get => maxBrickInCharacter; set => maxBrickInCharacter = value; }
     public int BrickCount { get => brickCount; set => brickCount = value; }
     public Vector3 TargetPoint { get => targetPoint; set => targetPoint = value; }

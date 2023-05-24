@@ -40,7 +40,7 @@ public class SpawnerBrickStage : PooledObject
     {
         if (_character.StageLevel != _stage.StageLevel)
         {
-            Debug.Log("" + (int)_character.ColorType);
+            //Debug.Log("" + (int)_character.ColorType);
             //Thêm danh sách màu vào Stage
             listColor.Add((int)_character.ColorType);
            

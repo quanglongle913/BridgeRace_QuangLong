@@ -27,27 +27,39 @@ public class Player : Character
     {
         horizontal = floatingJoystick.Horizontal;
         vertical = floatingJoystick.Vertical;
+        if (isWin)
+        {
+           
+            transform.position = new Vector3(EndTarget.transform.position.x, EndTarget.transform.position.y+0.4f, EndTarget.transform.position.z);
+            Quaternion target = Quaternion.Euler(0, 180, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 10);
+            ChangeAnim("Dance");
+        }
+        else
+        {
+            if (CheckGrounded(0.5f))
+            {
+                if (Mathf.Abs(horizontal) >= 0.03 || Mathf.Abs(vertical) >= 0.03)
+                {
+                    Moving(horizontal, vertical);
+                }
+                else if (horizontal == 0 || vertical == 0)
+                {
+                    ChangeAnim("Idle");
+                }
+                //Chuyển nhân vật về sát mặt đất
+                if (!CheckGrounded(0.05f))
+                {
+                    StickToGround(0.02f);
+                }
+            }
+            else if (CheckGrounded(1.5f) && transform.position.y > 0)
+            {
+                StickToGround(stepOffset);
+            }
 
-        if (CheckGrounded(0.5f))
-        {
-            if (Mathf.Abs(horizontal) >= 0.03 || Mathf.Abs(vertical) >= 0.03)
-            {
-                Moving(horizontal, vertical);
-            }
-            else if (horizontal == 0 || vertical == 0)
-            {
-                ChangeAnim("Idle");
-            }
-            //Chuyển nhân vật về sát mặt đất
-            if (!CheckGrounded(0.05f))
-            {
-                StickToGround(0.02f);
-            }
         }
-        else if (CheckGrounded(1.5f) && transform.position.y > 0)
-        {
-            StickToGround(stepOffset);
-        }
+       
     }
     private void Moving(float _horizontal, float _vertical)
     {

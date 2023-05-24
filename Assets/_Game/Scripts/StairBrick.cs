@@ -74,6 +74,10 @@ public class StairBrick : MonoBehaviour
             {
                 if (player.BrickCount > 0)
                 {
+                    if (index == 26)
+                    {
+                        player.isWin = true;
+                    }
                     player.RemoveBrick();
                     brick.ChangeColor(player.ColorType);
                     mesh.enabled = true;
@@ -88,6 +92,10 @@ public class StairBrick : MonoBehaviour
             {
                 if (player.BrickCount > 0)
                 {
+                    if (index == 26)
+                    {
+                        player.isWin = true;
+                    }
                     player.RemoveBrick();
                     brick.ChangeColor(player.ColorType);
                     mesh.enabled = true;
@@ -100,6 +108,10 @@ public class StairBrick : MonoBehaviour
             }
             else
             {
+                if (index == 26)
+                {
+                    player.isWin = true;
+                }
                 wall.SetActive(false);
             }
         }
