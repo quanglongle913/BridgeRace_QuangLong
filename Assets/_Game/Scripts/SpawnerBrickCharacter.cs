@@ -42,7 +42,8 @@ public class SpawnerBrickCharacter : PooledObject
             brickObject.gameObject.SetActive(false);
 
             //Add to List
-            _character.listBrickInCharacter.Add(brickObject.gameObject);
+            _character.ListBrickInCharacter.Add(brickObject.gameObject);
+          
         }
     }
    

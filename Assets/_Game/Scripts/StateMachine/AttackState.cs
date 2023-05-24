@@ -12,7 +12,7 @@ public class AttackState : IState
     public void OnExecute(BotAI botAI)
     {
         //Debug.Log("AttackState");
-        if (botAI.isWin)
+        if (botAI.IsWin)
         {
             //Debug.Log("WIN");
             botAI.Win();

@@ -8,26 +8,29 @@ public class Player : Character
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private FloatingJoystick floatingJoystick;
     [SerializeField] private float moveSpeed = 5.0f;
-
+    [SerializeField] private float moveSpeedStair = 3.0f;
     [Header ("Player Step Clinmb:")]
     [SerializeField] GameObject stepRayLower;
+    private float MoveSpeed;
     private float horizontal;
     private float vertical;
     float stepOffset = 0.36f;
     public override void Awake()
     {
         base.Awake();
+
     }
     public override void OnInit()
     {
         base.OnInit();
-      
+
+        MoveSpeed = moveSpeed;
     }
     public void FixedUpdate()
     {
         horizontal = floatingJoystick.Horizontal;
         vertical = floatingJoystick.Vertical;
-        if (isWin)
+        if (IsWin)
         {
            
             transform.position = new Vector3(EndTarget.transform.position.x, EndTarget.transform.position.y+0.4f, EndTarget.transform.position.z);
@@ -74,22 +77,15 @@ public class Player : Character
             RaycastHit hit;
             if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hit, _hitRange, LayerMask.GetMask(Constant.LAYER_STAIR_BRICK)))
             {
-                TargetPoint = new Vector3(hit.collider.transform.position.x, hit.collider.transform.position.y + stepOffset, hit.collider.transform.position.z- _hitRange);
+                TargetPoint = new Vector3(hit.collider.transform.position.x, hit.collider.transform.position.y + stepOffset, hit.collider.transform.position.z - _hitRange*2);
+                MoveSpeed = moveSpeedStair;
             }
-            /*RaycastHit hitLower45;
-            if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitLower45, _hitRange, LayerMask.GetMask(Constant.LAYER_STAIR_BRICK)))
+            else
             {
-                Debug.Log("hitLower45");
-                TargetPoint = new Vector3(hitLower45.collider.transform.position.x, hitLower45.collider.transform.position.y + stepOffset, hitLower45.collider.transform.position.z-_hitRange);
+                MoveSpeed = moveSpeed;
+                
             }
-
-            RaycastHit hitLowerMinus45;
-            if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitLowerMinus45, _hitRange, LayerMask.GetMask(Constant.LAYER_STAIR_BRICK)))
-            {
-                Debug.Log("hitLowerMinus45");
-                TargetPoint = new Vector3(hitLowerMinus45.collider.transform.position.x, hitLowerMinus45.collider.transform.position.y + stepOffset, hitLowerMinus45.collider.transform.position.z-_hitRange);
-            }*/
-            transform.position = new Vector3(TargetPoint.x, TargetPoint.y, TargetPoint.z);
+            transform.position = TargetPoint;
             ChangeAnim("Run");
         }
     }

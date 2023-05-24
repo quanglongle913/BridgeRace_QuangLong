@@ -28,7 +28,7 @@ public class Character : PooledObject
     //danh sách gạch cùng màu với nhân vật ở trên sân
     protected List<GameObject> listBrickInStageCharacterColor;
     //danh sách gạch đc tạo sẵn ở lưng nhân vật
-    public List<GameObject> listBrickInCharacter;
+    private List<GameObject> listBrickInCharacter;
     public UnityAction<Character> CreateBrick;
 
     private SpawnerBrickStage _SpawnerBrickStage;
@@ -45,6 +45,7 @@ public class Character : PooledObject
     public GameObject BrickStackParent => brickStackParent;
     private bool isWin = false;
 
+    public List<GameObject> ListBrickInCharacter { get => listBrickInCharacter; set => listBrickInCharacter = value; }
     public bool IsWin { get => isWin; set => isWin = value; }
     public int MaxBrickInCharacter { get => maxBrickInCharacter; set => maxBrickInCharacter = value; }
     public int BrickCount { get => brickCount; set => brickCount = value; }
@@ -149,6 +150,8 @@ public class Character : PooledObject
                 //Hiển thị gạch trên lưng nhân vật tương ứng
                 for (int i = 0; i < BrickCount; i++)
                 {
+                    //Debug.Log("Stack Brick in:" + listBrickInCharacter[i].name);
+                    //listBrickInCharacter[i].SetActive(true);
                     if (!listBrickInCharacter[i].activeSelf)
                     {
                         listBrickInCharacter[i].SetActive(true);

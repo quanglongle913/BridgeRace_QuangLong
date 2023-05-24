@@ -34,7 +34,7 @@ public class StairBrick : MonoBehaviour
                     }
                     else if (index == 26)
                     {
-                        botAI.isWin = true;
+                        botAI.IsWin = true;
                         botAI.stairTP = botAI.EndTarget.transform.position;
                     }
                     else
@@ -57,7 +57,7 @@ public class StairBrick : MonoBehaviour
                     }
                     else if (index == 26)
                     {
-                        botAI.isWin = true;
+                        botAI.IsWin = true;
                         botAI.stairTP = botAI.EndTarget.transform.position;
                     }
                     else
@@ -76,7 +76,7 @@ public class StairBrick : MonoBehaviour
                 {
                     if (index == 26)
                     {
-                        player.isWin = true;
+                        player.IsWin = true;
                     }
                     player.RemoveBrick();
                     brick.ChangeColor(player.ColorType);
@@ -94,7 +94,7 @@ public class StairBrick : MonoBehaviour
                 {
                     if (index == 26)
                     {
-                        player.isWin = true;
+                        player.IsWin = true;
                     }
                     player.RemoveBrick();
                     brick.ChangeColor(player.ColorType);
@@ -110,7 +110,7 @@ public class StairBrick : MonoBehaviour
             {
                 if (index == 26)
                 {
-                    player.isWin = true;
+                    player.IsWin = true;
                 }
                 wall.SetActive(false);
             }
