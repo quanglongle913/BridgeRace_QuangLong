@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : Character
 {
@@ -11,6 +12,9 @@ public class Player : Character
     [SerializeField] private float moveSpeedStair = 3.0f;
     [Header ("Player Step Clinmb:")]
     [SerializeField] GameObject stepRayLower;
+
+    public UnityAction WinAction;
+
     private float MoveSpeed;
     private float horizontal;
     private float vertical;
@@ -37,6 +41,7 @@ public class Player : Character
             Quaternion target = Quaternion.Euler(0, 180, 0);
             transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 10);
             ChangeAnim("Dance");
+            WinAction();
         }
         else
         {
@@ -62,7 +67,10 @@ public class Player : Character
             }
 
         }
-       
+    }
+    public void Lose()
+    {
+        Debug.Log("You Losed");
     }
     private void Moving(float _horizontal, float _vertical)
     {

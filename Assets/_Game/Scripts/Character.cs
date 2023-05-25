@@ -92,10 +92,7 @@ public class Character : PooledObject
         float distance = Vector3.Distance(transform.position, gameObject.transform.position);
         return distance < 2.0f;
     }
-    protected void MoveTowards(NavMeshAgent agent, Vector3 target)
-    {
-        agent.SetDestination(target);
-    }
+
     protected List<GameObject> sortListBuyDistance(List<GameObject> listObj)
     {
         //sap xep theo khoang cach gan nhat voi BotAI
@@ -151,7 +148,6 @@ public class Character : PooledObject
                 for (int i = 0; i < BrickCount; i++)
                 {
                     //Debug.Log("Stack Brick in:" + listBrickInCharacter[i].name);
-                    //listBrickInCharacter[i].SetActive(true);
                     if (!listBrickInCharacter[i].activeSelf)
                     {
                         listBrickInCharacter[i].SetActive(true);

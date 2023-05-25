@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class BotAI : Character
 {
@@ -11,8 +12,10 @@ public class BotAI : Character
     private bool isBrickTarget = false;
     private IState currentState;
     public Vector3 stairTP;
-
+    public UnityAction WinAction;
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
+    public NavMeshAgent Agent { get => agent; set => agent = value; }
+
     public override void Awake()
     {
         base.Awake();
@@ -104,26 +107,33 @@ public class BotAI : Character
         isBrickTarget = true;
         ChangeAnim("Idle");
     }
+    public void StopAll()
+    {
+        ChangeState(new LoseState());
+        ChangeAnim("Idle");
+    }
+    public void Won()
+    {
+        ChangeState(new WonState());
+        ChangeAnim("Dance");
+    }
     public void Attack()
     {
-        MoveTowards(agent, stairTP);
+        agent.SetDestination(stairTP);
     }
     public void Win()
     {
         if (IsDes(EndTarget))
         {
-            //Debug.Log("Dance");
-            ChangeAnim("Dance");
-            Quaternion target = Quaternion.Euler(0, 180, 0);
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 10);
             ClearBrick();
+            WinAction();
         }
         else 
         {
             ChangeAnim("Run");
             //Debug.Log("Run");
             Vector3 newPos = new Vector3(EndTarget.transform.position.x, EndTarget.transform.position.y + 0.4f, EndTarget.transform.position.z);
-            MoveTowards(agent, newPos);
+            agent.SetDestination(newPos);
         }
        
     }
@@ -131,7 +141,8 @@ public class BotAI : Character
     {
         yield return new WaitForSeconds(time);
         ChangeAnim(animName);
-        MoveTowards(agent, a_Target);
+        agent.SetDestination(a_Target);
+
     }
     void OnDrawGizmos()
     {
