@@ -139,7 +139,7 @@ public class Character : PooledObject
         {
             //random màu trong danh sách màu ở Stage
             ColorType _colorType;
-            if (stage.GetComponent<SpawnerBrickStage>().ListColor.Count != 0)
+            if (stage)
             {
                 int randomIndex = Random.Range(0, stage.GetComponent<SpawnerBrickStage>().ListColor.Count);
                  _colorType = (ColorType)stage.GetComponent<SpawnerBrickStage>().ListColor[randomIndex];
@@ -207,9 +207,10 @@ public class Character : PooledObject
     {
         for (int i=0;i<BrickCount;i++)
         {
-            BrickCount--;
-            listBrickInCharacter[BrickCount].SetActive(false);
+            
+            listBrickInCharacter[i].SetActive(false);
         }
+        BrickCount = 0;
     }
     public void ChangeColor(GameObject a_obj, ColorType colorType)
     {
