@@ -18,4 +18,8 @@ public class Constant
     public const string COLOR_PURPLE = "Purple";
 
     public const float RAYCAST_HIT_RANGE_WALL = 0.3f;
+
+
+    public const string LEVEL = "Level";
+    public const string TAG_LEVEL = "Level";
 }

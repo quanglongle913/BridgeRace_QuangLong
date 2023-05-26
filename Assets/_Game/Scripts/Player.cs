@@ -36,12 +36,7 @@ public class Player : Character
         vertical = floatingJoystick.Vertical;
         if (IsWin)
         {
-           
-            transform.position = new Vector3(EndTarget.transform.position.x, EndTarget.transform.position.y+0.4f, EndTarget.transform.position.z);
-            Quaternion target = Quaternion.Euler(0, 180, 0);
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 10);
-            ChangeAnim("Dance");
-            WinAction();
+            Won();
         }
         else
         {
@@ -70,7 +65,19 @@ public class Player : Character
     }
     public void Lose()
     {
+        ClearBrick();
+        floatingJoystick.gameObject.SetActive(false);
         Debug.Log("You Losed");
+    }
+    private void Won()
+    {
+        ClearBrick();
+        transform.position = EndTarget.transform.position;
+        Quaternion target = Quaternion.Euler(0, 180, 0);
+        transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * rotationSpeed);
+        ChangeAnim("Dance");
+        floatingJoystick.gameObject.SetActive(false);
+        WinAction();
     }
     private void Moving(float _horizontal, float _vertical)
     {

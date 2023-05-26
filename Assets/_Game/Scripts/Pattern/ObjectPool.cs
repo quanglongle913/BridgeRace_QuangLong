@@ -76,6 +76,7 @@ public class ObjectPool : MonoBehaviour
     public void ReturnToPool(PooledObject pooledObject)
     {
         pooledObject.gameObject.transform.SetParent(PoolMasters.gameObject.transform);
+        pooledObject.gameObject.transform.position = Vector3.zero;
         pooledObject.gameObject.SetActive(false);
         stack.Push(pooledObject);
     }

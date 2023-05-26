@@ -5,12 +5,14 @@ using UnityEngine.Events;
 
 public class Stage : DrawMap
 {
-    [SerializeField] private int stageLevel = 0;
 
+    [SerializeField] private int stageLevel = 0;
     [SerializeField] private ObjectPool brick;
     private List<GameObject> listBrickInStage;
     private List<Vector3> listPoolBrickPos;
     public UnityAction<Stage, Character> CreateBrick;
+
+
 
     public int StageLevel { get => stageLevel; set => stageLevel = value; }
   
@@ -21,6 +23,7 @@ public class Stage : DrawMap
 
     private void Awake()
     {
+
         ListPoolBrickPos = new List<Vector3>();
         listBrickInStage = new List<GameObject>();
         ListPoolBrickPos = CreatePoolBrickPosMap(Row, Column, Offset, brickParent);
@@ -44,16 +47,15 @@ public class Stage : DrawMap
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Character>())
+        if (other.gameObject.TryGetComponent<Character>(out var character))
         {
             //Character vào sàn thêm viên gạch có màu tương ứng với character 
             //Debug.Log("Stage Collider");
-            Stage stageObject = this.gameObject.GetComponent<Stage>();
-            Character characterObject = other.GetComponent<Character>();
             //characterObject.StageLevel = this.StageLevel;
-            if (this.gameObject.GetComponent<SpawnerBrickStage>()!=null)
+            if (gameObject.GetComponent<SpawnerBrickStage>()!=null && gameObject.TryGetComponent<Stage>(out var stage))
             {
-                CreateBrick(stageObject, characterObject);
+                //StartCoroutine(OnCreateBrick(0.5f,stage, character)) ;
+                CreateBrick(stage, character);
             } 
         }
     }

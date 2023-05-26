@@ -40,20 +40,9 @@ public class SpawnerBrickCharacter : PooledObject
             brickObject.transform.localPosition = new Vector3(0, i, 0);
             brickObject.transform.localScale = new Vector3(1, 0.96f, 1);
             brickObject.gameObject.SetActive(false);
-
             //Add to List
             _character.ListBrickInCharacter.Add(brickObject.gameObject);
           
         }
-    }
-   
-
-    protected Vector3 getListVector3(int index, List<Vector3> a_listVector3)
-    {
-        return a_listVector3[index];
-    }
-    protected int getListVector3Count(List<Vector3> a_listVector3)
-    {
-        return a_listVector3.Count;
     }
 }

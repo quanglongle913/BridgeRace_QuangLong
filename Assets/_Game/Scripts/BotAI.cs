@@ -11,10 +11,11 @@ public class BotAI : Character
 
     private bool isBrickTarget = false;
     private IState currentState;
-    public Vector3 stairTP;
+    private Vector3 stairTP;
     public UnityAction WinAction;
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
     public NavMeshAgent Agent { get => agent; set => agent = value; }
+    public Vector3 StairTP { get => stairTP; set => stairTP = value; }
 
     public override void Awake()
     {
@@ -24,7 +25,9 @@ public class BotAI : Character
     public override void OnInit()
     {
         base.OnInit();
+
         ChangeState(new IdleState());
+        //StartCoroutine(OnInitBotAI(2f));
     }
     public void Update()
     {
@@ -60,13 +63,17 @@ public class BotAI : Character
     {
         //List<GameObject> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor)
         listBrickInStageCharacterColor.Clear();
-        for (int i=0;  i<_stage.ListBrickInStage.Count;i++)
+        if (Stage.ListBrickInStage.Count != 0)
         {
-            if (colorType == _stage.ListBrickInStage[i].GetComponent<Brick>().ColorType)
+            for (int i = 0; i < Stage.ListBrickInStage.Count; i++)
             {
-                listBrickInStageCharacterColor.Add(_stage.ListBrickInStage[i]);
+                if (colorType == Stage.ListBrickInStage[i].GetComponent<Brick>().ColorType)
+                {
+                    listBrickInStageCharacterColor.Add(Stage.ListBrickInStage[i]);
+                }
             }
         }
+        
         List<GameObject> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor);
         Vector3 BrickTarget = TargetPoint;
         for (int i = 0; i < getListBrickObjectCount(newListBrickObject); i++)
@@ -109,11 +116,13 @@ public class BotAI : Character
     }
     public void StopAll()
     {
+        ClearBrick();
         ChangeState(new LoseState());
         ChangeAnim("Idle");
     }
     public void Won()
     {
+        ClearBrick();
         ChangeState(new WonState());
         ChangeAnim("Dance");
     }
@@ -153,5 +162,10 @@ public class BotAI : Character
             Gizmos.DrawLine(TargetPoint, transform.position);
         }
 
+    }
+    protected IEnumerator OnInitBotAI(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ChangeState(new IdleState());
     }
 }

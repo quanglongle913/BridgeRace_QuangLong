@@ -30,16 +30,16 @@ public class StairBrick : MonoBehaviour
                     mesh.enabled = true;
                     if (index == 12)
                     {
-                        botAI.stairTP = botAI.EndTarget.transform.position;
+                        botAI.StairTP = botAI.EndTarget.transform.position;
                     }
                     else if (index == 26)
                     {
                         botAI.IsWin = true;
-                        botAI.stairTP = botAI.EndTarget.transform.position;
+                        botAI.StairTP = botAI.EndTarget.transform.position;
                     }
                     else
                     {
-                        botAI.stairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
+                        botAI.StairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
                     }
 
                 }
@@ -53,16 +53,16 @@ public class StairBrick : MonoBehaviour
                     mesh.enabled = true;
                     if (index == 12)
                     {
-                        botAI.stairTP = botAI.EndTarget.transform.position;
+                        botAI.StairTP = botAI.EndTarget.transform.position;
                     }
                     else if (index == 26)
                     {
                         botAI.IsWin = true;
-                        botAI.stairTP = botAI.EndTarget.transform.position;
+                        botAI.StairTP = botAI.EndTarget.transform.position;
                     }
                     else
                     {
-                        botAI.stairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
+                        botAI.StairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
                     }
                 }
             }

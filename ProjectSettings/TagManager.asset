@@ -10,6 +10,7 @@ TagManager:
   - Brick
   - Enemy
   - Brick Stack Object
+  - Level
   layers:
   - Default
   - TransparentFX

@@ -36,67 +36,55 @@ public class SpawnerBrickStage : PooledObject
     }
   
     //Tạo Gạch màu và random vị trí trên sân
-    private void CreateBrick(Stage _stage, Character _character)
+    private void CreateBrick(Stage stage, Character character)
     {
-        if (_character.StageLevel != _stage.StageLevel)
+        if (character.StageLevel != stage.StageLevel)
         {
-            //Debug.Log("" + (int)_character.ColorType);
+            character.StageLevel = this.stage.StageLevel;
+            int _poolSize = (this.stage.Row * this.stage.Column) / (character.ColorData.Mats.Length - 1);
+            //Debug.Log("" + (int)character.ColorType);
             //Thêm danh sách màu vào Stage
-            listColor.Add((int)_character.ColorType);
-           
             //Debug.Log("Stage Enter");
-            _character.StageLevel = stage.StageLevel;
-            int _poolSize = (stage.Row * stage.Column) / (_character.ColorData.Mats.Length - 1);
-
-            if (!isCheckColorInStage(_stage.ListBrickInStage, _character.ColorType))
+            if (!isCheckColorInStage(ListColor, character.ColorType))
             {
-                StartCoroutine(InitSpawnObjectWithColor(0.5f, _character.ColorType, stage.StageLevel, _poolSize, stage.Brick, stage.BrickParent, stage.ListPoolBrickPos, _stage.ListBrickInStage));
+                listColor.Add((int)character.ColorType);
+                StartCoroutine(InitSpawnObjectWithColor(0.3f, character.ColorType, _poolSize, stage));
             }
-            //StartCoroutine(InitSpawnObjectWithColor(0.5f, _character.ColorType, stage.StageLevel, _poolSize, stage.Brick, stage.BrickParent, stage.ListPoolBrickPos, _stage.ListBrickInStage));
         }
     }
     //kiểm tra gạch đã tạo trên sân chưa
-    private bool isCheckColorInStage(List<GameObject> a_ListObject, ColorType a_ColorType)
+    private bool isCheckColorInStage(List<int> a_ListObject, ColorType a_ColorType)
     {
         for (int i = 0; i < a_ListObject.Count; i++)
         {
-            if (a_ListObject[i].GetComponent<Brick>().ColorType == a_ColorType)
+            if ((ColorType)a_ListObject[i] == a_ColorType)
             {
+                Debug.Log("True"+ (ColorType)a_ListObject[i]);
                 return true;
             }
         }
         return false;
     }
     //Tạo gạch trên sân tương ứng với màu của Character
-    protected IEnumerator InitSpawnObjectWithColor(float time, ColorType colorType, int stageLevel, int poolSize, ObjectPool a_brick_obj, GameObject a_root, List<Vector3> a_listVector3, List<GameObject> ListBrickInStage)
+    protected IEnumerator InitSpawnObjectWithColor(float time, ColorType colorType, int poolSize, Stage stage)
     {
         yield return new WaitForSeconds(time);
-        int num_Count = getListVector3Count(a_listVector3);
+        int num_Count = stage.ListPoolBrickPos.Count;
         if (num_Count > 0)
         {
             for (int j = 0; j < poolSize; j++)
             {
                 //Tạo và Thêm đối tượng vào danh sách Gạch với màu tương ứng Cho Nhân Vật ở trên sân
-                int randomIndex = Random.Range(0, getListVector3Count(a_listVector3));
-                Vector3 a_vector3 = getListVector3(randomIndex, a_listVector3);
-                PooledObject brickObject = Spawner(a_brick_obj, a_root);
+                int randomIndex = Random.Range(0, stage.ListPoolBrickPos.Count);
+                Vector3 a_vector3 = stage.ListPoolBrickPos[randomIndex];
+                PooledObject brickObject = Spawner(stage.Brick, stage.BrickParent);
                 brickObject.transform.position = a_vector3;
                 brickObject.GetComponent<Brick>().ChangeColor(colorType);
-                brickObject.GetComponent<Brick>().StageLevel = stageLevel;
-                a_listVector3.Remove(a_vector3);
+                brickObject.GetComponent<Brick>().StageLevel = stage.StageLevel;
+                stage.ListPoolBrickPos.Remove(a_vector3);
                 //ListBrickInStageCharacterColor.Add(brickObject.gameObject);
-                ListBrickInStage.Add(brickObject.gameObject);
+                stage.ListBrickInStage.Add(brickObject.gameObject);
             }
         }
-    }
-
-
-    protected Vector3 getListVector3(int index, List<Vector3> a_listVector3)
-    {
-        return a_listVector3[index];
-    }
-    protected int getListVector3Count(List<Vector3> a_listVector3)
-    {
-        return a_listVector3.Count;
     }
 }

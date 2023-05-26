@@ -10,9 +10,9 @@ public class Character : PooledObject
 
     [SerializeField] private Animator anim;
     [SerializeField] protected LayerMask groundLayer;
-    [SerializeField] private float rotationSpeed = 1000f;
+    [SerializeField] protected float rotationSpeed = 1000f;
     [SerializeField] private float cooldownWindow = 5.0f;
-    [SerializeField] public GameObject EndTarget;
+    [SerializeField] private GameObject endTarget;
 
     [Header("Pool Stack Parent  Object: ")]
     [SerializeField] private GameObject brickStackParent;
@@ -30,9 +30,7 @@ public class Character : PooledObject
     //danh sách gạch đc tạo sẵn ở lưng nhân vật
     private List<GameObject> listBrickInCharacter;
     public UnityAction<Character> CreateBrick;
-
-    private SpawnerBrickStage _SpawnerBrickStage;
-    protected Stage _stage;
+    private Stage stage;
     private string currentAnimName;
     public float meleeRange = 0.01f;
     private int brickCount;
@@ -45,6 +43,7 @@ public class Character : PooledObject
     public GameObject BrickStackParent => brickStackParent;
     private bool isWin = false;
 
+    public GameObject EndTarget { get => endTarget; set => endTarget = value; }
     public List<GameObject> ListBrickInCharacter { get => listBrickInCharacter; set => listBrickInCharacter = value; }
     public bool IsWin { get => isWin; set => isWin = value; }
     public int MaxBrickInCharacter { get => maxBrickInCharacter; set => maxBrickInCharacter = value; }
@@ -53,6 +52,7 @@ public class Character : PooledObject
     public int StageLevel { get => stageLevel; set => stageLevel = value; }
     public ColorData ColorData { get => colorData; set => colorData = value; }
     public float CooldownWindow { get => cooldownWindow; set => cooldownWindow = value; }
+    public Stage Stage { get => stage; set => stage = value; }
 
     public virtual void Awake()
     {
@@ -66,10 +66,16 @@ public class Character : PooledObject
     public virtual void OnInit()
     {
         ChangeColor(skinnedMeshRenderer, colorType);
-
+        listBrickInCharacter.Clear();
+        listBrickInStageCharacterColor.Clear();
+        if (Stage != null)
+            Stage.ListBrickInStage.Clear();
+        IsWin = false;
+        brickCount = 0;
+        StageLevel = 0;
         //Create Pooling Object in BrickStackParent of Player
-        CreateBrick(this.gameObject.GetComponent<Character>());
-        brickCount = 0;   
+        CreateBrick(gameObject.GetComponent<Character>());
+
     }
 
     protected void ChangeAnim(string animName)
@@ -117,20 +123,51 @@ public class Character : PooledObject
         Quaternion lookRotation = Quaternion.LookRotation(direction, Vector3.up);
         gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
-   
+
     // khi nhân vật ăn gạch thì Ẩn và hiện gạch sau 1 khoảng TIME 
     protected IEnumerator ActiveBrickCoroutine(float time, GameObject _brick)
     {
-        _brick.gameObject.SetActive(false);
+        //TODO trả về pool
+        Vector3 pos = _brick.transform.position;
+        stage.ListBrickInStage.Remove(_brick.GetComponent<PooledObject>().gameObject);
+        _brick.GetComponent<PooledObject>().Release();
+        stage.ListPoolBrickPos.Add(pos);
         yield return new WaitForSeconds(time);
         //Hiện gạch sau time S
         //Debug.Log(""+ _SpawnerBrickStage.ListColor.Count);
-        //random màu trong danh sách màu ở Stage
-        int randomIndex = Random.Range(0, _SpawnerBrickStage.ListColor.Count);
-        ColorType _colorType = (ColorType)_SpawnerBrickStage.ListColor[randomIndex];
-
-        _brick.gameObject.GetComponent<Brick>().ChangeColor(_colorType);
-        _brick.gameObject.SetActive(true);
+        if (checkPosInList(pos,stage.ListPoolBrickPos))
+        {
+            //random màu trong danh sách màu ở Stage
+            ColorType _colorType;
+            if (stage.GetComponent<SpawnerBrickStage>().ListColor.Count != 0)
+            {
+                int randomIndex = Random.Range(0, stage.GetComponent<SpawnerBrickStage>().ListColor.Count);
+                 _colorType = (ColorType)stage.GetComponent<SpawnerBrickStage>().ListColor[randomIndex];
+            }
+            else
+            {
+                 _colorType = (ColorType) 0;
+            }
+            //TODO Kiểm tra vị trí đó có gạch hay chưa? if Có:=>ko tạo else -> tạo gạch
+            PooledObject brickObject = Spawner(stage.Brick, stage.BrickParent);
+            Brick newBrickInStage = brickObject.GetComponent<Brick>();
+            newBrickInStage.ChangeColor(_colorType);
+            newBrickInStage.StageLevel = stageLevel;
+            newBrickInStage.transform.position = pos;
+            newBrickInStage.gameObject.SetActive(true);
+            stage.ListBrickInStage.Add(brickObject.gameObject);
+        }
+    }
+    private bool checkPosInList(Vector3 pos, List<Vector3> a_List)
+    {
+        for (int i = 0; i < a_List.Count; i++)
+        {
+            if (pos == a_List[i])
+            {
+                return true;
+            }
+        }
+        return false;
     }
     private void AddBrick(GameObject birckObj)
     {
@@ -183,16 +220,14 @@ public class Character : PooledObject
     {   
         if (other.gameObject.GetComponent<Brick>())
         {
-           
             AddBrick(other.gameObject);
         }
-        if (other.gameObject.GetComponent<Stage>())
+        if (other.gameObject.TryGetComponent<Stage>(out var stage))
         {
             //Debug.Log(other.gameObject.name);
-            _stage = other.gameObject.GetComponent<Stage>();
-            _SpawnerBrickStage = other.gameObject.GetComponent<SpawnerBrickStage>();
-            StageLevel = _stage.StageLevel;
-            if (StageLevel == 2&& gameObject.GetComponent<BotAI>())
+            this.stage = stage;
+            StageLevel = stage.StageLevel;
+            if (StageLevel == 2 && gameObject.GetComponent<BotAI>())
             {
                 MaxBrickInCharacter = 20;
             }

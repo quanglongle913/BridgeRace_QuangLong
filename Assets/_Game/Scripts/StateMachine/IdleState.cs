@@ -10,7 +10,7 @@ public class IdleState : IState
     {
         botAI.StopMoving();
         timer = 0;
-        randomTime = Random.Range(0f,0.5f);
+        randomTime = Random.Range(0.5f,1.0f);
         //Debug.Log("IdleState");
     }
 
