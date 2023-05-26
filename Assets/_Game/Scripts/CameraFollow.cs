@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private float xAxis, yAxis, zAxis;
     [SerializeField] private LevelManager levelManager;
-    bool isWin;
+    public bool isWin;
     private void Start()
     {
         OnInit();
@@ -15,7 +15,7 @@ public class CameraFollow : MonoBehaviour
     }
     public void OnInit()
     {
-
+        isWin = false;
         if (levelManager != null)
         {
             levelManager.PLayerWinAction += PLayerWinAction;

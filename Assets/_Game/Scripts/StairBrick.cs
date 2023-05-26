@@ -10,6 +10,7 @@ public class StairBrick : MonoBehaviour
     MeshRenderer mesh;
     Brick brick;
     float stepOffset = 0.33f;
+
     private void Start()
     {
         mesh = this.gameObject.GetComponent<MeshRenderer>();

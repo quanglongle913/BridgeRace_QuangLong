@@ -73,6 +73,8 @@ public class Player : Character
     {
         ClearBrick();
         transform.position = EndTarget.transform.position;
+        transform.position = new Vector3(transform.position.x,transform.position.y +0.2f,transform.position.z);
+
         Quaternion target = Quaternion.Euler(0, 180, 0);
         transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * rotationSpeed);
         ChangeAnim("Dance");

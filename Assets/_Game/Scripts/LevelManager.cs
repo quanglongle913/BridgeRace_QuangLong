@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
     [SerializeField] private List<GameObject> listCharacter;
     [SerializeField] private List<GameObject> listLevel;
-
+    [SerializeField] private GameObject mainCamera;
     public UnityAction PLayerWinAction;
 
     private int inGameLevel;
@@ -31,6 +31,7 @@ public class LevelManager : MonoBehaviour
     }
     public void OnInit()
     {
+        mainCamera.GetComponent<CameraFollow>().OnInit();
         InGameLevel = PlayerPrefs.GetInt(Constant.LEVEL, 0);
         Instantiate(ListLevel[InGameLevel], new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
         //Debug.Log("List Lvl"+InGameLevel);

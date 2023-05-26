@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 6374179007345592307}
   - component: {fileID: 6374179007345592308}
   - component: {fileID: 6473299988850708383}
-  - component: {fileID: 2158349240096832761}
+  - component: {fileID: 6111707209189117644}
   m_Layer: 8
   m_Name: BrickStair
   m_TagString: Brick
@@ -352,7 +352,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 6374179008461820877}
   index: 0
---- !u!114 &2158349240096832761
+  meshRenderer: {fileID: 6374179007345592306}
+  colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
+  colorType: 0
+--- !u!114 &6111707209189117644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
