@@ -58,10 +58,6 @@ public class Character : PooledObject
         listBrickInStageCharacterColor = new List<Brick>();
         listBrickInCharacter = new List<GameObject>();
     }
-    /*private void Start()
-    {
-        //OnInit();
-    }*/
     public virtual void OnInit()
     {
         //Do Not Set StageLevel = 0;
@@ -71,7 +67,6 @@ public class Character : PooledObject
         listBrickInCharacter.Clear();
         //Create Pooling Object in BrickStackParent of Player
         CreateBrick();
-        //Debug.Log("Character OnInit");
     }
     /*public virtual void Update()
     {
@@ -142,8 +137,8 @@ public class Character : PooledObject
         ColorType _colorType;
         if (stage)
         {
-            int randomIndex = Random.Range(0, stage.GetComponent<SpawnerBrickStage>().ListColor.Count);
-            _colorType = (ColorType)stage.GetComponent<SpawnerBrickStage>().ListColor[randomIndex];
+            int randomIndex = Random.Range(0, stage.ListColor.Count);
+            _colorType = (ColorType)stage.ListColor[randomIndex];
         }
         else
         {
@@ -219,17 +214,19 @@ public class Character : PooledObject
             {
                 AddBrick(brick);
             }
-            
         }
-        if (other.gameObject.TryGetComponent<Stage>(out var stage))
+        /*if (other.gameObject.TryGetComponent<Stage>(out var stage))
         {
             //Debug.Log(other.gameObject.name);
             this.stage = stage;
-            StageLevel = stage.StageLevel;
-            if (StageLevel == 2 && gameObject.GetComponent<BotAI>())
+            *//*if (LevelManager.gameState == GameState.Ingame)
+            {
+                StageLevel = stage.StageLevel;
+            }*/
+            /*if (StageLevel == 2 && gameObject.GetComponent<BotAI>())
             {
                 MaxBrickInCharacter = 20;
-            }
-        }
+            }*//*
+        }*/
     }
 }

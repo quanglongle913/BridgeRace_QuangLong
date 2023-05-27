@@ -15,19 +15,14 @@ public class Level : MonoBehaviour
     public GameObject Wintarget { get => wintarget; set => wintarget = value; }
     private void Start()
     {
-        levelManager = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>();
-        if (ListStage != null)
+  
+        if (GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>())
         {
+            levelManager = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>();
             levelManager.ListStage = ListStage;
-        }
-
-        if (Wintarget != null)
-        {
             levelManager.Wintarget = Wintarget;
-        }
-        if (ListStair != null)
-        {
             levelManager.ListStair = ListStair;
-        }
+            levelManager.gameState = GameState.Init;
+        } 
     }
 }

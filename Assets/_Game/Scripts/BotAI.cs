@@ -16,11 +16,10 @@ public class BotAI : Character
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
     public NavMeshAgent Agent { get => agent; set => agent = value; }
     public Vector3 StairTP { get => stairTP; set => stairTP = value; }
-    private bool isStart;
+  
     public override void Awake()
     {
         base.Awake();
-        isStart = false;
         //stairTP = EndTarget.transform.position;
     }
     //Called in LevelManager
@@ -37,7 +36,7 @@ public class BotAI : Character
     public void Update()
     {
         //base.Update();
-        if (currentState != null )
+        if (currentState != null && LevelManager.gameState==GameState.Ingame)
         {
             currentState.OnExecute(this);
         }

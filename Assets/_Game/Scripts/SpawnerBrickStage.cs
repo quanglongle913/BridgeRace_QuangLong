@@ -6,18 +6,13 @@ using UnityEngine.Events;
 public class SpawnerBrickStage : PooledObject
 {
     [SerializeField] private Stage stage;
-
-    List<int> listColor;
-
-    public List<int> ListColor { get => listColor; set => listColor = value; }
-
     private void Start()
     {
         OnInit();
     }
     public void OnInit()
     {
-        listColor = new List<int>();
+  
         if (stage != null)
         {
             stage.CreateBrick += CreateBrick;
@@ -36,18 +31,18 @@ public class SpawnerBrickStage : PooledObject
     }
 
     //Tạo Gạch màu và random vị trí trên sân
-    private void CreateBrick(Stage stage, Character character, LevelManager levelManager)
+    private void CreateBrick(Character character, LevelManager levelManager)
     {
         if (character.StageLevel != stage.StageLevel)
         {
-            character.StageLevel = this.stage.StageLevel;
-            int _poolSize = (this.stage.Row * this.stage.Column) / (character.ColorData.Mats.Length - 1);
+            character.StageLevel = stage.StageLevel;
+            int _poolSize = (stage.Row * stage.Column) / (character.ColorData.Mats.Length - 1);
             //Debug.Log("" + (int)character.ColorType);
             //Thêm danh sách màu vào Stage
             //Debug.Log("Stage Enter");
-            if (!isCheckColorInStage(ListColor, character.ColorType))
+            if (!isCheckColorInStage(stage.ListColor, character.ColorType))
             {
-                listColor.Add((int)character.ColorType);
+                stage.ListColor.Add((int)character.ColorType);
                 StartCoroutine(InitSpawnObjectWithColor(0.3f, character.ColorType, _poolSize, stage, levelManager));
             }
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,13 +13,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<GameObject> listCharacter;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] GameObject wintarget;
+    [SerializeField] private List<string> listLevelScene;
 
     public UnityAction PLayerWinAction;
-
     private List<Stage> listStage;
     private List<List<Brick>> listBrickInStage;
     private List<List<Vector3>> listBrickPosInStage;
-    private int inGameLevel;
+    public int inGameLevel;
     private List<GameObject> listStair;
 
     public List<GameObject> ListStair { get => listStair; set => listStair = value; }
@@ -30,7 +31,6 @@ public class LevelManager : MonoBehaviour
     public List<List<Vector3>> ListBrickPosInStage { get => listBrickPosInStage; set => listBrickPosInStage = value; }
     
     public GameState gameState;
-    private bool isInit;
     private void Awake()
     {
         if (instance == null)
@@ -39,50 +39,59 @@ public class LevelManager : MonoBehaviour
         }
         ListBrickInStage = new List<List<Brick>>();
         listBrickPosInStage = new List<List<Vector3>>();
-        isInit = false;
+        gameState = GameState.EndGame;
         //Debug.Log("Awake");
     }
     private void Start()
     {
         //OnInit();
-        gameState = GameState.Init;
+        InGameLevel = PlayerPrefs.GetInt(Constant.LEVEL, 0);
+        SceneManager.LoadScene(""+listLevelScene[InGameLevel], LoadSceneMode.Additive);
     }
     public void OnInit()
     {
         ListBrickInStage.Clear();
         listBrickPosInStage.Clear();
         mainCamera.GetComponent<CameraFollow>().OnInit();
-        InGameLevel = PlayerPrefs.GetInt(Constant.LEVEL, 0);
-        //Instantiate(ListLevel[InGameLevel], new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
         for (int i = 0; i < listStage.Count; i++)
         {
             List<Brick> temp = new List<Brick>();
-            List<Vector3> temp2 = listStage[i].CreatePoolBrickPosMap(listStage[i].Row, listStage[i].Column, listStage[i].Offset, listStage[i].BrickParent);
+            List<Vector3> temp2 = listStage[i].CreatePoolBrickPosMap();
             ListBrickInStage.Add(temp);
             listBrickPosInStage.Add(temp2);
         }
-        ListCharacter[0].gameObject.GetComponent<Character>().OnInit();
-        StartCoroutine(OnInitCharacter(0.3f, new Vector3(-5, 0, -7), ListCharacter[0].gameObject, wintarget, ListStair[0]));
-        
-        ListCharacter[0].gameObject.GetComponent<Player>().WinAction += PlayerWin;
-        for (int i = 1; i < ListCharacter.Count; i++)
+
+        for (int i = 0; i < ListCharacter.Count; i++)
         {
-            ListCharacter[i].gameObject.GetComponent<BotAI>().WinAction += PlayerLose;
-            ListCharacter[i].gameObject.GetComponent<BotAI>().OnInit();
-            StartCoroutine(OnInitCharacter(0.3f, new Vector3(-5 + 4 * i, 0, -7), ListCharacter[i].gameObject, wintarget, ListStair[i-1]));
+            if (ListCharacter[i].TryGetComponent<Player>(out var player))
+            {
+                player.WinAction += PlayerWin;
+                player.OnInit();
+                player.transform.position = new Vector3(-5, 0, -7);
+                player.EndTarget = wintarget;
+            }
+            if (ListCharacter[i].TryGetComponent<BotAI>(out var botAI))
+            {
+                botAI.WinAction += PlayerLose;
+                botAI.OnInit();
+                ListCharacter[i].GetComponent<NavMeshAgent>().enabled = true;
+                botAI.transform.position = new Vector3(-5 + 4 * i, 0, -7);
+                botAI.EndTarget = wintarget;
+                botAI.StairTP = ListStair[i - 1].transform.position;
+                botAI.ChangeState(new IdleState());
+            }
         }
         bool isDebug = true;
         UIManager.instance.isNextButton(isDebug);
         UIManager.instance.isReplayButton(isDebug);
-        gameState = GameState.Ingame;
+
     }
     public void Update()
     {
-        if (!isInit && gameState == GameState.Init && listStage.Count>0 && listStair.Count>0)
+        if (gameState == GameState.Init)
         {
             OnInit();
-            isInit = true;
-            //gameState = GameState.Ingame;
+            gameState = GameState.Ingame;
         }
         //Reset Character StageLevel =0
     }
@@ -127,13 +136,13 @@ public class LevelManager : MonoBehaviour
     public void nextLevel()
     {
         //Level = inGameLevel +1, check Level <5 -> level +++ else ko doi
-        if (inGameLevel < 2)
+        if (inGameLevel < 1)
         {
             inGameLevel++;
             PlayerPrefs.SetInt(Constant.LEVEL, inGameLevel);
             PlayerPrefs.Save();
         }
-        for (int i = 0; i < listStage.Count; i++)
+        /* for (int i = 0; i < listStage.Count; i++)
         {
             listStage[i].GetComponent<SpawnerBrickStage>().ListColor.Clear();
 
@@ -147,35 +156,44 @@ public class LevelManager : MonoBehaviour
             DestroyImmediate(obj[i], true);
         }
         SceneManager.LoadScene("Level2", LoadSceneMode.Additive);
-        gameState = GameState.EndGame;
-        isInit = false;
-        
+        //gameState = GameState.Init;
         for (int i = 0; i < ListCharacter.Count; i++)
         {
             ListCharacter[i].gameObject.GetComponent<Character>().StageLevel = 0;
-            if (i == ListCharacter.Count)
-            {
-                Debug.Log("Done");
-                gameState = GameState.Init;
-            }
-        }
-       
-        OnInit();
+        }*/
     }
     public void replay()
     {
-        /*GameObject[] obj = GameObject.FindGameObjectsWithTag(Constant.TAG_LEVEL);
+        GameObject[] obj = GameObject.FindGameObjectsWithTag(Constant.TAG_LEVEL);
         for (int i = 0; i < obj.Length; i++)
         {
             DestroyImmediate(obj[i], true);
-        }*/
-        gameState = GameState.EndGame;
-        
-        OnInit();
+        }
+        ListStage.Clear();
+        listStair.Clear();
+        for (int i = 0; i < ListCharacter.Count; i++)
+        {
+            if (ListCharacter[i].TryGetComponent<Player>(out var player))
+            {
+                //player.IsWin = false;
+                player.transform.position = new Vector3(-5, 2, -7);
+                player.StageLevel = 0;
+            }
+            if (ListCharacter[i].TryGetComponent<BotAI>(out var botAI))
+            {
+                //botAI.IsWin = false;
+                //botAI.GetComponent<NavMeshAgent>().enabled = false;
+                botAI.transform.position = new Vector3(-5 + 4 * i, 2, -7);
+                botAI.StageLevel = 0;
+                Debug.Log(botAI.StageLevel);
+            }
+        }
+        InGameLevel = PlayerPrefs.GetInt(Constant.LEVEL, 0);
+        SceneManager.LoadScene("" + listLevelScene[InGameLevel], LoadSceneMode.Additive);
     }
-    protected IEnumerator OnInitCharacter(float time,Vector3 vector3,GameObject gameobject,GameObject EndTarget, GameObject StairTP)
+    /*protected IEnumerator OnInitCharacter(float time,Vector3 vector3,GameObject gameobject,GameObject EndTarget, GameObject StairTP)
     {
-        //gameobject.transform.position = new Vector3(0,5,0);
+        gameobject.transform.position = new Vector3(0,5,0);
         yield return new WaitForSeconds(time);
         gameobject.transform.position = vector3;
         if (gameobject.TryGetComponent<BotAI>(out var botAI))
@@ -188,5 +206,5 @@ public class LevelManager : MonoBehaviour
         {
             player.EndTarget = EndTarget;
         }
-    }
+    }*/
 }
