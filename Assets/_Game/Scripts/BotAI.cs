@@ -59,45 +59,47 @@ public class BotAI : Character
             StartCoroutine(MoveCoroutine("Run", 0.2f, TargetPoint));
         }
     }
-    public Vector3 getTarget()
+    public Vector3 getTarget(int index)
     {
         //List<GameObject> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor)
+        //UNDONE
         listBrickInStageCharacterColor.Clear();
-        if (Stage.ListBrickInStage.Count != 0)
+        //Debug.Log("stageLevel:" + stageLevel + "--Brick Count:" +LevelManager.ListBrickInStage[stageLevel-1].Count);
+        if (LevelManager.ListBrickInStage[index].Count != 0)
         {
-            for (int i = 0; i < Stage.ListBrickInStage.Count; i++)
+            for (int i = 0; i < LevelManager.ListBrickInStage[index].Count; i++)
             {
-                if (colorType == Stage.ListBrickInStage[i].GetComponent<Brick>().ColorType)
+                if (colorType == LevelManager.ListBrickInStage[index][i].GetComponent<Brick>().ColorType)
                 {
-                    listBrickInStageCharacterColor.Add(Stage.ListBrickInStage[i]);
+                    listBrickInStageCharacterColor.Add(LevelManager.ListBrickInStage[index][i]);
                 }
             }
         }
         
-        List<GameObject> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor);
+        List<Brick> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor);
         Vector3 BrickTarget = TargetPoint;
         for (int i = 0; i < getListBrickObjectCount(newListBrickObject); i++)
         {
             if (!isBrickTarget)
             {
-                if (isActiveObj(newListBrickObject[i]))
+                if (newListBrickObject[i].gameObject.activeSelf)
                 {
                     isBrickTarget = true;
-                    BrickTarget = getBrickObjectFromList(i, newListBrickObject).transform.position;
+                    BrickTarget = newListBrickObject[i].transform.position;
                 }
             }
         }
         return BrickTarget;
     }
-    private GameObject getBrickObjectFromList(int index, List<GameObject> listBrickObject)
+   /* private GameObject getBrickObjectFromList(int index, List<GameObject> listBrickObject)
     {
         return listBrickObject[index];
-    }
-    private bool isActiveObj(GameObject gameObj)
+    }*/
+  /*  private bool isActiveObj(Brick gameObj)
     {
         return gameObj.activeSelf;
-    }
-    private int getListBrickObjectCount(List<GameObject> listObj)
+    }*/
+    private int getListBrickObjectCount(List<Brick> listObj)
     {
         return listObj.Count;
     }

@@ -128,7 +128,7 @@ public class Player : Character
     {
         Debug.DrawLine(transform.position, transform.position + Vector3.down * _rangeCast, Color.red);
         RaycastHit hit;
-        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, _rangeCast, groundLayer);
+        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, _rangeCast, LayerMask.GetMask(Constant.LAYER_GROUND));
     }
     private void StickToGround(float offset_down)
     {

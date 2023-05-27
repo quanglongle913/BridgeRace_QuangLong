@@ -9,10 +9,10 @@ public class Character : PooledObject
 
 
     [SerializeField] private Animator anim;
-    [SerializeField] protected LayerMask groundLayer;
     [SerializeField] protected float rotationSpeed = 1000f;
     [SerializeField] private float cooldownWindow = 5.0f;
     [SerializeField] private GameObject endTarget;
+    [SerializeField] private LevelManager levelManager;
 
     [Header("Pool Stack Parent  Object: ")]
     [SerializeField] private GameObject brickStackParent;
@@ -23,10 +23,10 @@ public class Character : PooledObject
     [SerializeField] GameObject skinnedMeshRenderer;
     [SerializeField] private ColorData colorData;
     [SerializeField] protected ColorType colorType;
-
+  
 
     //danh sách gạch cùng màu với nhân vật ở trên sân
-    protected List<GameObject> listBrickInStageCharacterColor;
+    protected List<Brick> listBrickInStageCharacterColor;
     //danh sách gạch đc tạo sẵn ở lưng nhân vật
     private List<GameObject> listBrickInCharacter;
     public UnityAction<Character> CreateBrick;
@@ -35,7 +35,7 @@ public class Character : PooledObject
     public float meleeRange = 0.01f;
     private int brickCount;
 
-    private int stageLevel = 0;
+    public int stageLevel = 0;
     private Vector3 targetPoint;
  
     public ColorType ColorType => colorType;
@@ -53,10 +53,11 @@ public class Character : PooledObject
     public ColorData ColorData { get => colorData; set => colorData = value; }
     public float CooldownWindow { get => cooldownWindow; set => cooldownWindow = value; }
     public Stage Stage { get => stage; set => stage = value; }
+    public LevelManager LevelManager { get => levelManager; set => levelManager = value; }
 
     public virtual void Awake()
     {
-        listBrickInStageCharacterColor = new List<GameObject>();
+        listBrickInStageCharacterColor = new List<Brick>();
         listBrickInCharacter = new List<GameObject>();
     }
     private void Start()
@@ -68,8 +69,7 @@ public class Character : PooledObject
         ChangeColor(skinnedMeshRenderer, colorType);
         listBrickInCharacter.Clear();
         listBrickInStageCharacterColor.Clear();
-        if (Stage != null)
-            Stage.ListBrickInStage.Clear();
+        
         IsWin = false;
         brickCount = 0;
         StageLevel = 0;
@@ -99,19 +99,19 @@ public class Character : PooledObject
         return distance < 2.0f;
     }
 
-    protected List<GameObject> sortListBuyDistance(List<GameObject> listObj)
+    protected List<Brick> sortListBuyDistance(List<Brick> listObj)
     {
         //sap xep theo khoang cach gan nhat voi BotAI
-        GameObject gameObject;
+        Brick brickObject;
         for (int i = 0; i < listObj.Count - 1; i++)
         {
             for (int j = 0; j < listObj.Count; j++)
             {
                 if (Vector3.Distance(transform.position, listObj[i].gameObject.transform.position) < Vector3.Distance(transform.position, listObj[j].gameObject.transform.position))
                 {
-                    gameObject = listObj[i];
+                    brickObject = listObj[i];
                     listObj[i] = listObj[j];
-                    listObj[j] = gameObject;
+                    listObj[j] = brickObject;
                 }
             }
         }
@@ -125,38 +125,39 @@ public class Character : PooledObject
     }
 
     // khi nhân vật ăn gạch thì Ẩn và hiện gạch sau 1 khoảng TIME 
-    protected IEnumerator ActiveBrickCoroutine(float time, GameObject _brick)
+    protected IEnumerator ActiveBrickCoroutine(float time, Brick _brick)
     {
-        //TODO trả về pool
+        // //UNDONE
         Vector3 pos = _brick.transform.position;
-        stage.ListBrickInStage.Remove(_brick.GetComponent<PooledObject>().gameObject);
+        LevelManager.ListBrickInStage[stageLevel-1].Remove(_brick);
         _brick.GetComponent<PooledObject>().Release();
-        stage.ListPoolBrickPos.Add(pos);
+        //stage.ListPoolBrickPos.Add(pos);
         yield return new WaitForSeconds(time);
         //Hiện gạch sau time S
         //Debug.Log(""+ _SpawnerBrickStage.ListColor.Count);
-        if (checkPosInList(pos,stage.ListPoolBrickPos))
+        /*if (checkPosInList(pos,stage.ListPoolBrickPos))
         {
-            //random màu trong danh sách màu ở Stage
-            ColorType _colorType;
-            if (stage)
-            {
-                int randomIndex = Random.Range(0, stage.GetComponent<SpawnerBrickStage>().ListColor.Count);
-                 _colorType = (ColorType)stage.GetComponent<SpawnerBrickStage>().ListColor[randomIndex];
-            }
-            else
-            {
-                 _colorType = (ColorType) 0;
-            }
-            //TODO Kiểm tra vị trí đó có gạch hay chưa? if Có:=>ko tạo else -> tạo gạch
-            PooledObject brickObject = Spawner(stage.Brick, stage.BrickParent);
-            Brick newBrickInStage = brickObject.GetComponent<Brick>();
-            newBrickInStage.ChangeColor(_colorType);
-            newBrickInStage.StageLevel = stageLevel;
-            newBrickInStage.transform.position = pos;
-            newBrickInStage.gameObject.SetActive(true);
-            stage.ListBrickInStage.Add(brickObject.gameObject);
+            
+        }*/
+        //random màu trong danh sách màu ở Stage
+        ColorType _colorType;
+        if (stage)
+        {
+            int randomIndex = Random.Range(0, stage.GetComponent<SpawnerBrickStage>().ListColor.Count);
+            _colorType = (ColorType)stage.GetComponent<SpawnerBrickStage>().ListColor[randomIndex];
         }
+        else
+        {
+            _colorType = (ColorType)0;
+        }
+        //TODO Kiểm tra vị trí đó có gạch hay chưa? if Có:=>ko tạo else -> tạo gạch
+        PooledObject brickObject = Spawner(stage.Brick, stage.BrickParent);
+        Brick newBrickInStage = brickObject.GetComponent<Brick>();
+        newBrickInStage.ChangeColor(_colorType);
+        newBrickInStage.StageLevel = stageLevel;
+        newBrickInStage.transform.position = pos;
+        newBrickInStage.gameObject.SetActive(true);
+        LevelManager.ListBrickInStage[newBrickInStage.StageLevel-1].Add(newBrickInStage);
     }
     private bool checkPosInList(Vector3 pos, List<Vector3> a_List)
     {
@@ -169,32 +170,25 @@ public class Character : PooledObject
         }
         return false;
     }
-    private void AddBrick(GameObject birckObj)
+    private void AddBrick(Brick _brick)
     {
-        Brick _brick = birckObj.GetComponent<Brick>();
-        //kiem tra lai ten cua Brick co tag ="Brick" (Brick tren san)
-        if (_brick.ColorType == colorType && _brick.StageLevel==stageLevel)
+        if (BrickCount < maxBrickInCharacter)
         {
-            //Debug.Log(birckObj.gameObject.GetComponent<Brick>().ColorType);
-            if (BrickCount < maxBrickInCharacter)
+            BrickCount++;
+            //Hiển thị gạch trên lưng nhân vật tương ứng
+            for (int i = 0; i < BrickCount; i++)
             {
-                StartCoroutine(ActiveBrickCoroutine(cooldownWindow, birckObj));
-                BrickCount++;
-
-                //Hiển thị gạch trên lưng nhân vật tương ứng
-                for (int i = 0; i < BrickCount; i++)
+                //Debug.Log("Stack Brick in:" + listBrickInCharacter[i].name);
+                if (!listBrickInCharacter[i].activeSelf)
                 {
-                    //Debug.Log("Stack Brick in:" + listBrickInCharacter[i].name);
-                    if (!listBrickInCharacter[i].activeSelf)
-                    {
-                        listBrickInCharacter[i].SetActive(true);
-                    }
+                    listBrickInCharacter[i].SetActive(true);
                 }
             }
-            else
-            {
-                //Debug.Log("FULL Stack Brick in:" + transform.gameObject.name);
-            }
+            StartCoroutine(ActiveBrickCoroutine(cooldownWindow, _brick));
+        }
+        else
+        {
+            //Debug.Log("FULL Stack Brick in:" + transform.gameObject.name);
         }
     }
 
@@ -221,7 +215,12 @@ public class Character : PooledObject
     {   
         if (other.gameObject.GetComponent<Brick>())
         {
-            AddBrick(other.gameObject);
+            Brick brick = other.gameObject.GetComponent<Brick>();
+            if (brick.StageLevel == stageLevel && brick.ColorType == colorType)
+            {
+                AddBrick(brick);
+            }
+            
         }
         if (other.gameObject.TryGetComponent<Stage>(out var stage))
         {

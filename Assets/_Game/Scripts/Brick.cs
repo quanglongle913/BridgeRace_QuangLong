@@ -7,7 +7,7 @@ public class Brick : MonoBehaviour
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private ColorData colorData;
     [SerializeField] protected ColorType colorType;
-    private int stageLevel=0;
+    public int stageLevel=0;
     public ColorType ColorType => colorType;
 
     public int StageLevel { get => stageLevel; set => stageLevel = value; }

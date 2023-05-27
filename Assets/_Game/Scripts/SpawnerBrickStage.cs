@@ -32,11 +32,11 @@ public class SpawnerBrickStage : PooledObject
         {
             stage.CreateBrick -= CreateBrick;
         }
-       
+
     }
-  
+
     //Tạo Gạch màu và random vị trí trên sân
-    private void CreateBrick(Stage stage, Character character)
+    private void CreateBrick(Stage stage, Character character, LevelManager levelManager)
     {
         if (character.StageLevel != stage.StageLevel)
         {
@@ -48,7 +48,7 @@ public class SpawnerBrickStage : PooledObject
             if (!isCheckColorInStage(ListColor, character.ColorType))
             {
                 listColor.Add((int)character.ColorType);
-                StartCoroutine(InitSpawnObjectWithColor(0.3f, character.ColorType, _poolSize, stage));
+                StartCoroutine(InitSpawnObjectWithColor(0.3f, character.ColorType, _poolSize, stage, levelManager));
             }
         }
     }
@@ -59,31 +59,36 @@ public class SpawnerBrickStage : PooledObject
         {
             if ((ColorType)a_ListObject[i] == a_ColorType)
             {
-                Debug.Log("True"+ (ColorType)a_ListObject[i]);
+                //Debug.Log("True" + (ColorType)a_ListObject[i]);
                 return true;
             }
         }
         return false;
     }
     //Tạo gạch trên sân tương ứng với màu của Character
-    protected IEnumerator InitSpawnObjectWithColor(float time, ColorType colorType, int poolSize, Stage stage)
+    protected IEnumerator InitSpawnObjectWithColor(float time, ColorType colorType, int poolSize, Stage stage, LevelManager levelManager)
     {
         yield return new WaitForSeconds(time);
-        int num_Count = stage.ListPoolBrickPos.Count;
+        int stageLevel= stage.StageLevel;
+        int index = stageLevel - 1;
+        int num_Count = levelManager.ListBrickPosInStage[index].Count;
         if (num_Count > 0)
         {
             for (int j = 0; j < poolSize; j++)
             {
                 //Tạo và Thêm đối tượng vào danh sách Gạch với màu tương ứng Cho Nhân Vật ở trên sân
-                int randomIndex = Random.Range(0, stage.ListPoolBrickPos.Count);
-                Vector3 a_vector3 = stage.ListPoolBrickPos[randomIndex];
+                int randomIndex = Random.Range(0, levelManager.ListBrickPosInStage[index].Count);
+                Vector3 a_vector3 = levelManager.ListBrickPosInStage[index][randomIndex];
                 PooledObject brickObject = Spawner(stage.Brick, stage.BrickParent);
                 brickObject.transform.position = a_vector3;
-                brickObject.GetComponent<Brick>().ChangeColor(colorType);
-                brickObject.GetComponent<Brick>().StageLevel = stage.StageLevel;
-                stage.ListPoolBrickPos.Remove(a_vector3);
+                Brick brick = brickObject.GetComponent<Brick>();
+                brick.ChangeColor(colorType);
+                brick.StageLevel = stageLevel;
+                levelManager.ListBrickPosInStage[index].Remove(a_vector3);
                 //ListBrickInStageCharacterColor.Add(brickObject.gameObject);
-                stage.ListBrickInStage.Add(brickObject.gameObject);
+                //stage.ListBrickInStage.Add(brickObject.gameObject);
+                //Debug.Log(""+ brick.StageLevel);
+                levelManager.ListBrickInStage[index].Add(brick);
             }
         }
     }

@@ -4,14 +4,28 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> listBotAI;
-    [SerializeField] private Stage startStage;
-    public List<GameObject> ListBotAI { get => listBotAI; set => listBotAI = value; }
+    [SerializeField] private LevelManager levelManager;
+    [SerializeField] private List<Stage> listStage;
+    [SerializeField] private GameObject wintarget;
+    [SerializeField] private List<GameObject> listStair;
+
+    public List<GameObject> ListStair { get => listStair; set => listStair = value; }
+    public LevelManager LevelManager { get => levelManager; set => levelManager = value; }
+    public List<Stage> ListStage { get => listStage; set => listStage = value; }
+    public GameObject Wintarget { get => wintarget; set => wintarget = value; }
     private void Start()
     {
-        for (int i = 0; i < ListBotAI.Count; i++)
+        if (ListStage != null)
         {
-            ListBotAI[i].gameObject.GetComponent<BotAI>().Stage = startStage;
+            levelManager.ListStage = ListStage;
+        }
+        if (Wintarget != null)
+        {
+            levelManager.Wintarget = Wintarget;
+        }
+        if (ListStair != null)
+        {
+            levelManager.ListStair = ListStair;
         }
     }
 }

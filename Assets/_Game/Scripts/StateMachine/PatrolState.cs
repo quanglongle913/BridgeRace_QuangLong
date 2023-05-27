@@ -17,7 +17,7 @@ public class PatrolState : IState
         {
             if (!botAI.IsBrickTarget)
             {
-                botAI.TargetPoint = botAI.getTarget();
+                botAI.TargetPoint = botAI.getTarget(botAI.StageLevel-1);
                 //Debug.Log("Moving");
                 botAI.Moving();
             }

@@ -8,21 +8,33 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
     [SerializeField] private List<GameObject> listCharacter;
-    [SerializeField] private List<GameObject> listLevel;
+    //[SerializeField] private List<GameObject> listLevel;
     [SerializeField] private GameObject mainCamera;
+    [SerializeField] GameObject wintarget;
+
     public UnityAction PLayerWinAction;
 
+    private List<Stage> listStage;
+    private List<List<Brick>> listBrickInStage;
+    private List<List<Vector3>> listBrickPosInStage;
     private int inGameLevel;
+    private List<GameObject> listStair;
+
+    public List<GameObject> ListStair { get => listStair; set => listStair = value; }
     public List<GameObject> ListCharacter { get => listCharacter; set => listCharacter = value; }
     public int InGameLevel { get => inGameLevel; set => inGameLevel = value; }
-    public List<GameObject> ListLevel { get => listLevel; set => listLevel = value; }
-
+    public List<List<Brick>> ListBrickInStage { get => listBrickInStage; set => listBrickInStage = value; }
+    public List<Stage> ListStage { get => listStage; set => listStage = value; }
+    public GameObject Wintarget { get => wintarget; set => wintarget = value; }
+    public List<List<Vector3>> ListBrickPosInStage { get => listBrickPosInStage; set => listBrickPosInStage = value; }
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
+        ListBrickInStage = new List<List<Brick>>();
+        listBrickPosInStage = new List<List<Vector3>>();
         //Debug.Log("Awake");
     }
     private void Start()
@@ -33,18 +45,23 @@ public class LevelManager : MonoBehaviour
     {
         mainCamera.GetComponent<CameraFollow>().OnInit();
         InGameLevel = PlayerPrefs.GetInt(Constant.LEVEL, 0);
-        Instantiate(ListLevel[InGameLevel], new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
-        //Debug.Log("List Lvl"+InGameLevel);
-        WinTarget wintarget = ListLevel[InGameLevel].GetComponentInChildren<WinTarget>();
+        //Instantiate(ListLevel[InGameLevel], new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
+        for (int i = 0; i < listStage.Count; i++)
+        {
+            List<Brick> temp = new List<Brick>();
+            List<Vector3> temp2 = listStage[i].CreatePoolBrickPosMap(listStage[i].Row, listStage[i].Column, listStage[i].Offset, listStage[i].BrickParent);
+            ListBrickInStage.Add(temp);
+            listBrickPosInStage.Add(temp2);
+        }
         ListCharacter[0].gameObject.GetComponent<Character>().OnInit();
-        StartCoroutine(OnInitCharacter(0.3f, new Vector3(-5, 0, -7), ListCharacter[0].gameObject, wintarget.gameObject, wintarget.ListStair[0]));
+        StartCoroutine(OnInitCharacter(0.3f, new Vector3(-5, 0, -7), ListCharacter[0].gameObject, wintarget, ListStair[0]));
         
         ListCharacter[0].gameObject.GetComponent<Player>().WinAction += PlayerWin;
         for (int i = 1; i < ListCharacter.Count; i++)
         {
             ListCharacter[i].gameObject.GetComponent<BotAI>().WinAction += PlayerLose;
             ListCharacter[i].gameObject.GetComponent<Character>().OnInit();
-            StartCoroutine(OnInitCharacter(0.3f, new Vector3(-5 + 4 * i, 0, -7), ListCharacter[i].gameObject, wintarget.gameObject,wintarget.ListStair[i-1]));
+            StartCoroutine(OnInitCharacter(0.3f, new Vector3(-5 + 4 * i, 0, -7), ListCharacter[i].gameObject, wintarget, ListStair[i-1]));
         }
         bool isDebug = true;
         UIManager.instance.isNextButton(isDebug);
@@ -93,7 +110,6 @@ public class LevelManager : MonoBehaviour
         //Level = inGameLevel +1, check Level <5 -> level +++ else ko doi
         if (inGameLevel < 2)
         {
-            //Debug.Log("inGameLevel");
             inGameLevel++;
             PlayerPrefs.SetInt(Constant.LEVEL, inGameLevel);
             PlayerPrefs.Save();
@@ -116,20 +132,18 @@ public class LevelManager : MonoBehaviour
     }
     protected IEnumerator OnInitCharacter(float time,Vector3 vector3,GameObject gameobject,GameObject EndTarget, GameObject StairTP)
     {
-        gameobject.transform.position = new Vector3(0,5,0);
+        //gameobject.transform.position = new Vector3(0,5,0);
 
         yield return new WaitForSeconds(time);
         gameobject.transform.position = vector3;
         if (gameobject.TryGetComponent<BotAI>(out var botAI))
         {
-            botAI.StageLevel = 0;
             botAI.EndTarget = EndTarget;
             botAI.StairTP = StairTP.transform.position;
             botAI.ChangeState(new IdleState());
         }
         if (gameobject.TryGetComponent<Player>(out var player))
         {
-            player.StageLevel = 0;
             player.EndTarget = EndTarget;
         }
     }

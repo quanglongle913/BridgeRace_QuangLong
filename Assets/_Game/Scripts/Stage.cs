@@ -8,27 +8,13 @@ public class Stage : DrawMap
 
     [SerializeField] private int stageLevel = 0;
     [SerializeField] private ObjectPool brick;
-    private List<GameObject> listBrickInStage;
-    private List<Vector3> listPoolBrickPos;
-    public UnityAction<Stage, Character> CreateBrick;
 
-
+    public UnityAction<Stage, Character, LevelManager> CreateBrick;
 
     public int StageLevel { get => stageLevel; set => stageLevel = value; }
-  
     public ObjectPool Brick { get => brick; set => brick = value; }
 
-    public List<Vector3> ListPoolBrickPos { get => listPoolBrickPos; set => listPoolBrickPos = value; }
-    public List<GameObject> ListBrickInStage { get => listBrickInStage; set => listBrickInStage = value; }
-
-    private void Awake()
-    {
-
-        ListPoolBrickPos = new List<Vector3>();
-        listBrickInStage = new List<GameObject>();
-        ListPoolBrickPos = CreatePoolBrickPosMap(Row, Column, Offset, brickParent);
-    }
-    private List<Vector3> CreatePoolBrickPosMap(int row, int column, float offset, GameObject a_root)
+    public List<Vector3> CreatePoolBrickPosMap(int row, int column, float offset, GameObject a_root)
     {
         List<Vector3> listPoolBrickPos = new List<Vector3>();
         for (int i = 0; i < row; i++)
@@ -47,15 +33,16 @@ public class Stage : DrawMap
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<Character>(out var character))
+        if (other.gameObject.GetComponent<Character>()!=null)
         {
             //Character vào sàn thêm viên gạch có màu tương ứng với character 
             //Debug.Log("Stage Collider");
             //characterObject.StageLevel = this.StageLevel;
-            if (gameObject.GetComponent<SpawnerBrickStage>()!=null && gameObject.TryGetComponent<Stage>(out var stage))
+            if (gameObject.GetComponent<SpawnerBrickStage>()!=null && gameObject.GetComponent<Stage>())
             {
+                
                 //StartCoroutine(OnCreateBrick(0.5f,stage, character)) ;
-                CreateBrick(stage, character);
+                CreateBrick(gameObject.GetComponent<Stage>(), other.gameObject.GetComponent<Character>(), gameObject.transform.parent.GetComponent<Level>().LevelManager);
             } 
         }
     }
