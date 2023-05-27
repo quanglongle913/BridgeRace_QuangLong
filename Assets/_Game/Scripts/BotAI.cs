@@ -129,9 +129,10 @@ public class BotAI : Character
     }
     public void Won()
     {
-        ClearBrick();
+        //ClearBrick();
         ChangeState(new WonState());
         ChangeAnim("Dance");
+        LevelManager.gameState = GameState.EndGame;
     }
     public void Attack()
     {
@@ -143,6 +144,7 @@ public class BotAI : Character
         {
             ClearBrick();
             WinAction();
+            IsWin = false;
         }
         else 
         {

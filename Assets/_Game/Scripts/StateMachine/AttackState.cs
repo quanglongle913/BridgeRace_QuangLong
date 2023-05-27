@@ -15,7 +15,6 @@ public class AttackState : IState
         if (botAI.IsWin)
         {
             //Debug.Log("WIN");
-            botAI.IsWin = false;
             botAI.Win();
         }
         else if (botAI.BrickCount>0)

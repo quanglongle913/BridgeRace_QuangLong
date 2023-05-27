@@ -135,23 +135,22 @@ public class Character : PooledObject
         }*/
         //random màu trong danh sách màu ở Stage
         ColorType _colorType;
+        //TODO Kiểm tra vị trí đó có gạch hay chưa? if Có:=>ko tạo else -> tạo gạch
         if (stage)
         {
             int randomIndex = Random.Range(0, stage.ListColor.Count);
             _colorType = (ColorType)stage.ListColor[randomIndex];
+            PooledObject brickObject = Spawner(stage.Brick, stage.BrickParent);
+            Brick newBrickInStage = brickObject.GetComponent<Brick>();
+            newBrickInStage.ChangeColor(_colorType);
+            newBrickInStage.StageLevel = stageLevel;
+            newBrickInStage.transform.position = pos;
+            newBrickInStage.gameObject.SetActive(true);
+            LevelManager.ListBrickInStage[newBrickInStage.StageLevel - 1].Add(newBrickInStage);
         }
-        else
-        {
-            _colorType = (ColorType)0;
-        }
-        //TODO Kiểm tra vị trí đó có gạch hay chưa? if Có:=>ko tạo else -> tạo gạch
-        PooledObject brickObject = Spawner(stage.Brick, stage.BrickParent);
-        Brick newBrickInStage = brickObject.GetComponent<Brick>();
-        newBrickInStage.ChangeColor(_colorType);
-        newBrickInStage.StageLevel = stageLevel;
-        newBrickInStage.transform.position = pos;
-        newBrickInStage.gameObject.SetActive(true);
-        LevelManager.ListBrickInStage[newBrickInStage.StageLevel-1].Add(newBrickInStage);
+
+        
+        
     }
     private bool checkPosInList(Vector3 pos, List<Vector3> a_List)
     {
@@ -215,18 +214,5 @@ public class Character : PooledObject
                 AddBrick(brick);
             }
         }
-        /*if (other.gameObject.TryGetComponent<Stage>(out var stage))
-        {
-            //Debug.Log(other.gameObject.name);
-            this.stage = stage;
-            *//*if (LevelManager.gameState == GameState.Ingame)
-            {
-                StageLevel = stage.StageLevel;
-            }*/
-            /*if (StageLevel == 2 && gameObject.GetComponent<BotAI>())
-            {
-                MaxBrickInCharacter = 20;
-            }*//*
-        }*/
     }
 }

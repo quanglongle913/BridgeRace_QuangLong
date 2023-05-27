@@ -74,7 +74,6 @@ public class LevelManager : MonoBehaviour
             {
                 botAI.WinAction += PlayerLose;
                 botAI.OnInit();
-                ListCharacter[i].GetComponent<NavMeshAgent>().enabled = true;
                 botAI.transform.position = new Vector3(-5 + 4 * i, 0, -7);
                 botAI.EndTarget = wintarget;
                 botAI.StairTP = ListStair[i - 1].transform.position;
@@ -142,25 +141,6 @@ public class LevelManager : MonoBehaviour
             PlayerPrefs.SetInt(Constant.LEVEL, inGameLevel);
             PlayerPrefs.Save();
         }
-        /* for (int i = 0; i < listStage.Count; i++)
-        {
-            listStage[i].GetComponent<SpawnerBrickStage>().ListColor.Clear();
-
-        }
-        listStage.Clear();
-        listStair.Clear();
-
-        GameObject[] obj = GameObject.FindGameObjectsWithTag(Constant.TAG_LEVEL);
-        for (int i = 0; i < obj.Length; i++)
-        {
-            DestroyImmediate(obj[i], true);
-        }
-        SceneManager.LoadScene("Level2", LoadSceneMode.Additive);
-        //gameState = GameState.Init;
-        for (int i = 0; i < ListCharacter.Count; i++)
-        {
-            ListCharacter[i].gameObject.GetComponent<Character>().StageLevel = 0;
-        }*/
     }
     public void replay()
     {
@@ -182,7 +162,6 @@ public class LevelManager : MonoBehaviour
             if (ListCharacter[i].TryGetComponent<BotAI>(out var botAI))
             {
                 //botAI.IsWin = false;
-                //botAI.GetComponent<NavMeshAgent>().enabled = false;
                 botAI.transform.position = new Vector3(-5 + 4 * i, 2, -7);
                 botAI.StageLevel = 0;
                 Debug.Log(botAI.StageLevel);
@@ -191,20 +170,4 @@ public class LevelManager : MonoBehaviour
         InGameLevel = PlayerPrefs.GetInt(Constant.LEVEL, 0);
         SceneManager.LoadScene("" + listLevelScene[InGameLevel], LoadSceneMode.Additive);
     }
-    /*protected IEnumerator OnInitCharacter(float time,Vector3 vector3,GameObject gameobject,GameObject EndTarget, GameObject StairTP)
-    {
-        gameobject.transform.position = new Vector3(0,5,0);
-        yield return new WaitForSeconds(time);
-        gameobject.transform.position = vector3;
-        if (gameobject.TryGetComponent<BotAI>(out var botAI))
-        {
-            botAI.EndTarget = EndTarget;
-            botAI.StairTP = StairTP.transform.position;
-            botAI.ChangeState(new IdleState());
-        }
-        if (gameobject.TryGetComponent<Player>(out var player))
-        {
-            player.EndTarget = EndTarget;
-        }
-    }*/
 }

@@ -31,6 +31,7 @@ public class Player : Character
     public override void OnInit()
     {
         base.OnInit();
+        floatingJoystick.gameObject.SetActive(true);
         MoveSpeed = moveSpeed;
     }
   /*  public override void Update()
@@ -87,6 +88,7 @@ public class Player : Character
         ChangeAnim("Dance");
         floatingJoystick.gameObject.SetActive(false);
         WinAction();
+        LevelManager.gameState = GameState.EndGame;
     }
     private void Moving(float _horizontal, float _vertical)
     {
