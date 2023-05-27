@@ -16,22 +16,28 @@ public class BotAI : Character
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
     public NavMeshAgent Agent { get => agent; set => agent = value; }
     public Vector3 StairTP { get => stairTP; set => stairTP = value; }
-
+    private bool isStart;
     public override void Awake()
     {
         base.Awake();
-        stairTP = EndTarget.transform.position;
+        isStart = false;
+        //stairTP = EndTarget.transform.position;
     }
+    //Called in LevelManager
+  /*  private void Start()
+    {
+        OnInit();
+    }*/
     public override void OnInit()
     {
         base.OnInit();
-
         ChangeState(new IdleState());
         //StartCoroutine(OnInitBotAI(2f));
     }
     public void Update()
     {
-        if (currentState != null)
+        //base.Update();
+        if (currentState != null )
         {
             currentState.OnExecute(this);
         }
@@ -64,7 +70,7 @@ public class BotAI : Character
         //List<GameObject> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor)
         //UNDONE
         listBrickInStageCharacterColor.Clear();
-        //Debug.Log("stageLevel:" + stageLevel + "--Brick Count:" +LevelManager.ListBrickInStage[stageLevel-1].Count);
+        //Debug.Log("stageLevel:" + stageLevel + "--Brick Count:" +LevelManager.ListBrickInStage[index].Count);
         if (LevelManager.ListBrickInStage[index].Count != 0)
         {
             for (int i = 0; i < LevelManager.ListBrickInStage[index].Count; i++)

@@ -1190,7 +1190,7 @@ GameObject:
   - component: {fileID: 738860820}
   m_Layer: 0
   m_Name: LevelManager
-  m_TagString: Untagged
+  m_TagString: LevelManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1214,6 +1214,7 @@ MonoBehaviour:
   - {fileID: 1643643239}
   mainCamera: {fileID: 963194225}
   wintarget: {fileID: 0}
+  gameState: 0
 --- !u!4 &738860821
 Transform:
   m_ObjectHideFlags: 0
@@ -1717,7 +1718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f72814964217f4f4ebfe0f6ae86ad1f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelManager: {fileID: 738860820}
+  levelManager: {fileID: 0}
   listStage:
   - {fileID: 790088786}
   - {fileID: 1252343658}
@@ -2228,6 +2229,10 @@ PrefabInstance:
     - target: {fileID: 225508649581230637, guid: f3a1b06ab4f9fda4daf4d3710c0d7017, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 225508649581230637, guid: f3a1b06ab4f9fda4daf4d3710c0d7017, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230637, guid: f3a1b06ab4f9fda4daf4d3710c0d7017, type: 3}
       propertyPath: m_TagString

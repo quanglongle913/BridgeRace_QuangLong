@@ -15,10 +15,12 @@ public class Level : MonoBehaviour
     public GameObject Wintarget { get => wintarget; set => wintarget = value; }
     private void Start()
     {
+        levelManager = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>();
         if (ListStage != null)
         {
             levelManager.ListStage = ListStage;
         }
+
         if (Wintarget != null)
         {
             levelManager.Wintarget = Wintarget;

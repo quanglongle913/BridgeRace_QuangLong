@@ -22,14 +22,21 @@ public class Player : Character
     public override void Awake()
     {
         base.Awake();
-
     }
+    //Called in LevelManager
+    /*  private void Start()
+      {
+          OnInit();
+      }*/
     public override void OnInit()
     {
         base.OnInit();
-
         MoveSpeed = moveSpeed;
     }
+  /*  public override void Update()
+    {
+        base.Update();
+    }*/
     public void FixedUpdate()
     {
         horizontal = floatingJoystick.Horizontal;

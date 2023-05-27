@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
+
     [SerializeField] private List<GameObject> listCharacter;
-    //[SerializeField] private List<GameObject> listLevel;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] GameObject wintarget;
 
@@ -27,6 +28,9 @@ public class LevelManager : MonoBehaviour
     public List<Stage> ListStage { get => listStage; set => listStage = value; }
     public GameObject Wintarget { get => wintarget; set => wintarget = value; }
     public List<List<Vector3>> ListBrickPosInStage { get => listBrickPosInStage; set => listBrickPosInStage = value; }
+    
+    public GameState gameState;
+    private bool isInit;
     private void Awake()
     {
         if (instance == null)
@@ -35,14 +39,18 @@ public class LevelManager : MonoBehaviour
         }
         ListBrickInStage = new List<List<Brick>>();
         listBrickPosInStage = new List<List<Vector3>>();
+        isInit = false;
         //Debug.Log("Awake");
     }
     private void Start()
     {
-        OnInit();
+        //OnInit();
+        gameState = GameState.Init;
     }
     public void OnInit()
     {
+        ListBrickInStage.Clear();
+        listBrickPosInStage.Clear();
         mainCamera.GetComponent<CameraFollow>().OnInit();
         InGameLevel = PlayerPrefs.GetInt(Constant.LEVEL, 0);
         //Instantiate(ListLevel[InGameLevel], new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
@@ -60,12 +68,23 @@ public class LevelManager : MonoBehaviour
         for (int i = 1; i < ListCharacter.Count; i++)
         {
             ListCharacter[i].gameObject.GetComponent<BotAI>().WinAction += PlayerLose;
-            ListCharacter[i].gameObject.GetComponent<Character>().OnInit();
+            ListCharacter[i].gameObject.GetComponent<BotAI>().OnInit();
             StartCoroutine(OnInitCharacter(0.3f, new Vector3(-5 + 4 * i, 0, -7), ListCharacter[i].gameObject, wintarget, ListStair[i-1]));
         }
         bool isDebug = true;
         UIManager.instance.isNextButton(isDebug);
         UIManager.instance.isReplayButton(isDebug);
+        gameState = GameState.Ingame;
+    }
+    public void Update()
+    {
+        if (!isInit && gameState == GameState.Init && listStage.Count>0 && listStair.Count>0)
+        {
+            OnInit();
+            isInit = true;
+            //gameState = GameState.Ingame;
+        }
+        //Reset Character StageLevel =0
     }
     private void PlayerWin()
     {
@@ -114,26 +133,49 @@ public class LevelManager : MonoBehaviour
             PlayerPrefs.SetInt(Constant.LEVEL, inGameLevel);
             PlayerPrefs.Save();
         }
+        for (int i = 0; i < listStage.Count; i++)
+        {
+            listStage[i].GetComponent<SpawnerBrickStage>().ListColor.Clear();
+
+        }
+        listStage.Clear();
+        listStair.Clear();
+
         GameObject[] obj = GameObject.FindGameObjectsWithTag(Constant.TAG_LEVEL);
         for (int i = 0; i < obj.Length; i++)
         {
             DestroyImmediate(obj[i], true);
         }
+        SceneManager.LoadScene("Level2", LoadSceneMode.Additive);
+        gameState = GameState.EndGame;
+        isInit = false;
+        
+        for (int i = 0; i < ListCharacter.Count; i++)
+        {
+            ListCharacter[i].gameObject.GetComponent<Character>().StageLevel = 0;
+            if (i == ListCharacter.Count)
+            {
+                Debug.Log("Done");
+                gameState = GameState.Init;
+            }
+        }
+       
         OnInit();
     }
     public void replay()
     {
-        GameObject[] obj = GameObject.FindGameObjectsWithTag(Constant.TAG_LEVEL);
+        /*GameObject[] obj = GameObject.FindGameObjectsWithTag(Constant.TAG_LEVEL);
         for (int i = 0; i < obj.Length; i++)
         {
             DestroyImmediate(obj[i], true);
-        }
+        }*/
+        gameState = GameState.EndGame;
+        
         OnInit();
     }
     protected IEnumerator OnInitCharacter(float time,Vector3 vector3,GameObject gameobject,GameObject EndTarget, GameObject StairTP)
     {
         //gameobject.transform.position = new Vector3(0,5,0);
-
         yield return new WaitForSeconds(time);
         gameobject.transform.position = vector3;
         if (gameobject.TryGetComponent<BotAI>(out var botAI))

@@ -6,8 +6,6 @@ using UnityEngine.Events;
 
 public class Character : PooledObject
 {
-
-
     [SerializeField] private Animator anim;
     [SerializeField] protected float rotationSpeed = 1000f;
     [SerializeField] private float cooldownWindow = 5.0f;
@@ -28,12 +26,12 @@ public class Character : PooledObject
     //danh sách gạch cùng màu với nhân vật ở trên sân
     protected List<Brick> listBrickInStageCharacterColor;
     //danh sách gạch đc tạo sẵn ở lưng nhân vật
-    private List<GameObject> listBrickInCharacter;
-    public UnityAction<Character> CreateBrick;
+    public List<GameObject> listBrickInCharacter;
+    public UnityAction CreateBrick;
     private Stage stage;
     private string currentAnimName;
     public float meleeRange = 0.01f;
-    private int brickCount;
+    public int brickCount;
 
     public int stageLevel = 0;
     private Vector3 targetPoint;
@@ -60,24 +58,25 @@ public class Character : PooledObject
         listBrickInStageCharacterColor = new List<Brick>();
         listBrickInCharacter = new List<GameObject>();
     }
-    private void Start()
+    /*private void Start()
     {
-        OnInit();
-    }
+        //OnInit();
+    }*/
     public virtual void OnInit()
     {
+        //Do Not Set StageLevel = 0;
         ChangeColor(skinnedMeshRenderer, colorType);
-        listBrickInCharacter.Clear();
-        listBrickInStageCharacterColor.Clear();
-        
         IsWin = false;
         brickCount = 0;
-        StageLevel = 0;
+        listBrickInCharacter.Clear();
         //Create Pooling Object in BrickStackParent of Player
-        CreateBrick(gameObject.GetComponent<Character>());
-
+        CreateBrick();
+        //Debug.Log("Character OnInit");
     }
-
+    /*public virtual void Update()
+    {
+        OnInit();
+    }*/
     protected void ChangeAnim(string animName)
     {
 
@@ -175,13 +174,14 @@ public class Character : PooledObject
         if (BrickCount < maxBrickInCharacter)
         {
             BrickCount++;
+            //Debug.Log(BrickCount);
             //Hiển thị gạch trên lưng nhân vật tương ứng
             for (int i = 0; i < BrickCount; i++)
             {
-                //Debug.Log("Stack Brick in:" + listBrickInCharacter[i].name);
-                if (!listBrickInCharacter[i].activeSelf)
+                //Debug.Log("Stack Brick in:" + ListBrickInCharacter.Count);
+                if (!ListBrickInCharacter[i].activeSelf)
                 {
-                    listBrickInCharacter[i].SetActive(true);
+                    ListBrickInCharacter[i].SetActive(true);
                 }
             }
             StartCoroutine(ActiveBrickCoroutine(cooldownWindow, _brick));
@@ -195,14 +195,13 @@ public class Character : PooledObject
     public void RemoveBrick()
     {
         BrickCount--;
-        listBrickInCharacter[BrickCount].SetActive(false);
+        ListBrickInCharacter[BrickCount].SetActive(false);
     }
     public void ClearBrick()
     {
         for (int i=0;i<BrickCount;i++)
         {
-            
-            listBrickInCharacter[i].SetActive(false);
+            ListBrickInCharacter[i].SetActive(false);
         }
         BrickCount = 0;
     }

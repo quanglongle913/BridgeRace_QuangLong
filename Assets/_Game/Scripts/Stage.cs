@@ -40,7 +40,6 @@ public class Stage : DrawMap
             //characterObject.StageLevel = this.StageLevel;
             if (gameObject.GetComponent<SpawnerBrickStage>()!=null && gameObject.GetComponent<Stage>())
             {
-                
                 //StartCoroutine(OnCreateBrick(0.5f,stage, character)) ;
                 CreateBrick(gameObject.GetComponent<Stage>(), other.gameObject.GetComponent<Character>(), gameObject.transform.parent.GetComponent<Level>().LevelManager);
             } 

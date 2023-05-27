@@ -14,35 +14,35 @@ public class SpawnerBrickCharacter : PooledObject
     {
         if (character != null)
         {
-            character.CreateBrick += CreateBrickCharacter;
+            character.CreateBrick += CreateBrick;
         }
     }
     public void OnDespawn()
     {
         if (character != null)
         {
-            character.CreateBrick -= CreateBrickCharacter;
+            character.CreateBrick -= CreateBrick;
         }
     }
 
     //Create Pooling Object in BrickStackParent of Player
-    private void CreateBrickCharacter(Character _character)
+    private void CreateBrick()
     {
-            StartCoroutine(OnCreateBrickStackPoolingObj(0.2f, _character)); 
+            StartCoroutine(OnCreateBrickStackPoolingObj(0.5f)); 
     }
-    protected IEnumerator OnCreateBrickStackPoolingObj(float time, Character _character)
+    protected IEnumerator OnCreateBrickStackPoolingObj(float time)
     {
         yield return new WaitForSeconds(time);
         for (int i = 0; i < 50; i++)
         {
-            PooledObject brickObject = Spawner(_character.Brick, _character.BrickStackParent);
-            brickObject.GetComponent<BrickCharacter>().ChangeColor(_character.ColorType);
+            PooledObject brickObject = Spawner(character.Brick, character.BrickStackParent);
+            brickObject.GetComponent<BrickCharacter>().ChangeColor(character.ColorType);
             brickObject.transform.localPosition = new Vector3(0, i, 0);
             brickObject.transform.localScale = new Vector3(1, 0.96f, 1);
             brickObject.gameObject.SetActive(false);
             //Add to List
-            _character.ListBrickInCharacter.Add(brickObject.gameObject);
-          
+            character.ListBrickInCharacter.Add(brickObject.gameObject);
+            //Debug.Log("Character ListBrickInCharacter"+ character.ListBrickInCharacter.Count);
         }
     }
 }
