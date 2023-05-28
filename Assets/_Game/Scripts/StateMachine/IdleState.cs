@@ -9,6 +9,10 @@ public class IdleState : IState
     public void OnEnter(BotAI botAI)
     {
         botAI.StopMoving();
+        if (botAI.Agent.isStopped)
+        {
+            botAI.Agent.isStopped = false;
+        }
         timer = 0;
         randomTime = Random.Range(0.5f,1.0f);
         //Debug.Log("IdleState");

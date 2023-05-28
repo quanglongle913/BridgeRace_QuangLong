@@ -24,4 +24,10 @@ public class FloatingJoystick : Joystick
         background.gameObject.SetActive(false);
         base.OnPointerUp(eventData);
     }
+    //DONE Reset Joystick Horizontal Vertical 
+    public void OnReset() {
+        Handle.anchoredPosition = Vector2.zero;
+        Input = Vector2.zero;
+        background.gameObject.SetActive(false);
+    }
 }

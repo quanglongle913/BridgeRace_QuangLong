@@ -1351,7 +1351,6 @@ MonoBehaviour:
   yAxis: 20
   zAxis: -15
   levelManager: {fileID: 738860820}
-  isWin: 0
 --- !u!1 &1093432708
 GameObject:
   m_ObjectHideFlags: 0

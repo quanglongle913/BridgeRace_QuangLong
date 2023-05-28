@@ -67,14 +67,14 @@ public class LevelManager : MonoBehaviour
             {
                 player.WinAction += PlayerWin;
                 player.OnInit();
-                player.transform.position = new Vector3(-5, 0, -7);
+                //player.transform.position = new Vector3(-5, 0, -7);
                 player.EndTarget = wintarget;
             }
             if (ListCharacter[i].TryGetComponent<BotAI>(out var botAI))
             {
                 botAI.WinAction += PlayerLose;
                 botAI.OnInit();
-                botAI.transform.position = new Vector3(-5 + 4 * i, 0, -7);
+                //botAI.transform.position = new Vector3(-5 + 4 * i, 0, -7);
                 botAI.EndTarget = wintarget;
                 botAI.StairTP = ListStair[i - 1].transform.position;
                 botAI.ChangeState(new IdleState());
@@ -106,6 +106,7 @@ public class LevelManager : MonoBehaviour
         PLayerWinAction();
         UIManager.instance.isNextButton(true);
         UIManager.instance.isReplayButton(true);
+        gameState = GameState.EndGame;
     }
 
     private void PlayerLose()
@@ -118,12 +119,7 @@ public class LevelManager : MonoBehaviour
             }
             if (ListCharacter[i].TryGetComponent<BotAI>(out var botAI1))
             {
-                if (botAI1.IsWin)
-                {
-                    botAI1.Won();
-                   
-                }
-                else 
+                if (!botAI1.IsWin)
                 {
                     botAI1.StopAll();
                 }
@@ -131,6 +127,7 @@ public class LevelManager : MonoBehaviour
         }
         UIManager.instance.isNextButton(true);
         UIManager.instance.isReplayButton(true);
+        gameState = GameState.EndGame;
     }
     public void nextLevel()
     {
@@ -153,19 +150,10 @@ public class LevelManager : MonoBehaviour
         listStair.Clear();
         for (int i = 0; i < ListCharacter.Count; i++)
         {
-            if (ListCharacter[i].TryGetComponent<Player>(out var player))
-            {
-                //player.IsWin = false;
-                player.transform.position = new Vector3(-5, 2, -7);
-                player.StageLevel = 0;
-            }
-            if (ListCharacter[i].TryGetComponent<BotAI>(out var botAI))
-            {
-                //botAI.IsWin = false;
-                botAI.transform.position = new Vector3(-5 + 4 * i, 2, -7);
-                botAI.StageLevel = 0;
-                Debug.Log(botAI.StageLevel);
-            }
+            Character character= ListCharacter[i].GetComponent<Character>();
+            Vector3 newPos = new Vector3(-5 + 4 * i, 0, -7);
+            character.transform.position = newPos;
+            character.StageLevel = 0;
         }
         InGameLevel = PlayerPrefs.GetInt(Constant.LEVEL, 0);
         SceneManager.LoadScene("" + listLevelScene[InGameLevel], LoadSceneMode.Additive);

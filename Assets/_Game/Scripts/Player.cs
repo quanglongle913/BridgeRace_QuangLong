@@ -31,7 +31,6 @@ public class Player : Character
     public override void OnInit()
     {
         base.OnInit();
-        floatingJoystick.gameObject.SetActive(true);
         MoveSpeed = moveSpeed;
     }
   /*  public override void Update()
@@ -40,8 +39,11 @@ public class Player : Character
     }*/
     public void FixedUpdate()
     {
-        horizontal = floatingJoystick.Horizontal;
-        vertical = floatingJoystick.Vertical;
+        if (floatingJoystick.GetComponent<FloatingJoystick>().enabled)
+        {
+            horizontal = floatingJoystick.Horizontal;
+            vertical = floatingJoystick.Vertical;
+        }
         if (IsWin)
         {
             Won();
@@ -75,45 +77,49 @@ public class Player : Character
     public void Lose()
     {
         ClearBrick();
-        floatingJoystick.gameObject.SetActive(false);
+        floatingJoystick.OnReset();
         Debug.Log("You Losed");
     }
     private void Won()
     {
         ClearBrick();
         transform.position = EndTarget.transform.position;
+        Debug.Log("Win");
         transform.position = new Vector3(transform.position.x,transform.position.y +0.2f,transform.position.z);
         Quaternion target = Quaternion.Euler(0, 180, 0);
         transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * rotationSpeed);
         ChangeAnim("Dance");
-        floatingJoystick.gameObject.SetActive(false);
+        floatingJoystick.OnReset();
         WinAction();
-        LevelManager.gameState = GameState.EndGame;
+       
     }
     private void Moving(float _horizontal, float _vertical)
     {
-        //StepOffset =0.3f
-        Vector3 _Direction = new Vector3(_horizontal * moveSpeed * Time.fixedDeltaTime, _rigidbody.velocity.y, _vertical * moveSpeed * Time.fixedDeltaTime);
-        TargetPoint = new Vector3(_rigidbody.position.x + _Direction.x, _rigidbody.position.y, _rigidbody.position.z + _Direction.z);
-        RotateTowards(this.gameObject, _Direction);
-        if (!isWall(LayerMask.GetMask(Constant.LAYER_WALL_FLOOR)) && !isWall(LayerMask.GetMask(Constant.LAYER_WALL_STAIR_BRICK)))
+        if (LevelManager.gameState==GameState.Ingame && floatingJoystick.gameObject.activeSelf)
         {
-            float _hitRange = 0.2f;
-            //Đi lên cầu thang 
-            RaycastHit hit;
-            if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hit, _hitRange, LayerMask.GetMask(Constant.LAYER_STAIR_BRICK)))
+            Vector3 _Direction = new Vector3(_horizontal * moveSpeed * Time.fixedDeltaTime, _rigidbody.velocity.y, _vertical * moveSpeed * Time.fixedDeltaTime);
+            TargetPoint = new Vector3(_rigidbody.position.x + _Direction.x, _rigidbody.position.y, _rigidbody.position.z + _Direction.z);
+            RotateTowards(this.gameObject, _Direction);
+            if (!isWall(LayerMask.GetMask(Constant.LAYER_WALL_FLOOR)) && !isWall(LayerMask.GetMask(Constant.LAYER_WALL_STAIR_BRICK)))
             {
-                TargetPoint = new Vector3(hit.collider.transform.position.x, hit.collider.transform.position.y + stepOffset, hit.collider.transform.position.z - _hitRange*2);
-                MoveSpeed = moveSpeedStair;
+                float _hitRange = 0.2f;
+                //Đi lên cầu thang 
+                RaycastHit hit;
+                if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hit, _hitRange, LayerMask.GetMask(Constant.LAYER_STAIR_BRICK)))
+                {
+                    TargetPoint = new Vector3(hit.collider.transform.position.x, hit.collider.transform.position.y + stepOffset, hit.collider.transform.position.z - _hitRange * 2);
+                    MoveSpeed = moveSpeedStair;
+                }
+                else
+                {
+                    MoveSpeed = moveSpeed;
+
+                }
+                transform.position = TargetPoint;
+                ChangeAnim("Run");
             }
-            else
-            {
-                MoveSpeed = moveSpeed;
-                
-            }
-            transform.position = TargetPoint;
-            ChangeAnim("Run");
         }
+       
     }
     private bool isWall(LayerMask _layerMask)
     {

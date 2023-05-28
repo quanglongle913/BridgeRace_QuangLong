@@ -127,23 +127,18 @@ public class BotAI : Character
         ChangeState(new LoseState());
         ChangeAnim("Idle");
     }
-    public void Won()
-    {
-        //ClearBrick();
-        ChangeState(new WonState());
-        ChangeAnim("Dance");
-        LevelManager.gameState = GameState.EndGame;
-    }
     public void Attack()
     {
         agent.SetDestination(stairTP);
     }
-    public void Win()
+    public void Won()
     {
         if (IsDes(EndTarget))
         {
             ClearBrick();
             WinAction();
+            ChangeState(new WonState());
+            ChangeAnim("Dance");
             IsWin = false;
         }
         else 

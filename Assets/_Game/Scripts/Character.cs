@@ -39,7 +39,7 @@ public class Character : PooledObject
     public ColorType ColorType => colorType;
     public ObjectPool Brick => brick;
     public GameObject BrickStackParent => brickStackParent;
-    private bool isWin = false;
+    public bool isWin = false;
 
     public GameObject EndTarget { get => endTarget; set => endTarget = value; }
     public List<GameObject> ListBrickInCharacter { get => listBrickInCharacter; set => listBrickInCharacter = value; }
