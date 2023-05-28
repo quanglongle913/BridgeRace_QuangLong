@@ -77,6 +77,9 @@ public class BotAI : Character
                 if (colorType == LevelManager.ListBrickInStage[index][i].GetComponent<Brick>().ColorType)
                 {
                     listBrickInStageCharacterColor.Add(LevelManager.ListBrickInStage[index][i]);
+                } else if (colorType==ColorType.None)
+                {
+                    listBrickInStageCharacterColor.Add(LevelManager.ListBrickInStage[index][i]);
                 }
             }
         }
@@ -96,14 +99,6 @@ public class BotAI : Character
         }
         return BrickTarget;
     }
-   /* private GameObject getBrickObjectFromList(int index, List<GameObject> listBrickObject)
-    {
-        return listBrickObject[index];
-    }*/
-  /*  private bool isActiveObj(Brick gameObj)
-    {
-        return gameObj.activeSelf;
-    }*/
     private int getListBrickObjectCount(List<Brick> listObj)
     {
         return listObj.Count;
@@ -126,6 +121,13 @@ public class BotAI : Character
         ClearBrick();
         ChangeState(new LoseState());
         ChangeAnim("Idle");
+    }
+    public void Stun()
+    {
+        ////TODO BrickCount =0 and random Brick to Stage
+        RandomBrick(gameObject.GetComponent<Character>());
+        isBrickTarget = true;
+        ChangeAnim("Falling");
     }
     public void Attack()
     {

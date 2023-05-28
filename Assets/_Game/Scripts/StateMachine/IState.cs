@@ -4,10 +4,10 @@ using UnityEngine;
 
     public interface IState
     {
-        void OnEnter(BotAI enemy);
+        void OnEnter(BotAI botAI);
 
-        void OnExecute(BotAI enemy);
+        void OnExecute(BotAI botAI);
 
-        void OnExit(BotAI enemy);
+        void OnExit(BotAI botAI);
     }
 

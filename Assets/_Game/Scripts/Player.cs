@@ -14,9 +14,9 @@ public class Player : Character
     [SerializeField] GameObject stepRayLower;
 
     public UnityAction WinAction;
-
     private float MoveSpeed;
     private float horizontal;
+    public bool isStun;
     private float vertical;
     float stepOffset = 0.36f;
     public override void Awake()
@@ -31,6 +31,7 @@ public class Player : Character
     public override void OnInit()
     {
         base.OnInit();
+        isStun = false;
         MoveSpeed = moveSpeed;
     }
   /*  public override void Update()
@@ -59,7 +60,8 @@ public class Player : Character
                 }
                 else if (horizontal == 0 || vertical == 0)
                 {
-                    ChangeAnim("Idle");
+                    if (!isStun)
+                    { ChangeAnim("Idle"); }
                 }
                 //Chuyển nhân vật về sát mặt đất
                 if (!CheckGrounded(0.05f))
@@ -95,7 +97,7 @@ public class Player : Character
     }
     private void Moving(float _horizontal, float _vertical)
     {
-        if (LevelManager.GameState == GameState.Ingame && floatingJoystick.gameObject.activeSelf)
+        if (LevelManager.GameState == GameState.Ingame && !isStun)
         {
             Vector3 _Direction = new Vector3(_horizontal * moveSpeed * Time.fixedDeltaTime, _rigidbody.velocity.y, _vertical * moveSpeed * Time.fixedDeltaTime);
             TargetPoint = new Vector3(_rigidbody.position.x + _Direction.x, _rigidbody.position.y, _rigidbody.position.z + _Direction.z);
@@ -120,6 +122,22 @@ public class Player : Character
             }
         }
        
+    }
+    public void StopMoving()
+    {
+        ChangeAnim("Idle");
+    }
+    public void Stuned()
+    {
+        //TODO BrickCount =0 and random Brick to Stage
+        ChangeAnim("Falling");
+        StartCoroutine(StunCoroutine(Random.Range(2.0f, 3.5f)));
+    }
+    private IEnumerator StunCoroutine(float time)
+    {
+        isStun = true;
+        yield return new WaitForSeconds(time);
+        isStun = false;
     }
     private bool isWall(LayerMask _layerMask)
     {

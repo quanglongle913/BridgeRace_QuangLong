@@ -121,7 +121,6 @@ public class Character : PooledObject
     // khi nhân vật ăn gạch thì Ẩn và hiện gạch sau 1 khoảng TIME 
     protected IEnumerator ActiveBrickCoroutine(float time, Brick _brick)
     {
-        // //UNDONE
         Vector3 pos = _brick.transform.position;
         LevelManager.ListBrickInStage[stageLevel-1].Remove(_brick);
         _brick.GetComponent<PooledObject>().Release();
@@ -167,7 +166,64 @@ public class Character : PooledObject
             //Debug.Log("FULL Stack Brick in:" + transform.gameObject.name);
         }
     }
+    private void AddBrickNone(Brick _brick)
+    {
+        if (BrickCount < maxBrickInCharacter)
+        {
+            BrickCount++;
+            ListBrickInCharacter[BrickCount - 1].SetActive(true);
+            LevelManager.ListBrickInStage[stageLevel - 1].Remove(_brick);
+            _brick.GetComponent<PooledObject>().Release();
+        }
+        else
+        {
+            //Debug.Log("FULL Stack Brick in:" + transform.gameObject.name);
+        }
+    }
+    public List<Vector3> CreatePoolBrickPosMap(Vector3 a_root, int bỉckCount)
+    {
+        List<Vector3> listPoolBrickPos = new List<Vector3>();
+        int Row = Mathf.CeilToInt(Mathf.Sqrt(brickCount));
+        //Debug.Log("Brick Count: "+brickCount+" || ROW:"+Row);
+        int Column = Row;
+        float offset = 0.0f;
+        for (int i = 0; i < Row; i++)
+        {
+            for (int j = 0; j < Column; j++)
+            {
+                Vector3 birckPosition = new Vector3((j - (Row / 2)) + offset * j + a_root.x, 0.05f + a_root.y, ((Column / 2) - i) - offset * i + a_root.z);
+                listPoolBrickPos.Add(birckPosition);
+            }
+        }
+        return listPoolBrickPos;
+    }
+    public void RandomBrick(Character a_obj)
+    {
+        List<Vector3> listPoolBrickPos = new List<Vector3>();
+        listPoolBrickPos = CreatePoolBrickPosMap(gameObject.transform.position, BrickCount);
 
+        for (int i = 0; i < a_obj.BrickCount; i++)
+        {
+            int randomIndex = Random.Range(0, listPoolBrickPos.Count);
+            Vector3 a_vector3 = listPoolBrickPos[randomIndex];
+            PooledObject brickObject = Spawner(stage.Brick, stage.BrickParent);
+            brickObject.transform.position = a_vector3;
+            Brick brick = brickObject.GetComponent<Brick>();
+            brick.ChangeColor(ColorType.None);
+            brick.StageLevel = stageLevel;
+            listPoolBrickPos.Remove(a_vector3);
+            levelManager.ListBrickInStage[stageLevel - 1].Add(brick);
+            StartCoroutine(RandomBrickCoroutine(cooldownWindow, brick));
+        }
+        ClearBrick();
+    }
+    protected IEnumerator RandomBrickCoroutine(float time, Brick _brick)
+    {
+        //UNDONE
+        yield return new WaitForSeconds(time);
+        LevelManager.ListBrickInStage[stageLevel - 1].Remove(_brick);
+        _brick.GetComponent<PooledObject>().Release();
+    }
     public void RemoveBrick()
     {
         ListBrickInCharacter[BrickCount - 1].SetActive(false);
@@ -179,7 +235,6 @@ public class Character : PooledObject
         {
             ListBrickInCharacter[i].SetActive(false);
         }
-        
         BrickCount = 0;
     }
     public void ChangeColor(GameObject a_obj, ColorType colorType)
@@ -195,6 +250,25 @@ public class Character : PooledObject
             if (brick.StageLevel == stageLevel && brick.ColorType == colorType)
             {
                 AddBrick(brick);
+            }
+            else if (brick.StageLevel == stageLevel && brick.ColorType == ColorType.None)
+            {
+                AddBrickNone(brick);
+            }
+        }
+        if (other.gameObject.GetComponent<Player>())
+        {
+            Player player = other.gameObject.GetComponent<Player>();
+
+            if (BrickCount < player.BrickCount)
+            {
+                //Debug.Log("Stun BotAI.......");
+                gameObject.GetComponent<BotAI>().ChangeState(new StunState());
+            }
+            else if (BrickCount > player.BrickCount)
+            {
+                //Debug.Log("Stun Player.......");
+                player.Stuned();  
             }
         }
     }
