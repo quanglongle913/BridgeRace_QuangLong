@@ -11,6 +11,7 @@ public class StunState : IState
 
         botAI.Stun();
         botAI.Agent.isStopped = true;
+        botAI.Agent.ResetPath();
         timer = 0;
         randomTime = Random.Range(2.0f, 3.5f);
     }

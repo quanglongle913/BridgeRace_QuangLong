@@ -155,7 +155,7 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < ListCharacter.Count; i++)
         {
             Character character = ListCharacter[i].GetComponent<Character>();
-            Vector3 newPos = new Vector3(-5 + 4 * i, 0, -7);
+            Vector3 newPos = new Vector3(-5 + 4 * i, 0, -9.2f);
             character.transform.position = newPos;
             character.StageLevel = 0;
         }

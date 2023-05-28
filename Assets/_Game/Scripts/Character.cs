@@ -153,14 +153,33 @@ public class Character : PooledObject
         }
         return false;
     }
+    
     private void AddBrick(Brick _brick)
     {
         if (BrickCount < maxBrickInCharacter)
         {
-            BrickCount++;
+            //OLD
+            /*BrickCount++;
             ListBrickInCharacter[BrickCount-1].SetActive(true);
-            _brick.transform.DOLocalMove(ListBrickInCharacter[BrickCount - 1].transform.position,0.2f);
-            //_brick.transform.DOLocalMove
+            StartCoroutine(ActiveBrickCoroutine(cooldownWindow, _brick));*/
+            //NEW  DONE
+            BrickCount++;
+            int index = BrickCount;
+            PooledObject brickObject = Spawner(Brick, BrickStackParent);
+            brickObject.GetComponent<BrickCharacter>().ChangeColor(ColorType);
+            brickObject.transform.localPosition = new Vector3(0, index + 2, 0);
+            brickObject.transform.localScale = new Vector3(1, 0.96f, 1);
+            brickObject.gameObject.SetActive(true);
+
+            brickObject.transform.DOMoveY(ListBrickInCharacter[index - 1].transform.position.y, 1.0f)
+                .SetEase(Ease.InElastic)
+                .SetLoops(1, LoopType.Yoyo)
+                .OnComplete(() =>
+                {
+                    //TODO
+                    ListBrickInCharacter[index - 1].SetActive(true);
+                    brickObject.Release();
+                });
             StartCoroutine(ActiveBrickCoroutine(cooldownWindow, _brick));
         }
         else
@@ -188,7 +207,7 @@ public class Character : PooledObject
         int Row = Mathf.CeilToInt(Mathf.Sqrt(brickCount));
         //Debug.Log("Brick Count: "+brickCount+" || ROW:"+Row);
         int Column = Row;
-        float offset = 0.0f;
+        float offset = 0.6f;
         for (int i = 0; i < Row; i++)
         {
             for (int j = 0; j < Column; j++)
