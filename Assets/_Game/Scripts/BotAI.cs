@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class BotAI : Character
 {
+    [Header("NavMeshAgent: ")]
     [SerializeField] private NavMeshAgent agent;
 
     private bool isBrickTarget = false;
@@ -16,7 +17,8 @@ public class BotAI : Character
     public bool IsBrickTarget { get => isBrickTarget; set => isBrickTarget = value; }
     public NavMeshAgent Agent { get => agent; set => agent = value; }
     public Vector3 StairTP { get => stairTP; set => stairTP = value; }
-  
+
+
     public override void Awake()
     {
         base.Awake();

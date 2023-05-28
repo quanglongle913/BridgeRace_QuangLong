@@ -21,7 +21,9 @@ public class Character : PooledObject
     [SerializeField] GameObject skinnedMeshRenderer;
     [SerializeField] private ColorData colorData;
     [SerializeField] protected ColorType colorType;
-  
+
+    [Header("ParticleSystem: ")]
+    [SerializeField] private ParticleSystem particleSystem;
 
     //danh sách gạch cùng màu với nhân vật ở trên sân
     protected List<Brick> listBrickInStageCharacterColor;
@@ -52,6 +54,7 @@ public class Character : PooledObject
     public float CooldownWindow { get => cooldownWindow; set => cooldownWindow = value; }
     public Stage Stage { get => stage; set => stage = value; }
     public LevelManager LevelManager { get => levelManager; set => levelManager = value; }
+    public ParticleSystem ParticleSystem { get => particleSystem; set => particleSystem = value; }
 
     public virtual void Awake()
     {

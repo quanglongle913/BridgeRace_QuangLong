@@ -13,6 +13,7 @@ public class IdleState : IState
         {
             botAI.Agent.isStopped = false;
         }
+        botAI.ParticleSystem.Stop();
         timer = 0;
         randomTime = Random.Range(0.5f,1.0f);
         //Debug.Log("IdleState");

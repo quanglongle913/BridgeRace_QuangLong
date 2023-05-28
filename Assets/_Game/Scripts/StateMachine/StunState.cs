@@ -12,6 +12,7 @@ public class StunState : IState
         botAI.Stun();
         botAI.Agent.isStopped = true;
         botAI.Agent.ResetPath();
+        botAI.ParticleSystem.Play();
         timer = 0;
         randomTime = Random.Range(2.0f, 3.5f);
     }

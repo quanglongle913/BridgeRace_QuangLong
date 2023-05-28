@@ -61,7 +61,9 @@ public class Player : Character
                 else if (horizontal == 0 || vertical == 0)
                 {
                     if (!isStun)
-                    { ChangeAnim("Idle"); }
+                    { 
+                        ChangeAnim("Idle");
+                    }
                 }
                 //Chuyển nhân vật về sát mặt đất
                 if (!CheckGrounded(0.05f))
@@ -74,6 +76,14 @@ public class Player : Character
                 StickToGround(stepOffset);
             }
 
+        }
+        if (isStun)
+        {
+            gameObject.GetComponent<Player>().ParticleSystem.Play();
+        }
+        else if(!isStun)
+        {
+            gameObject.GetComponent<Player>().ParticleSystem.Stop();
         }
     }
     public void Lose()
