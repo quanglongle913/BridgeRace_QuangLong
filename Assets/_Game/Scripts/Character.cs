@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
-
+using DG.Tweening;
 public class Character : PooledObject
 {
     [SerializeField] private Animator anim;
@@ -159,6 +159,8 @@ public class Character : PooledObject
         {
             BrickCount++;
             ListBrickInCharacter[BrickCount-1].SetActive(true);
+            _brick.transform.DOLocalMove(ListBrickInCharacter[BrickCount - 1].transform.position,0.2f);
+            //_brick.transform.DOLocalMove
             StartCoroutine(ActiveBrickCoroutine(cooldownWindow, _brick));
         }
         else

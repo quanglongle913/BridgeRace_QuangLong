@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class StairBrick : MonoBehaviour
 {
 
@@ -27,7 +27,7 @@ public class StairBrick : MonoBehaviour
                 if (botAI.BrickCount > 0)
                 {
                     botAI.RemoveBrick();
-                    brick.ChangeColor(botAI.ColorType);
+                    brick.ChangeColorColorLight(botAI.ColorType);
                     mesh.enabled = true;
                     if (index == 12)
                     {
@@ -54,7 +54,7 @@ public class StairBrick : MonoBehaviour
                 if (botAI.BrickCount > 0)
                 {
                     botAI.RemoveBrick();
-                    brick.ChangeColor(botAI.ColorType);
+                    brick.ChangeColorColorLight(botAI.ColorType);
                     mesh.enabled = true;
                     if (index == 12)
                     {
@@ -101,7 +101,7 @@ public class StairBrick : MonoBehaviour
                         player.IsWin = true;
                     }
                     player.RemoveBrick();
-                    brick.ChangeColor(player.ColorType);
+                    brick.ChangeColorColorLight(player.ColorType);
                     mesh.enabled = true;
                     wall.SetActive(false);
                 }
@@ -119,7 +119,7 @@ public class StairBrick : MonoBehaviour
                         player.IsWin = true;
                     }
                     player.RemoveBrick();
-                    brick.ChangeColor(player.ColorType);
+                    brick.ChangeColorColorLight(player.ColorType);
                     mesh.enabled = true;
                     wall.SetActive(false);
                 }

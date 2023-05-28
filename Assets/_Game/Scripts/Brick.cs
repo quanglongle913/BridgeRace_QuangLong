@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class Brick : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
@@ -17,5 +17,12 @@ public class Brick : MonoBehaviour
         this.colorType = colorType;
        
         meshRenderer.material = colorData.GetMat(colorType);
+    }
+    public void ChangeColorColorLight(ColorType colorType)
+    {
+        this.colorType = colorType;
+
+        //meshRenderer.material = colorData.GetMat(colorType);
+        meshRenderer.material.DOColor(colorData.GetMat(colorType).color, 1f);
     }
 }

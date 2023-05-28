@@ -295,7 +295,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dfeaeb4277f8231449f41fc71bf91003, type: 2}
+  - {fileID: 2100000, guid: 18e1fa4937a844144b3f36140d4d0193, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -352,9 +352,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 6374179008461820877}
   index: 0
-  meshRenderer: {fileID: 6374179007345592306}
-  colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
-  colorType: 0
 --- !u!114 &6111707209189117644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +367,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 6374179007345592306}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &6374179007626018224
 GameObject:
   m_ObjectHideFlags: 0

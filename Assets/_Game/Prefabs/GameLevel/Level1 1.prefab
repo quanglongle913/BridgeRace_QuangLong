@@ -207,7 +207,6 @@ GameObject:
   - component: {fileID: 1612847946567915566}
   - component: {fileID: 1612847946567915567}
   - component: {fileID: 1612847946567915554}
-  - component: {fileID: 1452953783300928207}
   m_Layer: 0
   m_Name: WinPos
   m_TagString: Floor
@@ -316,22 +315,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1452953783300928207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612847946567915565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d99c5b7035fa2ea4fa698e37616cbba4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listStair:
-  - {fileID: 2849397466693844806}
-  - {fileID: 2849397467813863069}
-  - {fileID: 2849397465853541770}
 --- !u!1 &1958273278759327229
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,6 +868,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 2849397466710138676}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &2849397466791547382
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,6 +1074,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 2849397467056684067}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &2849397467195459169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1454,6 +1439,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 2849397467831189231}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &2849397467843103499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1627,6 +1613,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 2849397467996524639}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &2914841118651110886
 GameObject:
   m_ObjectHideFlags: 0
@@ -2964,6 +2951,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535602689132372}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535602697863791
 GameObject:
   m_ObjectHideFlags: 0
@@ -3124,6 +3112,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535602718358649}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535602729606331
 GameObject:
   m_ObjectHideFlags: 0
@@ -3348,6 +3337,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535602768509033}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535602790086996
 GameObject:
   m_ObjectHideFlags: 0
@@ -3702,6 +3692,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535602854488548}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535602871798166
 GameObject:
   m_ObjectHideFlags: 0
@@ -4020,6 +4011,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535602934503129}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535602935739570
 GameObject:
   m_ObjectHideFlags: 0
@@ -4212,6 +4204,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535602953291241}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535602954838884
 GameObject:
   m_ObjectHideFlags: 0
@@ -4404,6 +4397,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535602971067158}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535602976110583
 GameObject:
   m_ObjectHideFlags: 0
@@ -5170,6 +5164,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603119991515}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603137268393
 GameObject:
   m_ObjectHideFlags: 0
@@ -5851,6 +5846,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603254626085}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603270936407
 GameObject:
   m_ObjectHideFlags: 0
@@ -6088,6 +6084,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603282034675}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603297841451
 GameObject:
   m_ObjectHideFlags: 0
@@ -6438,6 +6435,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603356674453}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603360332621
 GameObject:
   m_ObjectHideFlags: 0
@@ -6566,6 +6564,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603360332617}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603372804197
 GameObject:
   m_ObjectHideFlags: 0
@@ -6835,6 +6834,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603392554397}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603393539671
 GameObject:
   m_ObjectHideFlags: 0
@@ -7189,6 +7189,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603417113766}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603433374932
 GameObject:
   m_ObjectHideFlags: 0
@@ -7575,6 +7576,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603488669365}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603506011847
 GameObject:
   m_ObjectHideFlags: 0
@@ -8038,6 +8040,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603615033863}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603629255468
 GameObject:
   m_ObjectHideFlags: 0
@@ -8166,6 +8169,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603629255464}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603659247617
 GameObject:
   m_ObjectHideFlags: 0
@@ -8294,6 +8298,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603659247621}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603664708836
 GameObject:
   m_ObjectHideFlags: 0
@@ -8522,6 +8527,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603691148812}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603701228741
 GameObject:
   m_ObjectHideFlags: 0
@@ -8750,6 +8756,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603709793301}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603728871763
 GameObject:
   m_ObjectHideFlags: 0
@@ -9221,6 +9228,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603805325584}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603807049578
 GameObject:
   m_ObjectHideFlags: 0
@@ -9667,6 +9675,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603895088411}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603896473456
 GameObject:
   m_ObjectHideFlags: 0
@@ -9859,6 +9868,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603912685314}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603913538760
 GameObject:
   m_ObjectHideFlags: 0
@@ -10208,6 +10218,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535603959007295}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535603975317581
 GameObject:
   m_ObjectHideFlags: 0
@@ -10609,6 +10620,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604035443940}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604037292069
 GameObject:
   m_ObjectHideFlags: 0
@@ -10927,6 +10939,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604131685808}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604148740809
 GameObject:
   m_ObjectHideFlags: 0
@@ -10970,7 +10983,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3225535604148740809}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11055,6 +11068,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604148740813}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604150142016
 GameObject:
   m_ObjectHideFlags: 0
@@ -11215,6 +11229,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604169443249}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604200516654
 GameObject:
   m_ObjectHideFlags: 0
@@ -11443,6 +11458,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604225906782}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604230572804
 GameObject:
   m_ObjectHideFlags: 0
@@ -11571,6 +11587,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604230572800}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604241954972
 GameObject:
   m_ObjectHideFlags: 0
@@ -11763,6 +11780,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604246973565}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604260195648
 GameObject:
   m_ObjectHideFlags: 0
@@ -11927,6 +11945,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604263405194}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604277137241
 GameObject:
   m_ObjectHideFlags: 0
@@ -12136,6 +12155,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604305308621}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604311041324
 GameObject:
   m_ObjectHideFlags: 0
@@ -12377,6 +12397,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604336778792}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604342297321
 GameObject:
   m_ObjectHideFlags: 0
@@ -12569,6 +12590,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604361638946}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604364175098
 GameObject:
   m_ObjectHideFlags: 0
@@ -12697,6 +12719,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604364175102}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604381484684
 GameObject:
   m_ObjectHideFlags: 0
@@ -12857,6 +12880,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604382965761}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604395993842
 GameObject:
   m_ObjectHideFlags: 0
@@ -12985,6 +13009,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604395993846}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604403859870
 GameObject:
   m_ObjectHideFlags: 0
@@ -13294,6 +13319,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604438823064}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604448374937
 GameObject:
   m_ObjectHideFlags: 0
@@ -13467,6 +13493,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604470252925}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604487611663
 GameObject:
   m_ObjectHideFlags: 0
@@ -13627,6 +13654,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604494746694}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604505763630
 GameObject:
   m_ObjectHideFlags: 0
@@ -13949,6 +13977,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604531174034}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604536101320
 GameObject:
   m_ObjectHideFlags: 0
@@ -14077,6 +14106,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604536101324}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604542337442
 GameObject:
   m_ObjectHideFlags: 0
@@ -14346,6 +14376,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604566628711}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604574325720
 GameObject:
   m_ObjectHideFlags: 0
@@ -14474,6 +14505,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604574325724}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604586385588
 GameObject:
   m_ObjectHideFlags: 0
@@ -14968,6 +15000,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604667146094}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604676940175
 GameObject:
   m_ObjectHideFlags: 0
@@ -15422,6 +15455,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604737226711}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604744398184
 GameObject:
   m_ObjectHideFlags: 0
@@ -15550,6 +15584,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 3225535604744398188}
   colorData: {fileID: 11400000, guid: 9d7172e7bd9ba4fd3bae033e1e50909e, type: 2}
   colorType: 0
+  stageLevel: 0
 --- !u!1 &3225535604746910486
 GameObject:
   m_ObjectHideFlags: 0
