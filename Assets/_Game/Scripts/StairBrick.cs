@@ -42,9 +42,13 @@ public class StairBrick : MonoBehaviour
                     {
                         botAI.StairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
                     }
-
+                }
+                else
+                { //Quay ve lay gach
+                    botAI.ChangeState(new IdleState());
                 }
             }
+            //mesh.enabled && 
             else if (botAI.ColorType != brick.ColorType)
             {
                 if (botAI.BrickCount > 0)
@@ -65,6 +69,23 @@ public class StairBrick : MonoBehaviour
                     {
                         botAI.StairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
                     }
+                }
+            }
+            //mesh.enabled && ColorType==
+            else
+            {
+                if (index == 12)
+                {
+                    botAI.StairTP = botAI.EndTarget.transform.position;
+                }
+                else if (index == 26)
+                {
+                    botAI.IsWin = true;
+                    botAI.StairTP = botAI.EndTarget.transform.position;
+                }
+                else
+                {
+                    botAI.StairTP = new Vector3(transform.position.x, transform.position.y + 0.33f, transform.position.z + 0.72f);
                 }
             }
             

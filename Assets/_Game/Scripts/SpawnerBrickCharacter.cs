@@ -32,6 +32,13 @@ public class SpawnerBrickCharacter : PooledObject
     }
     protected IEnumerator OnCreateBrickStackPoolingObj(float time)
     {
+        for (int i = 0; i < character.ListBrickInCharacter.Count; i++)
+        {
+            character.ListBrickInCharacter[i].SetActive(false);
+            character.ListBrickInCharacter[i].GetComponent<PooledObject>().Release();
+        }
+        character.ListBrickInCharacter.Clear();
+       
         yield return new WaitForSeconds(time);
         for (int i = 0; i < 50; i++)
         {

@@ -95,7 +95,7 @@ public class Player : Character
     }
     private void Moving(float _horizontal, float _vertical)
     {
-        if (LevelManager.gameState==GameState.Ingame && floatingJoystick.gameObject.activeSelf)
+        if (LevelManager.GameState == GameState.Ingame && floatingJoystick.gameObject.activeSelf)
         {
             Vector3 _Direction = new Vector3(_horizontal * moveSpeed * Time.fixedDeltaTime, _rigidbody.velocity.y, _vertical * moveSpeed * Time.fixedDeltaTime);
             TargetPoint = new Vector3(_rigidbody.position.x + _Direction.x, _rigidbody.position.y, _rigidbody.position.z + _Direction.z);

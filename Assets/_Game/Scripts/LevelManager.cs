@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
     private List<List<Vector3>> listBrickPosInStage;
     public int inGameLevel;
     private List<GameObject> listStair;
-
+    private GameState gameState;
     public List<GameObject> ListStair { get => listStair; set => listStair = value; }
     public List<GameObject> ListCharacter { get => listCharacter; set => listCharacter = value; }
     public int InGameLevel { get => inGameLevel; set => inGameLevel = value; }
@@ -29,8 +29,9 @@ public class LevelManager : MonoBehaviour
     public List<Stage> ListStage { get => listStage; set => listStage = value; }
     public GameObject Wintarget { get => wintarget; set => wintarget = value; }
     public List<List<Vector3>> ListBrickPosInStage { get => listBrickPosInStage; set => listBrickPosInStage = value; }
-    
-    public GameState gameState;
+    public GameState GameState { get => gameState; set => gameState = value; }
+
+   
     private void Awake()
     {
         if (instance == null)
@@ -67,14 +68,12 @@ public class LevelManager : MonoBehaviour
             {
                 player.WinAction += PlayerWin;
                 player.OnInit();
-                //player.transform.position = new Vector3(-5, 0, -7);
                 player.EndTarget = wintarget;
             }
             if (ListCharacter[i].TryGetComponent<BotAI>(out var botAI))
             {
                 botAI.WinAction += PlayerLose;
                 botAI.OnInit();
-                //botAI.transform.position = new Vector3(-5 + 4 * i, 0, -7);
                 botAI.EndTarget = wintarget;
                 botAI.StairTP = ListStair[i - 1].transform.position;
                 botAI.ChangeState(new IdleState());
@@ -138,8 +137,13 @@ public class LevelManager : MonoBehaviour
             PlayerPrefs.SetInt(Constant.LEVEL, inGameLevel);
             PlayerPrefs.Save();
         }
+        initSceneWithGameLevel();
     }
     public void replay()
+    {
+        initSceneWithGameLevel();
+    }
+    private void initSceneWithGameLevel() 
     {
         GameObject[] obj = GameObject.FindGameObjectsWithTag(Constant.TAG_LEVEL);
         for (int i = 0; i < obj.Length; i++)
@@ -150,7 +154,7 @@ public class LevelManager : MonoBehaviour
         listStair.Clear();
         for (int i = 0; i < ListCharacter.Count; i++)
         {
-            Character character= ListCharacter[i].GetComponent<Character>();
+            Character character = ListCharacter[i].GetComponent<Character>();
             Vector3 newPos = new Vector3(-5 + 4 * i, 0, -7);
             character.transform.position = newPos;
             character.StageLevel = 0;

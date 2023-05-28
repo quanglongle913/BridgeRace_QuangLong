@@ -36,7 +36,7 @@ public class BotAI : Character
     public void Update()
     {
         //base.Update();
-        if (currentState != null && LevelManager.gameState==GameState.Ingame)
+        if (currentState != null && LevelManager.GameState == GameState.Ingame)
         {
             currentState.OnExecute(this);
         }

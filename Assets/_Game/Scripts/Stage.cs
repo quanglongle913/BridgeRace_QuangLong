@@ -11,8 +11,7 @@ public class Stage : DrawMap
     private List<int> listColor;
 
     public UnityAction<Character, LevelManager> CreateBrick;
-    
-
+ 
     public List<int> ListColor { get => listColor; set => listColor = value; }
     public int StageLevel { get => stageLevel; set => stageLevel = value; }
     public ObjectPool Brick { get => brick; set => brick = value; }

@@ -22,7 +22,7 @@ public class Level : MonoBehaviour
             levelManager.ListStage = ListStage;
             levelManager.Wintarget = Wintarget;
             levelManager.ListStair = ListStair;
-            levelManager.gameState = GameState.Init;
+            levelManager.GameState = GameState.Init;
         } 
     }
 }

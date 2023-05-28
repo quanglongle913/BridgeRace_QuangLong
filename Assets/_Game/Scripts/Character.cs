@@ -64,7 +64,7 @@ public class Character : PooledObject
         ChangeColor(skinnedMeshRenderer, colorType);
         IsWin = false;
         brickCount = 0;
-        listBrickInCharacter.Clear();
+        ClearBrick();
         //Create Pooling Object in BrickStackParent of Player
         CreateBrick();
     }
@@ -125,32 +125,23 @@ public class Character : PooledObject
         Vector3 pos = _brick.transform.position;
         LevelManager.ListBrickInStage[stageLevel-1].Remove(_brick);
         _brick.GetComponent<PooledObject>().Release();
-        //stage.ListPoolBrickPos.Add(pos);
+        //Thêm vị trí vào danh sách trống
+        levelManager.ListBrickPosInStage[stageLevel - 1].Add(pos);
         yield return new WaitForSeconds(time);
-        //Hiện gạch sau time S
-        //Debug.Log(""+ _SpawnerBrickStage.ListColor.Count);
-        /*if (checkPosInList(pos,stage.ListPoolBrickPos))
-        {
-            
-        }*/
-        //random màu trong danh sách màu ở Stage
-        ColorType _colorType;
-        //TODO Kiểm tra vị trí đó có gạch hay chưa? if Có:=>ko tạo else -> tạo gạch
-        if (stage)
-        {
+        //TODO Kiểm tra vị trí đó có trong danh sách trống hay không
+        if (checkPosInList(pos, levelManager.ListBrickPosInStage[stageLevel - 1]))
+        {            
             int randomIndex = Random.Range(0, stage.ListColor.Count);
-            _colorType = (ColorType)stage.ListColor[randomIndex];
+            ColorType _colorType = (ColorType)stage.ListColor[randomIndex];
             PooledObject brickObject = Spawner(stage.Brick, stage.BrickParent);
             Brick newBrickInStage = brickObject.GetComponent<Brick>();
             newBrickInStage.ChangeColor(_colorType);
             newBrickInStage.StageLevel = stageLevel;
             newBrickInStage.transform.position = pos;
             newBrickInStage.gameObject.SetActive(true);
+            levelManager.ListBrickPosInStage[stageLevel - 1].Remove(pos);
             LevelManager.ListBrickInStage[newBrickInStage.StageLevel - 1].Add(newBrickInStage);
         }
-
-        
-        
     }
     private bool checkPosInList(Vector3 pos, List<Vector3> a_List)
     {
@@ -168,16 +159,7 @@ public class Character : PooledObject
         if (BrickCount < maxBrickInCharacter)
         {
             BrickCount++;
-            //Debug.Log(BrickCount);
-            //Hiển thị gạch trên lưng nhân vật tương ứng
-            for (int i = 0; i < BrickCount; i++)
-            {
-                //Debug.Log("Stack Brick in:" + ListBrickInCharacter.Count);
-                if (!ListBrickInCharacter[i].activeSelf)
-                {
-                    ListBrickInCharacter[i].SetActive(true);
-                }
-            }
+            ListBrickInCharacter[BrickCount-1].SetActive(true);
             StartCoroutine(ActiveBrickCoroutine(cooldownWindow, _brick));
         }
         else
@@ -188,15 +170,16 @@ public class Character : PooledObject
 
     public void RemoveBrick()
     {
+        ListBrickInCharacter[BrickCount - 1].SetActive(false);
         BrickCount--;
-        ListBrickInCharacter[BrickCount].SetActive(false);
     }
     public void ClearBrick()
     {
-        for (int i=0;i<BrickCount;i++)
+        for (int i=0;i< ListBrickInCharacter.Count; i++)
         {
             ListBrickInCharacter[i].SetActive(false);
         }
+        
         BrickCount = 0;
     }
     public void ChangeColor(GameObject a_obj, ColorType colorType)

@@ -29,7 +29,7 @@ public class CameraFollow : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (levelManager.gameState == GameState.Ingame)
+        if (levelManager.GameState == GameState.Ingame)
         {
             Quaternion target = Quaternion.Euler(45, 0, 0);
             transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 1000);
