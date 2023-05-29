@@ -33,6 +33,14 @@ public class Player : Character
         base.OnInit();
         isStun = false;
         MoveSpeed = moveSpeed;
+        if (isStun)
+        {
+            gameObject.GetComponent<Player>().ParticleSystem.Play();
+        }
+        else if (!isStun)
+        {
+            gameObject.GetComponent<Player>().ParticleSystem.Stop();
+        }
     }
   /*  public override void Update()
     {
@@ -77,14 +85,14 @@ public class Player : Character
             }
 
         }
-        if (isStun)
+       /* if (isStun)
         {
             gameObject.GetComponent<Player>().ParticleSystem.Play();
         }
         else if(!isStun)
         {
             gameObject.GetComponent<Player>().ParticleSystem.Stop();
-        }
+        }*/
     }
     public void Lose()
     {
@@ -119,8 +127,9 @@ public class Player : Character
                 RaycastHit hit;
                 if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hit, _hitRange, LayerMask.GetMask(Constant.LAYER_STAIR_BRICK)))
                 {
-                    TargetPoint = new Vector3(hit.collider.transform.position.x, hit.collider.transform.position.y + stepOffset, hit.collider.transform.position.z - _hitRange * 2);
                     MoveSpeed = moveSpeedStair;
+                    //TargetPoint = new Vector3(hit.collider.transform.position.x, hit.collider.transform.position.y + stepOffset, hit.collider.transform.position.z - _hitRange);
+                    TargetPoint = new Vector3(hit.collider.transform.position.x, hit.collider.transform.position.y + stepOffset, hit.point.z);
                 }
                 else
                 {
@@ -140,14 +149,17 @@ public class Player : Character
     public void Stuned()
     {
         //TODO BrickCount =0 and random Brick to Stage
+        RandomBrick(gameObject.GetComponent<Character>());
         ChangeAnim("Falling");
         StartCoroutine(StunCoroutine(Random.Range(2.0f, 3.5f)));
     }
     private IEnumerator StunCoroutine(float time)
     {
         isStun = true;
+        gameObject.GetComponent<Player>().ParticleSystem.Play();
         yield return new WaitForSeconds(time);
         isStun = false;
+        gameObject.GetComponent<Player>().ParticleSystem.Stop();
     }
     private bool isWall(LayerMask _layerMask)
     {

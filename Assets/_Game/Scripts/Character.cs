@@ -161,11 +161,6 @@ public class Character : PooledObject
     {
         if (BrickCount < maxBrickInCharacter)
         {
-            //OLD
-            /*BrickCount++;
-            ListBrickInCharacter[BrickCount-1].SetActive(true);
-            StartCoroutine(ActiveBrickCoroutine(cooldownWindow, _brick));*/
-            //NEW  DONE
             BrickCount++;
             int index = BrickCount;
             PooledObject brickObject = Spawner(Brick, BrickStackParent);
@@ -173,10 +168,11 @@ public class Character : PooledObject
             brickObject.transform.localPosition = new Vector3(0, index + 2, 0);
             brickObject.transform.localScale = new Vector3(1, 0.96f, 1);
             brickObject.gameObject.SetActive(true);
+            
 
             brickObject.transform.DOMoveY(ListBrickInCharacter[index - 1].transform.position.y, 1.0f)
                 .SetEase(Ease.InElastic)
-                .SetLoops(1, LoopType.Yoyo)
+                .SetLoops(0, LoopType.Yoyo)
                 .OnComplete(() =>
                 {
                     //TODO
@@ -210,7 +206,7 @@ public class Character : PooledObject
         int Row = Mathf.CeilToInt(Mathf.Sqrt(brickCount));
         //Debug.Log("Brick Count: "+brickCount+" || ROW:"+Row);
         int Column = Row;
-        float offset = 0.6f;
+        float offset = 1.0f;
         for (int i = 0; i < Row; i++)
         {
             for (int j = 0; j < Column; j++)
@@ -246,7 +242,11 @@ public class Character : PooledObject
         //UNDONE
         yield return new WaitForSeconds(time);
         LevelManager.ListBrickInStage[stageLevel - 1].Remove(_brick);
-        _brick.GetComponent<PooledObject>().Release();
+        if (_brick!=null)
+        {
+            _brick.GetComponent<PooledObject>().Release();
+        }
+       
     }
     public void RemoveBrick()
     {

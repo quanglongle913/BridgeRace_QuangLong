@@ -1827,6 +1827,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 738860820}
     - target: {fileID: 225508649581230639, guid: f3a1b06ab4f9fda4daf4d3710c0d7017, type: 3}
+      propertyPath: moveSpeedStair
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 225508649581230639, guid: f3a1b06ab4f9fda4daf4d3710c0d7017, type: 3}
       propertyPath: particleSystem
       value: 
       objectReference: {fileID: 841854278}
