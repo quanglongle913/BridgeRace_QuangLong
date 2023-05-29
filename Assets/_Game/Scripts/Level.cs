@@ -18,7 +18,7 @@ public class Level : MonoBehaviour
   
         if (GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>())
         {
-            levelManager = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>();
+            levelManager = LevelManager.instance;
             levelManager.ListStage = ListStage;
             levelManager.Wintarget = Wintarget;
             levelManager.ListStair = ListStair;
