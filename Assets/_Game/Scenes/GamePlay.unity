@@ -288,6 +288,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1471711937}
     m_Modifications:
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: easeAnim
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: endTarget
       value: 
       objectReference: {fileID: 514096831}
@@ -302,6 +306,10 @@ PrefabInstance:
     - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_Name
       value: BotAI
+      objectReference: {fileID: 0}
+    - target: {fileID: 225508649581230637, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 225508649581230638, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: m_RootOrder
@@ -1185,6 +1193,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: easeAnim
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: EndTarget
       value: 
       objectReference: {fileID: 0}
@@ -1406,6 +1418,10 @@ PrefabInstance:
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: index
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
+      propertyPath: easeAnim
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: -9137656887949122122, guid: c5fe742957c7f6844bca96a4f6b100f3, type: 3}
       propertyPath: EndTarget

@@ -156,7 +156,7 @@ public class Character : PooledObject
         }
         return false;
     }
-    
+    public Ease easeAnim;
     private void AddBrick(Brick _brick)
     {
         if (BrickCount < maxBrickInCharacter)
@@ -168,15 +168,17 @@ public class Character : PooledObject
             brickObject.transform.localPosition = new Vector3(0, index + 2, 0);
             brickObject.transform.localScale = new Vector3(1, 0.96f, 1);
             brickObject.gameObject.SetActive(true);
-            
-
-            brickObject.transform.DOMoveY(ListBrickInCharacter[index - 1].transform.position.y, 1.0f)
-                .SetEase(Ease.InElastic)
+            brickObject.transform.DOMoveY(ListBrickInCharacter[index - 1].transform.position.y, 0.8f)
+                //.SetEase(Ease.InElastic)
+                .SetEase(easeAnim)
                 .SetLoops(0, LoopType.Yoyo)
                 .OnComplete(() =>
                 {
                     //TODO
-                    ListBrickInCharacter[index - 1].SetActive(true);
+                    if (index <= BrickCount) 
+                    {
+                        ListBrickInCharacter[index - 1].SetActive(true);
+                    }
                     brickObject.Release();
                 });
             StartCoroutine(ActiveBrickCoroutine(cooldownWindow, _brick));
