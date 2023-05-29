@@ -166,8 +166,8 @@ public class Character : PooledObject
             int index = BrickCount;
             PooledObject brickObject = Spawner(Brick, BrickStackParent);
             brickObject.GetComponent<BrickCharacter>().ChangeColor(ColorType);
-            brickObject.transform.localPosition = new Vector3(0, index + 2, 0);
-            brickObject.transform.localScale = new Vector3(1, 0.96f, 1);
+            brickObject.transform.localPosition = new Vector3(0, index*2 + 4, 0);
+            brickObject.transform.localScale = new Vector3(1, 2.96f, 1);
             brickObject.gameObject.SetActive(true);
             brickObject.transform.DOMoveY(ListBrickInCharacter[index - 1].transform.position.y, 0.8f)
                 //.SetEase(Ease.InElastic)

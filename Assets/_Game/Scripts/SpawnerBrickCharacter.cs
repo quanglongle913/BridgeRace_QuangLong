@@ -44,8 +44,8 @@ public class SpawnerBrickCharacter : PooledObject
         {
             PooledObject brickObject = Spawner(character.Brick, character.BrickStackParent);
             brickObject.GetComponent<BrickCharacter>().ChangeColor(character.ColorType);
-            brickObject.transform.localPosition = new Vector3(0, i, 0);
-            brickObject.transform.localScale = new Vector3(1, 0.96f, 1);
+            brickObject.transform.localPosition = new Vector3(0, i*2, 0);
+            brickObject.transform.localScale = new Vector3(1, 1.96f, 1);
             brickObject.gameObject.SetActive(false);
             //Add to List
             character.ListBrickInCharacter.Add(brickObject.gameObject);
