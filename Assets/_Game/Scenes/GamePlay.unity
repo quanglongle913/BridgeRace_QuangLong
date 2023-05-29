@@ -933,6 +933,8 @@ MonoBehaviour:
   listLevelScene:
   - Level1
   - Level2
+  - Level3
+  - Level4
   inGameLevel: 0
 --- !u!4 &738860821
 Transform:

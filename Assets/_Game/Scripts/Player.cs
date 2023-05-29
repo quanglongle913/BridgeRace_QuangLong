@@ -117,7 +117,7 @@ public class Player : Character
     {
         if (LevelManager.GameState == GameState.Ingame && !isStun)
         {
-            Vector3 _Direction = new Vector3(_horizontal * moveSpeed * Time.fixedDeltaTime, _rigidbody.velocity.y, _vertical * moveSpeed * Time.fixedDeltaTime);
+            Vector3 _Direction = new Vector3(_horizontal * MoveSpeed * Time.fixedDeltaTime, _rigidbody.velocity.y, _vertical * MoveSpeed * Time.fixedDeltaTime);
             TargetPoint = new Vector3(_rigidbody.position.x + _Direction.x, _rigidbody.position.y, _rigidbody.position.z + _Direction.z);
             RotateTowards(this.gameObject, _Direction);
             if (!isWall(LayerMask.GetMask(Constant.LAYER_WALL_FLOOR)) && !isWall(LayerMask.GetMask(Constant.LAYER_WALL_STAIR_BRICK)))

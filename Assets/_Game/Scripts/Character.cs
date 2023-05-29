@@ -11,6 +11,7 @@ public class Character : PooledObject
     [SerializeField] private float cooldownWindow = 5.0f;
     [SerializeField] private GameObject endTarget;
     [SerializeField] private LevelManager levelManager;
+    
 
     [Header("Pool Stack Parent  Object: ")]
     [SerializeField] private GameObject brickStackParent;
@@ -32,10 +33,10 @@ public class Character : PooledObject
     public UnityAction CreateBrick;
     private Stage stage;
     private string currentAnimName;
-    public float meleeRange = 0.01f;
-    public int brickCount;
-
-    public int stageLevel = 0;
+   
+    private int brickCount;
+    private float meleeRange = 0.1f;
+    private int stageLevel = 0;
     private Vector3 targetPoint;
  
     public ColorType ColorType => colorType;

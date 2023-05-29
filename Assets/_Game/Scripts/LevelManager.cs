@@ -131,7 +131,7 @@ public class LevelManager : MonoBehaviour
     public void nextLevel()
     {
         //Level = inGameLevel +1, check Level <5 -> level +++ else ko doi
-        if (inGameLevel < 1)
+        if (inGameLevel < 3)
         {
             inGameLevel++;
             PlayerPrefs.SetInt(Constant.LEVEL, inGameLevel);
