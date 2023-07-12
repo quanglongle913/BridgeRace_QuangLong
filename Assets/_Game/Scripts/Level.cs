@@ -15,7 +15,10 @@ public class Level : MonoBehaviour
     public GameObject Wintarget { get => wintarget; set => wintarget = value; }
     private void Start()
     {
-  
+        OnInit();
+    }
+    public void OnInit()
+    {
         if (GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>())
         {
             levelManager = LevelManager.instance;
@@ -23,6 +26,6 @@ public class Level : MonoBehaviour
             levelManager.Wintarget = Wintarget;
             levelManager.ListStair = ListStair;
             levelManager.GameState = GameState.Init;
-        } 
+        }
     }
 }

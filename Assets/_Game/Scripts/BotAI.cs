@@ -86,7 +86,7 @@ public class BotAI : Character
             }
         }
         
-        List<Brick> newListBrickObject = sortListBuyDistance(listBrickInStageCharacterColor);
+        List<Brick> newListBrickObject = SortListBuyDistance(listBrickInStageCharacterColor);
         Vector3 BrickTarget = TargetPoint;
         for (int i = 0; i < getListBrickObjectCount(newListBrickObject); i++)
         {

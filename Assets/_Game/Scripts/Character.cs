@@ -97,7 +97,7 @@ public class Character : PooledObject
         return distance < 2.0f;
     }
 
-    protected List<Brick> sortListBuyDistance(List<Brick> listObj)
+    protected List<Brick> SortListBuyDistance(List<Brick> listObj)
     {
         //sap xep theo khoang cach gan nhat voi BotAI
         Brick brickObject;
@@ -132,7 +132,7 @@ public class Character : PooledObject
         levelManager.ListBrickPosInStage[stageLevel - 1].Add(pos);
         yield return new WaitForSeconds(time);
         //TODO Kiểm tra vị trí đó có trong danh sách trống hay không
-        if (checkPosInList(pos, levelManager.ListBrickPosInStage[stageLevel - 1]))
+        if (CheckPosInList(pos, levelManager.ListBrickPosInStage[stageLevel - 1]))
         {            
             int randomIndex = Random.Range(0, stage.ListColor.Count);
             ColorType _colorType = (ColorType)stage.ListColor[randomIndex];
@@ -146,7 +146,7 @@ public class Character : PooledObject
             LevelManager.ListBrickInStage[newBrickInStage.StageLevel - 1].Add(newBrickInStage);
         }
     }
-    private bool checkPosInList(Vector3 pos, List<Vector3> a_List)
+    private bool CheckPosInList(Vector3 pos, List<Vector3> a_List)
     {
         for (int i = 0; i < a_List.Count; i++)
         {

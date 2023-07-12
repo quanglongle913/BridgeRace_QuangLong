@@ -48,9 +48,11 @@ public class LevelManager : MonoBehaviour
         //OnInit();
         InGameLevel = PlayerPrefs.GetInt(Constant.LEVEL, 0);
         SceneManager.LoadScene(""+listLevelScene[InGameLevel], LoadSceneMode.Additive);
+        //OnInit();
     }
     public void OnInit()
     {
+        //InitSceneWithGameLevel();
         ListBrickInStage.Clear();
         listBrickPosInStage.Clear();
         mainCamera.GetComponent<CameraFollow>().OnInit();
@@ -79,10 +81,10 @@ public class LevelManager : MonoBehaviour
                 botAI.ChangeState(new IdleState());
             }
         }
-        bool isDebug = true;
-        UIManager.instance.isNextButton(isDebug);
-        UIManager.instance.isReplayButton(isDebug);
-
+        bool isDebug = false;
+        UIManager.instance.IsNextButton(isDebug);
+        UIManager.instance.IsReplayButton(isDebug);
+        
     }
     public void Update()
     {
@@ -103,8 +105,8 @@ public class LevelManager : MonoBehaviour
             }
         }
         PLayerWinAction();
-        UIManager.instance.isNextButton(true);
-        UIManager.instance.isReplayButton(true);
+        UIManager.instance.IsNextButton(true);
+        UIManager.instance.IsReplayButton(true);
         gameState = GameState.EndGame;
     }
 
@@ -124,11 +126,11 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
-        UIManager.instance.isNextButton(true);
-        UIManager.instance.isReplayButton(true);
+        UIManager.instance.IsNextButton(true);
+        UIManager.instance.IsReplayButton(true);
         gameState = GameState.EndGame;
     }
-    public void nextLevel()
+    public void NextLevel()
     {
         //Level = inGameLevel +1, check Level <5 -> level +++ else ko doi
         if (inGameLevel < 3)
@@ -137,13 +139,13 @@ public class LevelManager : MonoBehaviour
             PlayerPrefs.SetInt(Constant.LEVEL, inGameLevel);
             PlayerPrefs.Save();
         }
-        initSceneWithGameLevel();
+        InitSceneWithGameLevel();
     }
-    public void replay()
+    public void Replay()
     {
-        initSceneWithGameLevel();
+        InitSceneWithGameLevel();
     }
-    private void initSceneWithGameLevel() 
+    private void InitSceneWithGameLevel() 
     {
         GameObject[] obj = GameObject.FindGameObjectsWithTag(Constant.TAG_LEVEL);
         for (int i = 0; i < obj.Length; i++)

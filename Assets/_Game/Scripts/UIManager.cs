@@ -12,11 +12,11 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
     }
-    public void isNextButton(bool isBool)
+    public void IsNextButton(bool isBool)
     {
         btn_NextLevel.gameObject.SetActive(isBool);
     }
-    public void isReplayButton(bool isBool)
+    public void IsReplayButton(bool isBool)
     {
         btn_Replay.gameObject.SetActive(isBool);
     }
